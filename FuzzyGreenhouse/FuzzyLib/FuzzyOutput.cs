@@ -19,6 +19,7 @@ namespace FuzzyLib
             if (xs.Count != ys.Count)
                 throw new ArgumentException("List of X coordinates and list of Y coordinates are not same length.");
 
+            Points = new List<Point>();
             for (int i = 0; i < xs.Count; ++i)
                 Points.Add(new Point(xs[i], ys[i]));
 

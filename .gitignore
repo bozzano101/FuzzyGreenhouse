@@ -261,3 +261,6 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+FuzzyGreenhouse/.vs/FuzzyGreenhouse/v16/.suo
+FuzzyGreenhouse/.vs/FuzzyGreenhouse/v16/.suo
+*.cache
