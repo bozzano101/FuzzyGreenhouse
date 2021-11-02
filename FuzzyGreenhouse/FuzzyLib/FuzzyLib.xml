@@ -1,0 +1,179 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FuzzyLib</name>
+    </assembly>
+    <members>
+        <member name="T:FuzzyLib.FuzzyInput">
+            <summary>
+            FuzzyInput class represents one fuzzy input set. It is used for describing function
+            in 2D Cartesian plane with list of 2D Points. That function is used for us to descirbe
+            how much something belong to that set. Fuzzy logic differs from traditional, binary logic
+            and belonging function here is not true(1) or false(0) value, instead it is a number from 
+            range [0,1]
+            </summary>
+        </member>
+        <member name="M:FuzzyLib.FuzzyInput.#ctor(System.String,System.Collections.Generic.List{FuzzyLib.Point},System.Single)">
+            <summary>
+            Constructor function for FuzzyInput class
+            </summary>
+            <param name="name">Describe string of function</param>
+            <param name="points">List of edge points</param>
+            <param name="value">X coordinate of point that we want to get function value</param>
+        </member>
+        <member name="M:FuzzyLib.FuzzyInput.#ctor(System.String,System.Collections.Generic.List{System.Single},System.Collections.Generic.List{System.Single},System.Single)">
+            <summary>
+            Constructor function for FuzzyInput class
+            </summary>
+            <param name="name">Describe string of function</param>
+            <param name="xs">List of X coordinates of edge points</param>
+            <param name="ys">List of Y coordinates of edge points</param>
+            <param name="value">X coordinate of point that we want to get function value</param>
+        </member>
+        <member name="M:FuzzyLib.FuzzyInput.CalculateMi(System.Single)">
+            <summary>
+            Method used to calculate value of function in X point. It traverse Points list and check if X point is between two edge points, 
+            and if it's inside, it calculate appropriate Y value
+            </summary>
+            <param name="x">X coordinate of value that we want</param>
+            <returns></returns>
+        </member>
+        <member name="P:FuzzyLib.FuzzyInput.Name">
+            <summary>
+            Name - field that will represent name of function. For example, in case we have car fuel consumption, it can be small, average or high
+            </summary>
+        </member>
+        <member name="P:FuzzyLib.FuzzyInput.Points">
+            <summary>
+            Points - List of 2D points which represents edge points of function line
+            </summary>
+        </member>
+        <member name="P:FuzzyLib.FuzzyInput.Mu">
+            <summary>
+            Mu - This field is used for getting function value for given Mu number
+            </summary>
+        </member>
+        <member name="T:FuzzyLib.FuzzyOutput">
+            <summary>
+            Fuzzy output class represent one fuzzy output set. It is used for describing function
+            in 2D Cartesian plane with list of 2D Points. That function is used for us to evaluate
+            output value how much it  belongs to this output set. We calculate centroid point for each
+            output set. Fuzzy logic differs from traditional , binary logic and belonging function here 
+            is not true(1) or false(0) value, instead it is a number from range [0,1].
+            </summary>
+        </member>
+        <member name="M:FuzzyLib.FuzzyOutput.#ctor(System.String,System.Collections.Generic.List{FuzzyLib.Point})">
+            <summary>
+            Constructor function for FuzzyOutput class
+            </summary>
+            <param name="name">Describe string of function</param>
+            <param name="points">List of edge points</param>
+        </member>
+        <member name="M:FuzzyLib.FuzzyOutput.#ctor(System.String,System.Collections.Generic.List{System.Single},System.Collections.Generic.List{System.Single})">
+            <summary>
+             Constructor function for FuzzyOutput class
+            </summary>
+            <param name="name">Describe string of function</param>
+            <param name="xs">List of X coordinates of edge points</param>
+            <param name="ys">List of Y coordinates of edge points</param>
+        </member>
+        <member name="M:FuzzyLib.FuzzyOutput.CalculateCentroid">
+            <summary>
+            Method used for calculating centroid value of this set function
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:FuzzyLib.FuzzyOutput.Name">
+            <summary>
+            Name - field that will represent name of function. For example, in case we have car fuel consumption, it can be small, average or high
+            </summary>
+        </member>
+        <member name="P:FuzzyLib.FuzzyOutput.Points">
+            <summary>
+            Points - List of 2D points which represents edge points of function line
+            </summary>
+        </member>
+        <member name="P:FuzzyLib.FuzzyOutput.Mu">
+            <summary>
+            Mu - This field is used for getting function value for given Mu number
+            </summary>
+        </member>
+        <member name="P:FuzzyLib.FuzzyOutput.Centroid">
+            <summary>
+            Centroid - This field is used to store centroid value for this set function
+            </summary>
+        </member>
+        <member name="T:FuzzyLib.LogicOperator">
+            <summary>
+            Enum describes logical AND and OR operators
+            </summary>
+        </member>
+        <member name="F:FuzzyLib.LogicOperator.AND">
+            <summary>
+            AND operator
+            </summary>
+        </member>
+        <member name="F:FuzzyLib.LogicOperator.OR">
+            <summary>
+            OR operator
+            </summary>
+        </member>
+        <member name="T:FuzzyLib.FuzzyRules">
+            <summary>
+            This class represents fuzzy rules that are used for deciding output values. It gets two inputs and based on logical operator
+            calculates Mu value for output set. After this calculation, it can be used for fuzzy deciding.
+            </summary>
+        </member>
+        <member name="M:FuzzyLib.FuzzyRules.#ctor(FuzzyLib.FuzzyInput,FuzzyLib.FuzzyInput,FuzzyLib.FuzzyOutput,FuzzyLib.LogicOperator)">
+            <summary>
+            Constructor function for FuzzyRules class
+            </summary>
+            <param name="input1">First input set functon</param>
+            <param name="input2">Second input set function</param>
+            <param name="output">Output set function</param>
+            <param name="_operator">Logical operator for deciding</param>
+        </member>
+        <member name="P:FuzzyLib.FuzzyRules.Input1">
+            <summary>
+            Input1 - First input set functon
+            </summary>
+        </member>
+        <member name="P:FuzzyLib.FuzzyRules.Input2">
+            <summary>
+            Input2 - Second input set functon
+            </summary>
+        </member>
+        <member name="P:FuzzyLib.FuzzyRules.Output">
+            <summary>
+            Output - Output set functon
+            </summary>
+        </member>
+        <member name="P:FuzzyLib.FuzzyRules.Operator">
+            <summary>
+            Operator - Logical operator for calculating output value
+            </summary>
+        </member>
+        <member name="T:FuzzyLib.Point">
+            <summary>
+            This class represents 2D Cartesian point
+            </summary>
+        </member>
+        <member name="M:FuzzyLib.Point.#ctor(System.Single,System.Single)">
+            <summary>
+            Constructor function for 2D Cartesian point
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+        </member>
+        <member name="P:FuzzyLib.Point.X">
+            <summary>
+            X - Represents X coord of Point
+            </summary>
+        </member>
+        <member name="P:FuzzyLib.Point.Y">
+            <summary>
+            Y - Represents Y coord of Point
+            </summary>
+        </member>
+    </members>
+</doc>
