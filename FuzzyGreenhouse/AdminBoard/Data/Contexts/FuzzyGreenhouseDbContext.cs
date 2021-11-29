@@ -1,5 +1,4 @@
-﻿using AdminBoard.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace AdminBoard.Data
 {
