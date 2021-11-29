@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuzzyLib", "FuzzyLib\FuzzyLib.csproj", "{7CBC6EC7-3567-4202-B35D-4406FE118CC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuzzyLibTest", "FuzzyLibTest\FuzzyLibTest.csproj", "{0EC65138-890F-47AC-B975-651C36A42605}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuzzyLibTest", "FuzzyLibTest\FuzzyLibTest.csproj", "{0EC65138-890F-47AC-B975-651C36A42605}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminBoard", "AdminBoard\AdminBoard.csproj", "{BD09C94B-E9F2-4737-9559-814A86BB4B84}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{0EC65138-890F-47AC-B975-651C36A42605}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0EC65138-890F-47AC-B975-651C36A42605}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EC65138-890F-47AC-B975-651C36A42605}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD09C94B-E9F2-4737-9559-814A86BB4B84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD09C94B-E9F2-4737-9559-814A86BB4B84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD09C94B-E9F2-4737-9559-814A86BB4B84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD09C94B-E9F2-4737-9559-814A86BB4B84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
