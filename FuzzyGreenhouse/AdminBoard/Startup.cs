@@ -45,7 +45,7 @@ namespace AdminBoard
             services.AddDbContext<FuzzyGreenhouseDbContext>(option => option.UseMySql(Configuration.GetConnectionString("LocalServer"), ServerVersion.AutoDetect(Configuration.GetConnectionString("LocalServer")), b => b.SchemaBehavior(MySqlSchemaBehavior.Ignore)));
 
             services.AddDbContext<IdentityContext>(option => option.UseMySql(Configuration.GetConnectionString("LocalServer"), ServerVersion.AutoDetect(Configuration.GetConnectionString("LocalServer")), b => b.SchemaBehavior(MySqlSchemaBehavior.Ignore)));
-            services.AddIdentity<User, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false).AddRoles<IdentityRole>().AddEntityFrameworkStores<IdentityContext>();
+            services.AddIdentity<User, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false).AddRoles<IdentityRole>().AddDefaultUI().AddEntityFrameworkStores<IdentityContext>();
 
             services.AddScoped<IUserClaimsPrincipalFactory<User>, AppUserClaimsPrincipalFactory>();
 
@@ -59,8 +59,8 @@ namespace AdminBoard
                 // Default Password settings.
                 options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = true;
-                options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequireUppercase = true;
+                options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequiredLength = 6;
                 options.Password.RequiredUniqueChars = 1;
 

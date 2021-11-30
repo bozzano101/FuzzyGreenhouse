@@ -18,11 +18,7 @@ namespace AdminBoard.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
-        public RegisterModel(
-            UserManager<User> userManager,
-            SignInManager<User> signInManager,
-            ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+        public RegisterModel(UserManager<User> userManager, SignInManager<User> signInManager, ILogger<RegisterModel> logger, IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -39,8 +35,13 @@ namespace AdminBoard.Areas.Identity.Pages.Account
         {
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
-            [Display(Name = "Name")]
-            public string FullName { get; set; }
+            [Display(Name = "FirstName")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
+            [Display(Name = "LastName")]
+            public string LastName { get; set; }
 
             [Required]
             [EmailAddress]
@@ -58,9 +59,6 @@ namespace AdminBoard.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
-
-            [Required]
-            public bool AcceptPrivacyPolicy { get; set; }
         }
 
         public void OnGet(string returnUrl = null)
@@ -71,39 +69,21 @@ namespace AdminBoard.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
-            if (!Input.AcceptPrivacyPolicy)
-            {
-                ModelState.AddModelError(string.Empty, "You must accept the Privacy Policy in order to register");
-            }
-            else if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var user = new User
                 {
                     UserName = Input.Email,
                     Email = Input.Email,
-                    // Remove the code below to require the user to confirm their e-mail
                     EmailConfirmed = true,
                     // Custom fields next
-                    FirstName = Input.FullName,
+                    FirstName = Input.FirstName,
+                    LastName = Input.LastName
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-
-                    // Uncomment the code below to enable sending a confirmation e-mail
-                    /*
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { userId = user.Id, code = code },
-                        protocol: Request.Scheme);
-
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-                    */
-
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
                 }
