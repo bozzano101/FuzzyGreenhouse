@@ -1,5 +1,7 @@
 @using Microsoft.AspNetCore.Identity
-@inject SignInManager<ApplicationUser> SignInManager
+@using AdminBoard.Models.Identity
+@using AdminBoard.Infrastructure.IdentityUserClaims
+@inject SignInManager<User> SignInManager
 
 <!-- Current user (right part of the website) -->
 <ul class="navbar-nav align-items-center  ml-auto ml-md-0 ">
@@ -13,16 +15,14 @@
                     <span class="mb-0 text-sm  font-weight-bold">
                         @if (SignInManager.IsSignedIn(User))
                         {
-                            @User.GetFullNameOrEmail()
-                        }
+                            @User.GetFullNameOrEmail() }
                         else
                         {
-                            <span>Anonymous User</span>
-                        }
+                            <span>Anonymous User</span>}
                     </span>
                 </div>
             </div>
         </a>
-        <partial name="Topnav/_Dropdown"/>
+        <partial name="Topnav/_Dropdown" />
     </li>
 </ul>

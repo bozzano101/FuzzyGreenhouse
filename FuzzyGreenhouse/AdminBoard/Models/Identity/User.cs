@@ -6,6 +6,8 @@ namespace AdminBoard.Models.Identity
     {
         [PersonalData]
         public virtual string FirstName { get; set; }
+
+        [PersonalData]
         public virtual string LastName { get; set; }
     }
 }

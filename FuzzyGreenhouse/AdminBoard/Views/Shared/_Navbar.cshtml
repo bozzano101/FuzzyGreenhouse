@@ -1,5 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<ApplicationUser> SignInManager
+@using AdminBoard.Models.Identity 
+@using AdminBoard.Infrastructure.IdentityUserClaims
+@inject SignInManager<User> SignInManager
 
 <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
     <div class="container-fluid">
