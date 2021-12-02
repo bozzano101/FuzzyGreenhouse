@@ -8,4 +8,8 @@
     <DocumentationFile>C:\Users\bosko\Desktop\FuzzyGreenhouse\FuzzyGreenhouse\FuzzyLib\FuzzyLib.xml</DocumentationFile>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.12" />
+  </ItemGroup>
+
 </Project>
