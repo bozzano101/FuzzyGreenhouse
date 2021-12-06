@@ -15,14 +15,12 @@ namespace AdminBoard.Data
 
         }
 
-        public DbSet<Sensor> Sensors { get; set; }
         public DbSet<Rule> Rule { get; set; }
         public DbSet<Set> Set { get; set; }
         public DbSet<Value> Value { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new SensorConfiguration());
             modelBuilder.ApplyConfiguration(new RuleConfiguration());
             modelBuilder.ApplyConfiguration(new SetConfiguration());
             modelBuilder.ApplyConfiguration(new ValueConfiguration());

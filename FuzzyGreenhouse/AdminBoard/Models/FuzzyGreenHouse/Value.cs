@@ -9,7 +9,7 @@ namespace AdminBoard.Models.FuzzyGreenHouse
     public class Value
     {
         public int ValueID { get; set; }
-        public string ValueName { get; set; }
+        public string Name { get; set; }
         public List<float> XCoords { get; set; }
         public List<float> YCoords { get; set; }
         public Set Set { get; set; }
@@ -21,7 +21,7 @@ namespace AdminBoard.Models.FuzzyGreenHouse
 
         public Value(string valueName, List<float> xs, List<float> ys)
         {
-            ValueName = valueName;
+            Name = valueName;
             XCoords = xs;
             YCoords = ys;
         }

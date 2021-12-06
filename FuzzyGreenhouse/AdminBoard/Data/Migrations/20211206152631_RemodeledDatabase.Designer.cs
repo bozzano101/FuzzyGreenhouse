@@ -3,14 +3,16 @@ using System;
 using AdminBoard.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AdminBoard.Data.Migrations
 {
     [DbContext(typeof(FuzzyGreenhouseDbContext))]
-    partial class FuzzyGreenhouseDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211206152631_RemodeledDatabase")]
+    partial class RemodeledDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -8,6 +8,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuzzyLibTest", "FuzzyLibTest\FuzzyLibTest.csproj", "{0EC65138-890F-47AC-B975-651C36A42605}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminBoard", "AdminBoard\AdminBoard.csproj", "{BD09C94B-E9F2-4737-9559-814A86BB4B84}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7CBC6EC7-3567-4202-B35D-4406FE118CC2} = {7CBC6EC7-3567-4202-B35D-4406FE118CC2}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

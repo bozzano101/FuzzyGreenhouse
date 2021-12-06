@@ -20,7 +20,6 @@ namespace AdminBoard.Models.FuzzyGreenHouse
         public Value InputValue2 { get; set; }
         public Value OutputValue { get; set; }
         public LogicOperator Operator { get; set; }
-        public Sensor Sensor { get; set; }
 
         public Rule()
         {

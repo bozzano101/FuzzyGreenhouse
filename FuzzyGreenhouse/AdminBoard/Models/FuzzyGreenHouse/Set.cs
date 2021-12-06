@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AdminBoard.Models.FuzzyGreenHouse
 {
@@ -17,9 +14,9 @@ namespace AdminBoard.Models.FuzzyGreenHouse
     {
         public int SetID { get; set; }
         public string Name { get; set; }
-        public ICollection<Value> Values { get; set; }
+
         public SetType Type { get; set; }
-        public Sensor Sensor { get; set; }
+        public ICollection<Value> Values { get; set; }
 
         public Set()
         {
