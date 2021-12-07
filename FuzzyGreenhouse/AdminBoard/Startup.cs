@@ -1,6 +1,7 @@
 using AdminBoard.Data;
 using AdminBoard.Infrastructure;
 using AdminBoard.Infrastructure.IdentityUserClaims;
+using AdminBoard.Infrastructure.Services;
 using AdminBoard.Models.Identity;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -31,6 +32,8 @@ namespace AdminBoard
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<VariableService, VariableService>();
+
             services.Configure<ForwardedHeadersOptions>(options =>
             {
                 options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
@@ -107,7 +110,7 @@ namespace AdminBoard
 
                 // Enable Antiforgery feature by default on all controller actions
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-            });
+            }).AddRazorRuntimeCompilation();
 
             services.AddRazorPages(options =>
             {
@@ -120,6 +123,8 @@ namespace AdminBoard
             services.AddAuthorization(options => { options.DefaultPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build(); });
 
             services.AddMemoryCache();
+
+            services.AddCors(c => { c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()); });
 
         }
 
