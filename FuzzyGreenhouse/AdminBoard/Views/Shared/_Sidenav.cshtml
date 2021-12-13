@@ -46,7 +46,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link @(Context.Request.Path == "/Values" ? "active" : "")" href="@Url.Action("Values")">
+                        <a class="nav-link @(Context.Request.Path == "/Values" ? "active" : "")" href="@Url.Action("Index", "Values")">
                             <i class="fas fa-solid fa-list text-blue"></i> Values
                         </a>
                     </li>

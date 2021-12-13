@@ -17,6 +17,15 @@ namespace AdminBoard.Controllers
         private readonly ValuesService _valuesService;
         private readonly INotyfService _notificationService;
 
+        public ValuesController(ILogger<ValuesController> logger, UserManager<User> userManager, SignInManager<User> signInManager, ValuesService valuesService, INotyfService notificationService)
+        {
+            _logger = logger;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _valuesService = valuesService;
+            _notificationService = notificationService;
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
