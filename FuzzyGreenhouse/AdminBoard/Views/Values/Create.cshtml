@@ -1,0 +1,30 @@
+﻿@model AdminBoard.Models.FuzzyGreenHouse.Value
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="row">
+    <div class="col">
+        <div class="card w-75 mx-auto">
+            <div>
+                <h3 class="pt-4 text-center"> Create new fuzzy variable</h3>
+                <form method="post" asp-controller="Variables" asp-action="Create" class="p-4">
+                    @*Name*@
+                    <div class="form-group">
+                        <label for="nameInput">Name</label>
+                        <input type="text" class="form-control" id="nameInput" placeholder="Enter fuzzy variable name" asp-for="Name">
+                    </div>
+
+                    @*Save*@
+                    <div class="form-group w-100 mx-auto">
+                        <div class="input-group-addon text-center" id="buttons">
+                            <button class="btn btn-outline-success" type="submit">Save</button>
+                            <button class="btn btn-outline-warning" type="button" asp-controller="Variables" asp-action="Index">Back</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

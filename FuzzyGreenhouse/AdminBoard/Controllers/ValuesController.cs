@@ -2,7 +2,6 @@
 using AdminBoard.Models.FuzzyGreenHouse;
 using AdminBoard.Models.Identity;
 using AspNetCoreHero.ToastNotification.Abstractions;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -10,28 +9,18 @@ using System;
 
 namespace AdminBoard.Controllers
 {
-    [Authorize]
-    public class VariablesController : Controller
+    public class ValuesController : Controller
     {
-        private readonly ILogger<VariablesController> _logger;
+        private readonly ILogger<ValuesController> _logger;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly VariableService _variableService;
+        private readonly ValuesService _valuesService;
         private readonly INotyfService _notificationService;
-
-        public VariablesController(ILogger<VariablesController> logger, UserManager<User> userManager, SignInManager<User> signInManager, VariableService variableService, INotyfService notificationService)
-        {
-            _logger = logger;
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _variableService = variableService;
-            _notificationService = notificationService;
-        }
 
         [HttpGet]
         public IActionResult Index()
         {
-            return View("Index",_variableService.GetAll());
+            return View("Index", _valuesService.GetAll());
         }
 
         [HttpGet]
@@ -41,18 +30,18 @@ namespace AdminBoard.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Set model)
+        public IActionResult Create(Value model)
         {
             try
             {
-                _variableService.Insert(model);
-                _notificationService.Success("Variable inserted successfully.");
+                _valuesService.Insert(model);
+                _notificationService.Success("Value inserted successfully.");
                 return RedirectToAction("Index");
             }
             catch (Exception e)
             {
-                _notificationService.Error("Failed to insert variable");
-                return StatusCode(500, $"Failed to create set: {e.Message}");
+                _notificationService.Error("Failed to insert value");
+                return StatusCode(500, $"Failed to create value: {e.Message}");
             }
         }
 
@@ -61,7 +50,7 @@ namespace AdminBoard.Controllers
         {
             try
             {
-                _variableService.Delete(id);
+                _valuesService.Delete(id);
                 return Json(true);
             }
             catch (Exception e)
@@ -76,27 +65,27 @@ namespace AdminBoard.Controllers
         {
             try
             {
-                var model = _variableService.Get(id);
+                var model = _valuesService.Get(id);
                 return View("Edit", model);
             }
             catch (Exception e)
             {
-                return StatusCode(500, $"Failed to find set: {e.Message}");
+                return StatusCode(500, $"Failed to find value: {e.Message}");
             }
         }
 
         [HttpPost]
-        public IActionResult Edit(Set model)
+        public IActionResult Edit(Value model)
         {
             try
             {
-                _variableService.Update(model);
+                _valuesService.Update(model);
                 _notificationService.Success("Variable successfully edited.");
                 return RedirectToAction("Index");
             }
             catch (Exception e)
             {
-                _notificationService.Error("Failed to edit variable");
+                _notificationService.Error("Failed to edit value");
                 return StatusCode(500, $"Failed to update set: {e.Message}");
             }
         }

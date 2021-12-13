@@ -1,0 +1,79 @@
+﻿@model IEnumerable<AdminBoard.Models.FuzzyGreenHouse.Value>
+
+@using Microsoft.AspNetCore.Http.Extensions;
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<script>
+    const Delete = (id) => {
+        $.ajax({
+            url: "https://localhost:44354/Values/Delete/" + id,
+            type: 'DELETE',
+            success: (response) => {
+                if (response) {
+                    let notyf = new Notyf();
+                    notyf.success("Value successfully deleted.");
+                    setTimeout(() => { window.location = "https://localhost:44354/Values/" }, 2200);
+                }
+            }
+        });
+    }
+</script>
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <!-- Card header -->
+            <div class="card-header border-0">
+                <h3 class="mb-0">Fuzzy values</h3>
+            </div>
+            <!-- Table -->
+            <div class="table-responsive">
+                <table class="table align-items-center table-flush">
+                    <!-- Table header-->
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col" class="sort" data-sort="id">ID</th>
+                            <th scope="col" class="sort" data-sort="name">Name</th>
+                            <th scope="col" class="sort" data-sort="set">Set</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+
+                    <!-- Table body -->
+                    <tbody class="list">
+                        @foreach (AdminBoard.Models.FuzzyGreenHouse.Value Value in Model)
+                        {
+                            <tr>
+                                <td> @Value.ValueID </td>
+                                <td> @Value.Name </td>
+                                <td> @Value.Set </td>
+                                <td class="text-right">
+                                    <div class="dropdown">
+                                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                            <a class="dropdown-item" href="@Url.Action("Edit", "Values", new { id = Value.ValueID })">Edit</a>
+                                            <a class="dropdown-item" onclick="Delete(@Value.ValueID)">Delete</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card bg-transparent">
+            <form method="get" asp-controller="Values" asp-action="Create" style="margin: 0; text-align: center;">
+                <button type="submit" class="btn btn-icon btn-primary">
+                    <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+                    <span class="btn-inner--text">Create new</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

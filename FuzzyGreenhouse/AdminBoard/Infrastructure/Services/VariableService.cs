@@ -84,7 +84,7 @@ namespace AdminBoard.Infrastructure.Services
             }
             catch (Exception e)
             {
-                _logger.LogError($"Failed to delete set with ID={set.SetID}. Message: {e.Message}");
+                _logger.LogError($"Failed to update set with ID={set.SetID}. Message: {e.Message}");
                 throw new Exception(e.Message);
             }
         }
