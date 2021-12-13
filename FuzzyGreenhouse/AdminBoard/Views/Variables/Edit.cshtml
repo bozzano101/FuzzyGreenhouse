@@ -1,15 +1,18 @@
 ﻿@model AdminBoard.Models.FuzzyGreenHouse.Set
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
 }
 
 <div class="row">
     <div class="col">
         <div class="card w-75 mx-auto">
             <div>
-                <h3 class="pt-4 text-center"> Create new fuzzy variable</h3>
-                <form method="post" asp-controller="Variable" asp-action="Create" class="p-4">
+                <h3 class="pt-4 text-center"> Edit fuzzy variable ID = @Model.SetID </h3>
+                <form method="post" asp-controller="Variables" asp-action="Edit" class="p-4">
+                    @*SetID*@
+                    <input hidden type="text" asp-for="SetID" value=@Model.SetID>
+
                     @*Name*@
                     <div class="form-group">
                         <label for="nameInput">Name</label>
@@ -25,11 +28,11 @@
                         </select>
                     </div>
 
-                    @*Save*@ 
+                    @*Save*@
                     <div class="form-group w-100 mx-auto">
                         <div class="input-group-addon text-center" id="buttons">
-                            <button class="btn btn-outline-success" type="submit">Save</button>
-                            <button class="btn btn-outline-warning" type="button" asp-controller="Variable" asp-action="Index">Back</button>
+                            <button class="btn btn-outline-success" type="submit">Update</button>
+                            <button class="btn btn-outline-warning" type="button" asp-controller="Variables" asp-action="Index">Back</button>
                         </div>
                     </div>
                 </form>

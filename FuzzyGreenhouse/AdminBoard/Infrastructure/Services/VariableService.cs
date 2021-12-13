@@ -78,7 +78,8 @@ namespace AdminBoard.Infrastructure.Services
             try
             {
                 var setForUpdate = _context.Set.Where(e => e.SetID == set.SetID).First();
-                setForUpdate = set;
+                setForUpdate.Name = set.Name;
+                setForUpdate.Type = set.Type;
                 _context.SaveChanges();
             }
             catch (Exception e)

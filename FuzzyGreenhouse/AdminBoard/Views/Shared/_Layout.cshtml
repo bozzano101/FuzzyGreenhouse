@@ -5,32 +5,35 @@
 
     <script src="https://kit.fontawesome.com/9004920f83.js" crossorigin="anonymous"></script>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+
     @RenderSection("Styles", required: false)
     @RenderSection("HeadScripts", required: false)
 </head>
 <body>
     <partial name="_GoogleTagManagerBodyElement" />
 
-    <partial name="_Sidenav"/>
+    <partial name="_Sidenav" />
     <div class="main-content">
-        <partial name="Topnav/_Topnav"/>
-        
+        <partial name="Topnav/_Topnav" />
+
         <!-- Header -->
         <div class="header bg-primary pb-6">
             <div class="container-fluid">
                 <div class="header-body">
                     <div class="row align-items-center py-4">
                         @RenderSection("Breadcrumbs", required: false)
-@*                        <div class="col-lg-6 col-5 text-right">
-                            <a href="#" class="btn btn-sm btn-neutral">New</a>
-                            <a href="#" class="btn btn-sm btn-neutral">Filters</a>
-                        </div>*@
+                        @*                        <div class="col-lg-6 col-5 text-right">
+                                <a href="#" class="btn btn-sm btn-neutral">New</a>
+                                <a href="#" class="btn btn-sm btn-neutral">Filters</a>
+                            </div>*@
                     </div>
                     @RenderSection("DashboardCards", required: false)
                 </div>
             </div>
         </div>
-        
+
         <!-- Page content -->
         <div class="container-fluid mt--6">
             <!-- Page content -->
@@ -38,9 +41,9 @@
             <partial name="_Footer" />
         </div>
     </div>
-    
-    <partial name="_ThemeScripts" />
 
+    <partial name="_ThemeScripts" />
+    @await Component.InvokeAsync("Notyf")
     @RenderSection("Scripts", required: false)
 </body>
 </html>

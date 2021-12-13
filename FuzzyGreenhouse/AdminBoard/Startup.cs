@@ -1,17 +1,15 @@
 using AdminBoard.Data;
-using AdminBoard.Infrastructure;
 using AdminBoard.Infrastructure.IdentityUserClaims;
 using AdminBoard.Infrastructure.Services;
 using AdminBoard.Models.Identity;
+using AspNetCoreHero.ToastNotification;
+using AspNetCoreHero.ToastNotification.Extensions;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,17 +30,23 @@ namespace AdminBoard
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<VariableService, VariableService>();
+            services.AddMvc();
 
-            services.Configure<ForwardedHeadersOptions>(options =>
+            services.AddNotyf(config =>
             {
-                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+                config.DurationInSeconds = 3;
+                config.IsDismissable = true;
+                config.Position = NotyfPosition.BottomRight                                                                                                                                                                     ;
             });
+                             
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
-            services.Configure<CookiePolicyOptions>(options =>
+            services.AddRazorPages(options =>
             {
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.Strict;
+                options.Conventions.AddAreaPageRoute("Identity", "/Account/Register", "/register");
+                options.Conventions.AddAreaPageRoute("Identity", "/Account/Login", "/login");
+                options.Conventions.AddAreaPageRoute("Identity", "/Account/Logout", "/logout");
+                options.Conventions.AddAreaPageRoute("Identity", "/Account/ForgotPassword", "/forgot-password");
             });
 
             services.AddDbContext<FuzzyGreenhouseDbContext>(option => option.UseMySql(Configuration.GetConnectionString("LocalServer"), ServerVersion.AutoDetect(Configuration.GetConnectionString("LocalServer")), b => b.SchemaBehavior(MySqlSchemaBehavior.Ignore)));
@@ -51,15 +55,14 @@ namespace AdminBoard
             services.AddIdentity<User, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false).AddRoles<IdentityRole>().AddDefaultUI().AddEntityFrameworkStores<IdentityContext>();
 
             services.AddScoped<IUserClaimsPrincipalFactory<User>, AppUserClaimsPrincipalFactory>();
+            services.AddScoped<VariableService, VariableService>();
 
             services.Configure<IdentityOptions>(options =>
             {
-                // Default Lockout settings.
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
                 options.Lockout.MaxFailedAccessAttempts = 5;
                 options.Lockout.AllowedForNewUsers = true;
 
-                // Default Password settings.
                 options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = true;
                 options.Password.RequireUppercase = true;
@@ -67,11 +70,9 @@ namespace AdminBoard
                 options.Password.RequiredLength = 6;
                 options.Password.RequiredUniqueChars = 1;
 
-                // Default SignIn settings.
                 options.SignIn.RequireConfirmedEmail = false;
                 options.SignIn.RequireConfirmedPhoneNumber = false;
 
-                // Default User settings.
                 options.User.AllowedUserNameCharacters =
                     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = true;
@@ -98,34 +99,9 @@ namespace AdminBoard
                 options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
             });
 
-            services.AddAntiforgery();
-
-            services.AddControllersWithViews(options =>
-            {
-                // Slugify routes so that we can use /employee/employee-details/1 instead of
-                // the default /Employee/EmployeeDetails/1
-                options.Conventions.Add(
-                    new RouteTokenTransformerConvention(
-                        new SlugifyParameterTransformer()));
-
-                // Enable Antiforgery feature by default on all controller actions
-                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-            }).AddRazorRuntimeCompilation();
-
-            services.AddRazorPages(options =>
-            {
-                options.Conventions.AddAreaPageRoute("Identity", "/Account/Register", "/register");
-                options.Conventions.AddAreaPageRoute("Identity", "/Account/Login", "/login");
-                options.Conventions.AddAreaPageRoute("Identity", "/Account/Logout", "/logout");
-                options.Conventions.AddAreaPageRoute("Identity", "/Account/ForgotPassword", "/forgot-password");
-            }); // MOZDA TREBA DA SE DODA COMPATIBILITYVERSION
-
             services.AddAuthorization(options => { options.DefaultPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build(); });
 
             services.AddMemoryCache();
-
-            services.AddCors(c => { c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()); });
-
         }
 
         private void UpgradeDatabase(IApplicationBuilder app)
@@ -141,7 +117,7 @@ namespace AdminBoard
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             UpgradeDatabase(app);
-            app.UseForwardedHeaders();
+            app.UseNotyf();
 
             if (env.IsDevelopment())
             {
@@ -150,14 +126,11 @@ namespace AdminBoard
             else
             {
                 app.UseExceptionHandler("/error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
             app.UseStatusCodePagesWithReExecute("/status-code", "?code={0}");
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
 
             app.UseRouting();
             app.UseAuthentication();

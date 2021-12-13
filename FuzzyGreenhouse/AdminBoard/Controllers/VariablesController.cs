@@ -1,6 +1,7 @@
 ﻿using AdminBoard.Infrastructure.Services;
 using AdminBoard.Models.FuzzyGreenHouse;
 using AdminBoard.Models.Identity;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,59 +11,67 @@ using System;
 namespace AdminBoard.Controllers
 {
     [Authorize]
-    public class VariableController : Controller
+    public class VariablesController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly VariableService _variableService;
+        private readonly INotyfService _notificationService;
 
-        public VariableController(ILogger<HomeController> logger, UserManager<User> userManager, SignInManager<User> signInManager, VariableService variableService)
+        public VariablesController(ILogger<HomeController> logger, UserManager<User> userManager, SignInManager<User> signInManager, VariableService variableService, INotyfService notificationService)
         {
             _logger = logger;
             _userManager = userManager;
             _signInManager = signInManager;
             _variableService = variableService;
+            _notificationService = notificationService;
         }
 
         [HttpGet]
-        [Route("/Variables")]
         public IActionResult Index()
         {
             return View("Index",_variableService.GetAll());
         }
 
         [HttpGet]
-        [Route("/Variables/Create")]
         public IActionResult Create()
         {
             return View("Create");
         }
 
         [HttpPost]
-        [Route("/Variables/Create")]
         public IActionResult Create(Set model)
         {
             try
             {
                 _variableService.Insert(model);
+                _notificationService.Success("Variable inserted successfully.");
                 return RedirectToAction("Index");
             }
             catch (Exception e)
             {
+                _notificationService.Error("Failed to insert variable");
                 return StatusCode(500, $"Failed to create set: {e.Message}");
             }
         }
 
-        [HttpPost]
-        [Route("/Variables/Delete/")]
-        public IActionResult Delete([FromBody] string obj)
+        [HttpDelete]
+        public IActionResult Delete(int id)
         {
-            return Ok(obj);
+            try
+            {
+                _variableService.Delete(id);
+                return Json(true);
+            }
+            catch (Exception e)
+            {
+                _notificationService.Error("Failed to delete variable");
+                return StatusCode(500, $"Failed to delete set: {e.Message}");
+            }
         }
 
         [HttpGet]
-        [Route("/Variables/Edit/{id:int}")]
         public IActionResult Edit(int id)
         {
             try
@@ -77,16 +86,17 @@ namespace AdminBoard.Controllers
         }
 
         [HttpPost]
-        [Route("/Variables/Edit/{id:int}")]
         public IActionResult Edit(Set model)
         {
             try
             {
                 _variableService.Update(model);
+                _notificationService.Success("Variable successfully edited.");
                 return RedirectToAction("Index");
             }
             catch (Exception e)
             {
+                _notificationService.Error("Failed to edit variable");
                 return StatusCode(500, $"Failed to update set: {e.Message}");
             }
         }

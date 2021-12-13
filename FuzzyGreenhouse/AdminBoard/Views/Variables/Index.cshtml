@@ -6,11 +6,18 @@
 }
 
 <script>
-    Delete = (id) => {
-        debugger;
+    const Delete = (id) => {
         $.ajax({
             url: "https://localhost:44354/Variables/Delete/" + id ,
-            type: "POST"
+            type: 'DELETE',
+            success: (response) => {
+                debugger;
+                if (response) {
+                    let notyf = new Notyf();
+                    notyf.success("Variable successfully deleted.");
+                    setTimeout(() => { window.location = "https://localhost:44354/Variables/" }, 2200);
+                }
+            }
         });
     }
 </script>
@@ -49,7 +56,7 @@
                                         <i class="fas fa-ellipsis-v"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                        <a class="dropdown-item" href="@Url.Action("Edit", "Variable", new { id = Variable.SetID })">Edit</a>
+                                        <a class="dropdown-item" href="@Url.Action("Edit", "Variables", new { id = Variable.SetID })">Edit</a>
                                         <a class="dropdown-item" onclick="Delete(@Variable.SetID)">Delete</a>
                                     </div>
                                 </div>
@@ -61,7 +68,7 @@
             </div>
         </div>
         <div class="card bg-transparent">
-            <form method="get" asp-controller="Variable" asp-action="Create" style="margin: 0; text-align: center;">
+            <form method="get" asp-controller="Variables" asp-action="Create" style="margin: 0; text-align: center;">
                 <button type="submit" class="btn btn-icon btn-primary">
                     <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
                     <span class="btn-inner--text">Create new</span>
