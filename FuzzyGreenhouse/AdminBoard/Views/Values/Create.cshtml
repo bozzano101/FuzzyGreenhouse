@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Create";
 }
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <div class="row">
     <div class="col">
@@ -10,10 +11,26 @@
             <div>
                 <h3 class="pt-4 text-center"> Create new fuzzy variable</h3>
                 <form method="post" asp-controller="Variables" asp-action="Create" class="p-4">
+
+                    @*Canvas*@
+                    <canvas id="chart"></canvas>
+
                     @*Name*@
                     <div class="form-group">
                         <label for="nameInput">Name</label>
                         <input type="text" class="form-control" id="nameInput" placeholder="Enter fuzzy variable name" asp-for="Name">
+                    </div>
+
+                    @*XCoords*@
+                    <div class="form-group">
+                        <label for="xCoords"> X coordinats (separate values with <i><b>comma</b></i>)</label>
+                        <input type="text" onchange="XCoords()" class="form-control" id="xCoords" placeholder="Enter X coordinates separated with comma" />
+                    </div>
+
+                    @*YCoords*@
+                    <div class="form-group">
+                        <label for="yCoords"> Y coordinats (separate values with <i><b>comma</b></i>)</label>
+                        <input type="text" onchange="YCoords()" class="form-control" id="yCoords" placeholder="Enter Y coordinates separated with comma" />
                     </div>
 
                     @*Save*@
@@ -28,3 +45,49 @@
         </div>
     </div>
 </div>
+
+<script>
+    const config = {
+        type: 'line',
+        data: {
+            labels: ['0', '5', '10', '15'],
+            datasets: [{
+                data: [0,1,1,0],
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    min: 0,
+                    max: 1.1,
+                    ticks: {
+                        stepSize: 0.2
+                    },
+                    afterTickToLabelConversion: function (scaleInstance) {
+                        scaleInstance.ticks.pop();
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    };
+    const myChart = new Chart(document.getElementById("chart"), config);
+
+    const XCoords = () => {
+        let array = JSON.parse("[" + $("#xCoords").val() + "]");
+        myChart.data.labels = array.map((e) => { return String(e) });
+        myChart.update();
+    }
+
+    const YCoords = () => {
+        let array = JSON.parse("[" + $("#yCoords").val() + "]");
+        myChart.data.datasets[0].data = array;
+        myChart.update();
+    }
+</script>
