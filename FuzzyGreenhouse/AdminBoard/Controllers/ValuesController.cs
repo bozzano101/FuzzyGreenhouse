@@ -1,4 +1,5 @@
 ﻿using AdminBoard.Infrastructure.Services;
+using AdminBoard.Models;
 using AdminBoard.Models.FuzzyGreenHouse;
 using AdminBoard.Models.Identity;
 using AspNetCoreHero.ToastNotification.Abstractions;
@@ -15,14 +16,16 @@ namespace AdminBoard.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly ValuesService _valuesService;
+        private readonly VariableService _variableService;
         private readonly INotyfService _notificationService;
 
-        public ValuesController(ILogger<ValuesController> logger, UserManager<User> userManager, SignInManager<User> signInManager, ValuesService valuesService, INotyfService notificationService)
+        public ValuesController(ILogger<ValuesController> logger, UserManager<User> userManager, SignInManager<User> signInManager, ValuesService valuesService, VariableService variableService, INotyfService notificationService)
         {
             _logger = logger;
             _userManager = userManager;
             _signInManager = signInManager;
             _valuesService = valuesService;
+            _variableService = variableService;
             _notificationService = notificationService;
         }
 
@@ -35,15 +38,17 @@ namespace AdminBoard.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View("Create");
+            ValueViewModel valueViewModel = new ValueViewModel(_variableService.GetAll());
+
+            return View("Create", valueViewModel);
         }
 
         [HttpPost]
-        public IActionResult Create(Value model)
+        public IActionResult Create(ValueViewModel model)
         {
             try
             {
-                _valuesService.Insert(model);
+                _valuesService.Insert(model.ConvertToValue(_variableService.Get(Convert.ToInt32(model.SelectedSet))));
                 _notificationService.Success("Value inserted successfully.");
                 return RedirectToAction("Index");
             }

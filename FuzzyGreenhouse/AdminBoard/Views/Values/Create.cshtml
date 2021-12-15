@@ -1,8 +1,9 @@
-﻿@model AdminBoard.Models.FuzzyGreenHouse.Value
+﻿@model AdminBoard.Models.ValueViewModel
 
 @{
     ViewData["Title"] = "Create";
 }
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <div class="row">
@@ -10,7 +11,7 @@
         <div class="card w-75 mx-auto">
             <div>
                 <h3 class="pt-4 text-center"> Create new fuzzy variable</h3>
-                <form method="post" asp-controller="Variables" asp-action="Create" class="p-4">
+                <form method="post" asp-controller="Values" asp-action="Create" class="p-4">
 
                     @*Canvas*@
                     <canvas id="chart"></canvas>
@@ -24,13 +25,19 @@
                     @*XCoords*@
                     <div class="form-group">
                         <label for="xCoords"> X coordinats (separate values with <i><b>comma</b></i>)</label>
-                        <input type="text" onchange="XCoords()" class="form-control" id="xCoords" placeholder="Enter X coordinates separated with comma" />
+                        <input type="text" asp-for="XCoords" class="form-control" placeholder="Enter X coordinates separated with comma" />
                     </div>
 
                     @*YCoords*@
                     <div class="form-group">
                         <label for="yCoords"> Y coordinats (separate values with <i><b>comma</b></i>)</label>
-                        <input type="text" onchange="YCoords()" class="form-control" id="yCoords" placeholder="Enter Y coordinates separated with comma" />
+                        <input type="text" asp-for="YCoords" class="form-control" placeholder="Enter Y coordinates separated with comma"/>
+                    </div>
+
+                    @*SelectSet*@
+                    <div class="form-group">
+                        <label for="set">Select <i>Variable</i> to assign <i>Value</i> to</label>
+                        <select class="form-control" asp-for="SelectedSet" asp-items="Model.AllSets"></select>
                     </div>
 
                     @*Save*@
@@ -52,7 +59,7 @@
         data: {
             labels: ['0', '5', '10', '15'],
             datasets: [{
-                data: [0,1,1,0],
+                data: [0, 1, 1, 0],
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
             }]
@@ -76,18 +83,18 @@
                 }
             }
         }
-    };
+    }
     const myChart = new Chart(document.getElementById("chart"), config);
 
-    const XCoords = () => {
-        let array = JSON.parse("[" + $("#xCoords").val() + "]");
+    $("#XCoords").change(() => {
+        let array = JSON.parse("[" + $("#XCoords").val() + "]");
         myChart.data.labels = array.map((e) => { return String(e) });
         myChart.update();
-    }
+    })
 
-    const YCoords = () => {
-        let array = JSON.parse("[" + $("#yCoords").val() + "]");
+    $("#YCoords").change(() => {
+        let array = JSON.parse("[" + $("#YCoords").val() + "]");
         myChart.data.datasets[0].data = array;
         myChart.update();
-    }
+    })
 </script>
