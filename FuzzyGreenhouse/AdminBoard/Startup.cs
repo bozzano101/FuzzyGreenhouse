@@ -57,6 +57,7 @@ namespace AdminBoard
             services.AddScoped<IUserClaimsPrincipalFactory<User>, AppUserClaimsPrincipalFactory>();
             services.AddScoped<VariableService, VariableService>();
             services.AddScoped<ValuesService, ValuesService>();
+            services.AddScoped<RuleService, RuleService>();
 
             services.Configure<IdentityOptions>(options =>
             {

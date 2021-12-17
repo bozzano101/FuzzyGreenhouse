@@ -16,9 +16,16 @@ namespace AdminBoard.Models.FuzzyGreenHouse
     public class Rule
     {
         public int RuleID { get; set; }
+     
         public Value InputValue1 { get; set; }
+        public int InputValue1ID { get; set; }
+
         public Value InputValue2 { get; set; }
+        public int InputValue2ID { get; set; }
+        
         public Value OutputValue { get; set; }
+        public int OutputValueID { get; set; }
+
         public LogicOperator Operator { get; set; }
 
         public Rule()
