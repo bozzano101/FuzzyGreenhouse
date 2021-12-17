@@ -44,6 +44,23 @@ namespace AdminBoard.Infrastructure.Services
             }
         }
 
+        public Dictionary<int,string> GetNames()
+        {
+            try
+            {
+                var sets = GetAll();
+                var namesDict = new Dictionary<int, string>();
+                foreach (var set in sets)
+                    namesDict.Add(set.SetID, set.Name);
+                return namesDict;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Failed to get set names. Message: {e.Message}");
+                throw new Exception(e.Message);
+            }
+        }
+
         public void Insert(Set set)
         {
             try

@@ -16,6 +16,7 @@ namespace AdminBoard.Models
         public string YCoords { get; set; }
         public List<SelectListItem> AllSets { get; set; }
         public string SelectedSet { get; set; }
+        public string SelectedSetName { get; set; }
 
         public ValueViewModel() { }
 
@@ -23,6 +24,23 @@ namespace AdminBoard.Models
         {
             AllSets = new List<SelectListItem>();
             Sets.ForEach(e => AllSets.Add(new SelectListItem { Text = e.Name, Value = e.SetID.ToString() }));
+        }
+
+        public ValueViewModel(Value model, List<Set> Sets)
+        {
+            
+            ValueID = model.ValueID;
+            Name = model.Name;
+            // Coords string should be joined from list with comma separator
+            XCoords = String.Join(',', model.XCoords);
+            YCoords = String.Join(',', model.YCoords);
+
+            // Prepare all set select element
+            AllSets = new List<SelectListItem>();
+            Sets.ForEach(e => AllSets.Add(new SelectListItem { Text = e.Name, Value = e.SetID.ToString() }));
+
+            SelectedSet = model.SetID.ToString();
+
         }
 
         public Value ConvertToValue(Set set)

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 
 namespace AdminBoard.Controllers
 {
@@ -32,6 +33,9 @@ namespace AdminBoard.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            var allValues = _valuesService.GetAll();
+            ViewBag.Names = _variableService.GetNames();
+
             return View("Index", _valuesService.GetAll());
         }
 
@@ -79,7 +83,7 @@ namespace AdminBoard.Controllers
         {
             try
             {
-                var model = _valuesService.Get(id);
+                var model = new ValueViewModel(_valuesService.Get(id), _variableService.GetAll());
                 return View("Edit", model);
             }
             catch (Exception e)
@@ -89,16 +93,16 @@ namespace AdminBoard.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(Value model)
+        public IActionResult Edit(ValueViewModel model)
         {
             try
             {
-                _valuesService.Update(model);
+                _valuesService.Update(model.ConvertToValue(_variableService.Get(Convert.ToInt32(model.SelectedSet))));
                 _notificationService.Success("Variable successfully edited.");
                 return RedirectToAction("Index");
             }
             catch (Exception e)
-            {
+             {
                 _notificationService.Error("Failed to edit value");
                 return StatusCode(500, $"Failed to update set: {e.Message}");
             }

@@ -13,6 +13,7 @@ namespace AdminBoard.Models.FuzzyGreenHouse
         public List<float> XCoords { get; set; }
         public List<float> YCoords { get; set; }
         public Set Set { get; set; }
+        public int SetID { get; set; }
 
         public Value()
         {

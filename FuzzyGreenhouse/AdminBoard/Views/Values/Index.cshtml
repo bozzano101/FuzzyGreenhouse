@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<AdminBoard.Models.FuzzyGreenHouse.Value>
-
 @using Microsoft.AspNetCore.Http.Extensions;
 
 @{
@@ -49,7 +48,7 @@
                             <tr>
                                 <td> @Value.ValueID </td>
                                 <td> @Value.Name </td>
-                                <td> @Value.Set </td>
+                                <td> @ViewBag.Names[Value.SetID] </td>
                                 <td class="text-right">
                                     <div class="dropdown">
                                         <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
