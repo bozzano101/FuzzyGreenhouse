@@ -1,0 +1,82 @@
+﻿@model IEnumerable<AdminBoard.Models.RuleViewModel>
+@using Microsoft.AspNetCore.Http.Extensions;
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<script>
+    const Delete = (id) => {
+        $.ajax({
+            url: "https://localhost:44354/Rules/Delete/" + id ,
+            type: 'DELETE',
+            success: (response) => {
+                if (response) {
+                    let notyf = new Notyf();
+                    notyf.success("Rule successfully deleted.");
+                    setTimeout(() => { window.location = "https://localhost:44354/Rules/" }, 2200);
+                }
+            }
+        });
+    }
+</script>
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <!-- Card header -->
+            <div class="card-header border-0">
+                <h3 class="mb-0">Fuzzy rules</h3>
+            </div>
+            <!-- Table -->
+            <div class="table-responsive">
+                <table class="table align-items-center table-flush">
+                    <!-- Table header-->
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col" class="sort" data-sort="id">ID</th>
+                            <th scope="col" class="sort" data-sort="input1">Input 1</th>
+                            <th scope="col" class="sort" data-sort="input2">Input 2</th>
+                            <th scope="col" class="sort" data-sort="output">Output</th>
+                            <th scope="col" class="sort" data-sort="operator">Logic Operator</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+
+                    <!-- Table body -->
+                    <tbody class="list">
+                        @foreach (var rule in Model)
+                        {
+                            <tr>
+                                <td> @rule.RuleID </td>
+                                <td> @rule.InputValue1Representation </td>
+                                <td> @rule.InputValue2Representation </td>
+                                <td> @rule.OutputValueRepresentation </td>
+                                <td> @rule.Operator </td>
+                                <td class="text-right">
+                                    <div class="dropdown">
+                                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                            <a class="dropdown-item" href="@Url.Action("Edit", "Rules", new { id = rule.RuleID })">Edit</a>
+                                            <a class="dropdown-item" onclick="Delete(@rule.RuleID)">Delete</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card bg-transparent">
+            <form method="get" asp-controller="Rules" asp-action="Create" style="margin: 0; text-align: center;">
+                <button type="submit" class="btn btn-icon btn-primary">
+                    <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+                    <span class="btn-inner--text">Create new</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

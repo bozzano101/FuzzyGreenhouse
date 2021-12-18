@@ -1,5 +1,6 @@
 ﻿using AdminBoard.Data;
 using AdminBoard.Models.FuzzyGreenHouse;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace AdminBoard.Infrastructure.Services
         {
             try
             {
-                return _context.Set.ToList();
+                return _context.Set.Include(e => e.Values).ToList();
             }
             catch (Exception e)
             {
