@@ -1,5 +1,20 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model AdminBoard.Models.RuleViewModel
+
+@{ 
+    ViewData["Title"] = "Create";
 }
+
+<div class="row">
+    <div class="col">
+        <div class="card w-75 mx-auto">
+            <div>
+                <h3 class="pt-4 text-center"> Create new fuzzy variable</h3>
+                <form method="post" asp-controller="Variables" asp-action="Create" class="p-4">
+                    <select asp-for="InputValue1Representation" asp-items="Model.InputList1"></select>
+                    <select asp-for="InputValue2Representation" asp-items="Model.InputList2"></select>
+                    <select asp-for="OutputValueRepresentation" asp-items="Model.OutputList"></select>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,5 @@
 ﻿using AdminBoard.Models.FuzzyGreenHouse;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,9 @@ namespace AdminBoard.Models
         public string InputValue2Representation { get; set; }
         public string OutputValueRepresentation { get; set; }
 
-        public Dictionary<int, string> Names = new Dictionary<int, string>();
+        public List<SelectListItem> InputList1 { get; } = new List<SelectListItem>();
+        public List<SelectListItem> InputList2 { get; } = new List<SelectListItem>();
+        public List<SelectListItem> OutputList { get; } = new List<SelectListItem>();
 
         public RuleViewModel() { }
 
