@@ -9,10 +9,40 @@
         <div class="card w-75 mx-auto">
             <div>
                 <h3 class="pt-4 text-center"> Create new fuzzy variable</h3>
-                <form method="post" asp-controller="Variables" asp-action="Create" class="p-4">
-                    <select asp-for="InputValue1Representation" asp-items="Model.InputList1"></select>
-                    <select asp-for="InputValue2Representation" asp-items="Model.InputList2"></select>
-                    <select asp-for="OutputValueRepresentation" asp-items="Model.OutputList"></select>
+                <form method="post" asp-controller="Rules" asp-action="Create" class="p-4">
+                    @*Input1*@
+                    <div class="form-group">
+                        <label for="InputValue1Representation"> Select first input value: </label>
+                        <select class="form-control" asp-for="InputValue1Representation" asp-items="Model.InputList1"></select>
+                    </div>
+
+                    @*Input2*@
+                    <div class="form-group">
+                        <label for="InputValue2Representation"> Select second input value: </label>
+                        <select class="form-control" asp-for="InputValue2Representation" asp-items="Model.InputList2"></select>
+                    </div>
+
+                    @*Output*@
+                    <div class="form-group">
+                        <label for="OutputValueRepresentation"> Select output value: </label>
+                        <select class="form-control" asp-for="OutputValueRepresentation" asp-items="Model.OutputList"></select>
+                    </div>
+                    @*Operator*@
+                    <div class="form-group">
+                        <label> Select operator: </label>
+                        <select class="form-control" asp-for="Operator">
+                            <option value="AND" selected> AND </option>
+                            <option value="OR"> OR </option>
+                        </select>
+                    </div>
+
+                    @*Save*@
+                    <div class="form-group w-100 mx-auto">
+                        <div class="input-group-addon text-center" id="buttons">
+                            <button class="btn btn-outline-success" type="submit">Save</button>
+                            <button class="btn btn-outline-warning" type="button" asp-controller="Variables" asp-action="Index">Back</button>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>

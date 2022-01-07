@@ -1,5 +1,6 @@
 ﻿using AdminBoard.Infrastructure.Services;
 using AdminBoard.Models;
+using AdminBoard.Models.FuzzyGreenHouse;
 using AdminBoard.Models.Identity;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authorization;
@@ -22,15 +23,17 @@ namespace AdminBoard.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly RuleService _ruleService;
         private readonly VariableService _variableService;
+        private readonly ValuesService _valueService;
         private readonly INotyfService _notificationService;
 
-        public RulesController(ILogger<RulesController> logger, UserManager<User> userManager, SignInManager<User> signInManager, RuleService ruleService, VariableService variableService, INotyfService notificationService)
+        public RulesController(ILogger<RulesController> logger, UserManager<User> userManager, SignInManager<User> signInManager, ValuesService valuesService, RuleService ruleService, VariableService variableService, INotyfService notificationService)
         {
             _logger = logger;
             _userManager = userManager;
             _signInManager = signInManager;
             _ruleService = ruleService;
             _variableService = variableService;
+            _valueService = valuesService;
             _notificationService = notificationService;
         }
 
@@ -58,6 +61,27 @@ namespace AdminBoard.Controllers
             {
                 _notificationService.Error("Failed to delete rule");
                 return StatusCode(500, $"Failed to delete rule: {e.Message}");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Create(RuleViewModel model)
+        {
+            try
+            {
+                var input1 = _valueService.Get(Convert.ToInt32(model.InputValue1Representation));
+                var input2 = _valueService.Get(Convert.ToInt32(model.InputValue2Representation));
+                var output = _valueService.Get(Convert.ToInt32(model.OutputValueRepresentation));
+
+                Rule rule = new Rule(input1, input2, output, model.Operator);
+
+                _ruleService.Insert(rule);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+
+                throw;
             }
         }
 
