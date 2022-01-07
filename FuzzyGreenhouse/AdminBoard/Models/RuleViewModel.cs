@@ -19,6 +19,10 @@ namespace AdminBoard.Models
 
         public RuleViewModel() { }
 
+        public RuleViewModel(Rule rule)
+            :base(rule.InputValue1, rule.InputValue2, rule.OutputValue, rule.Operator) { 
+        }
+
         public RuleViewModel(Rule rule, List<Set> sets)
             :base(rule.InputValue1, rule.InputValue2, rule.OutputValue, rule.Operator)
         {

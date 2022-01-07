@@ -115,5 +115,42 @@ namespace AdminBoard.Controllers
                 throw;
             }
         }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            try
+            {
+                var rule = _ruleService.Get(id);
+                RuleViewModel model = new RuleViewModel();
+
+                var sets = _variableService.GetAll();
+
+                sets.ForEach(set =>
+                    set.Values.ToList().ForEach(value =>
+                    {
+                        string name = set.Name + " - " + value.Name;
+                        if (set.Type == Models.FuzzyGreenHouse.SetType.Input)
+                        {
+                            model.InputList1.Add(new SelectListItem { Text = name, Value = value.ValueID.ToString() });
+                            model.InputList2.Add(new SelectListItem { Text = name, Value = value.ValueID.ToString() });
+                        }
+                        if (set.Type == Models.FuzzyGreenHouse.SetType.Output)
+                            model.OutputList.Add(new SelectListItem { Text = name, Value = value.ValueID.ToString() });
+                    })
+                );
+
+                ViewBag.Input1 = rule.InputValue1ID;
+                ViewBag.Input2 = rule.InputValue2ID;
+                ViewBag.Output = rule.OutputValueID;
+                return View("Edit", model);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
     }
 }
