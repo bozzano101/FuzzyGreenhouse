@@ -116,6 +116,21 @@ namespace AdminBoard.Controllers
             }
         }
 
+        [HttpPost]
+        public IActionResult Edit(RuleViewModel model)
+        {
+            try
+            {
+                _ruleService.Update(model.ConvertToRule());
+                return Ok();
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+        }
+
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -123,6 +138,7 @@ namespace AdminBoard.Controllers
             {
                 var rule = _ruleService.Get(id);
                 RuleViewModel model = new RuleViewModel();
+                model.RuleID = id;
 
                 var sets = _variableService.GetAll();
 
@@ -143,6 +159,7 @@ namespace AdminBoard.Controllers
                 ViewBag.Input1 = rule.InputValue1ID;
                 ViewBag.Input2 = rule.InputValue2ID;
                 ViewBag.Output = rule.OutputValueID;
+                ViewBag.Operator = rule.Operator;
                 return View("Edit", model);
             }
             catch (Exception)

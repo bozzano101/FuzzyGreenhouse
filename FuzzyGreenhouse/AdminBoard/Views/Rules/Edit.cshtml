@@ -4,12 +4,17 @@
     ViewData["Title"] = "Create";
 }
 
-<div id="edit" class="row">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<div class="row" id="edit">
     <div class="col">
         <div class="card w-75 mx-auto">
             <div>
                 <h3 class="pt-4 text-center"> Create new fuzzy variable</h3>
-                <form method="post" asp-controller="Rules" asp-action="Create" class="p-4">
+                <form method="post" asp-controller="Rules" asp-action="Edit" class="p-4">
+                    @*RuleID*@
+                    <input type="hidden" asp-for="RuleID" />
+
                     @*Input1*@
                     <div class="form-group">
                         <label for="InputValue1Representation"> Select first input value: </label>
@@ -51,10 +56,9 @@
 
 <script type="text/javascript">
     $("#edit").ready(() => {
-        debugger;
         $("#InputValue1Representation").val(@ViewBag.Input1);
         $("#InputValue2Representation").val(@ViewBag.Input2);
         $("#OutputValueRepresentation").val(@ViewBag.Output);
-
-    })
+        $("#Operator").val("@ViewBag.Operator");
+    });
 </script>

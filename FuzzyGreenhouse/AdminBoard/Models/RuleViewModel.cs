@@ -37,5 +37,19 @@ namespace AdminBoard.Models
             var outputValueSet = sets.Where(e => e.SetID == rule.OutputValue.SetID).First();
             OutputValueRepresentation = outputValueSet.Name + " - " + rule.OutputValue.Name;
         }
+
+        public Rule ConvertToRule()
+        {
+            Rule rule = new Rule
+            {
+                InputValue1ID = Convert.ToInt32(InputValue1Representation),
+                InputValue2ID = Convert.ToInt32(InputValue2Representation),
+                OutputValueID = Convert.ToInt32(OutputValueRepresentation),
+                Operator = this.Operator,
+                RuleID = this.RuleID
+            };
+
+            return rule;
+        }
     }
 }
