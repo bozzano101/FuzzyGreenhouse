@@ -47,7 +47,7 @@ namespace AdminBoard.Controllers
             return View();
         }
 
-        [HttpGet("/profile")]
+        [HttpGet("/Profile")]
         public async Task<IActionResult> Profile()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -65,7 +65,7 @@ namespace AdminBoard.Controllers
             });
         }
 
-        [HttpPost("/profile")]
+        [HttpPost("/Profile")]
         public async Task<IActionResult> UpdateProfile([FromForm] UserViewModel input)
         {
             if (!ModelState.IsValid)
