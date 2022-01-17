@@ -9,5 +9,20 @@ namespace AdminBoard.Models.Identity
 
         [PersonalData]
         public virtual string LastName { get; set; }
+
+        [PersonalData]
+        public virtual string Address { get; set; }
+
+        [PersonalData]
+        public virtual string City { get; set; }
+
+        [PersonalData]
+        public virtual int PostalCode { get; set; }
+
+        [PersonalData]
+        public virtual string Country { get; set; }
+
+        [PersonalData]
+        public virtual string Phone { get; set; }
     }
 }
