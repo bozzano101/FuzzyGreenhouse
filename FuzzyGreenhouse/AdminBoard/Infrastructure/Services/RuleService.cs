@@ -78,7 +78,10 @@ namespace AdminBoard.Infrastructure.Services
             try
             {
                 var ruleForUpdate = _context.Rule.Where(e => e.RuleID == rule.RuleID).First();
-                // TODO
+                ruleForUpdate.InputValue1ID = rule.InputValue1ID;
+                ruleForUpdate.InputValue2ID = rule.InputValue2ID;
+                ruleForUpdate.OutputValueID = rule.OutputValueID;
+                ruleForUpdate.Operator = rule.Operator;
                 _context.SaveChanges();
             }
             catch (Exception e)

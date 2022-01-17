@@ -11,7 +11,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace AdminBoard.Controllers
 {
@@ -76,12 +75,15 @@ namespace AdminBoard.Controllers
                 Rule rule = new Rule(input1, input2, output, model.Operator);
 
                 _ruleService.Insert(rule);
-                return Ok();
+
+                _notificationService.Success("Rule inserted successfully.");
+                return RedirectToAction("Index");
+
             }
             catch (Exception e)
             {
-
-                throw;
+                _notificationService.Error("Failed to insert rule");
+                return StatusCode(500, $"Failed to create rule: {e.Message}");
             }
         }
 
@@ -97,7 +99,7 @@ namespace AdminBoard.Controllers
                     set.Values.ToList().ForEach(value =>
                     {
                         string name = set.Name + " - " + value.Name;
-                        if (set.Type == Models.FuzzyGreenHouse.SetType.Input)
+                        if (set.Type == SetType.Input)
                         {
                             ruleViewModel.InputList1.Add(new SelectListItem { Text = name, Value = value.ValueID.ToString() });
                             ruleViewModel.InputList2.Add(new SelectListItem { Text = name, Value = value.ValueID.ToString() });
@@ -109,10 +111,10 @@ namespace AdminBoard.Controllers
 
                 return View("Create", ruleViewModel);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                throw;
+                _notificationService.Error("Failed to create rule.");
+                return StatusCode(500, $"Failed to create rule: {e.Message}");
             }
         }
 
@@ -122,12 +124,14 @@ namespace AdminBoard.Controllers
             try
             {
                 _ruleService.Update(model.ConvertToRule());
-                return Ok();
+
+                _notificationService.Success("Rule successfully edited.");
+                return RedirectToAction("Index");
             }
             catch (Exception e)
             {
-
-                throw;
+                _notificationService.Error("Failed to edit diagram");
+                return StatusCode(500, $"Failed to edit diagram: {e.Message}");
             }
         }
 
@@ -162,10 +166,10 @@ namespace AdminBoard.Controllers
                 ViewBag.Operator = rule.Operator;
                 return View("Edit", model);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                throw;
+                _notificationService.Error("Failed to edit rule");
+                return StatusCode(500, "Failed to edit rule");
             }
         }
 
