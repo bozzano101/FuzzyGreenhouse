@@ -16,5 +16,20 @@ namespace AdminBoard.Models
 
         [Display(Name = "LastName")]
         public string LastName { get; set; }
+
+        [Display(Name = "Address")]
+        public string Address { get; set; }
+
+        [Display(Name = "City")]
+        public string City { get; set; }
+
+        [Display(Name = "PostalCode")]
+        public int PostalCode { get; set; }
+
+        [Display(Name = "Country")]
+        public string Country { get; set; }
+
+        [Display(Name = "Phone")]
+        public string Phone { get; set; }
     }
 }

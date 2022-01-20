@@ -61,7 +61,12 @@ namespace AdminBoard.Controllers
                 Username = user.UserName,
                 Email = user.Email,
                 FirstName = user.FirstName,
-                LastName = user.LastName
+                LastName = user.LastName,
+                Address = user.Address,
+                Phone = user.Phone,
+                PostalCode = user.PostalCode,
+                Country = user.Country,
+                City = user.City
             });
         }
 
