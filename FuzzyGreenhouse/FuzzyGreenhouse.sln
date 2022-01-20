@@ -12,6 +12,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminBoard", "AdminBoard\Ad
 		{7CBC6EC7-3567-4202-B35D-4406FE118CC2} = {7CBC6EC7-3567-4202-B35D-4406FE118CC2}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenhouseCore", "GreenhouseCore\GreenhouseCore.csproj", "{B4231DBF-E147-439F-A876-34C28E352322}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,10 @@ Global
 		{BD09C94B-E9F2-4737-9559-814A86BB4B84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD09C94B-E9F2-4737-9559-814A86BB4B84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD09C94B-E9F2-4737-9559-814A86BB4B84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4231DBF-E147-439F-A876-34C28E352322}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4231DBF-E147-439F-A876-34C28E352322}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4231DBF-E147-439F-A876-34C28E352322}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4231DBF-E147-439F-A876-34C28E352322}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
