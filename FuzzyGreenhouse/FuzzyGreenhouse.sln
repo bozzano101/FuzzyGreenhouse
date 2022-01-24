@@ -12,7 +12,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminBoard", "AdminBoard\Ad
 		{7CBC6EC7-3567-4202-B35D-4406FE118CC2} = {7CBC6EC7-3567-4202-B35D-4406FE118CC2}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenhouseCore", "GreenhouseCore\GreenhouseCore.csproj", "{B4231DBF-E147-439F-A876-34C28E352322}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GreenhouseCore", "GreenhouseCore\GreenhouseCore.csproj", "{B4231DBF-E147-439F-A876-34C28E352322}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7CBC6EC7-3567-4202-B35D-4406FE118CC2} = {7CBC6EC7-3567-4202-B35D-4406FE118CC2}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -31,6 +31,24 @@ namespace FuzzyLib
         /// <param name="name">Describe string of function</param>
         /// <param name="xs">List of X coordinates of edge points</param>
         /// <param name="ys">List of Y coordinates of edge points</param>
+        public FuzzyInput(string name, List<float> xs, List<float> ys)
+        {
+            if (xs.Count != ys.Count)
+                throw new ArgumentException("List of X coordinates and list of Y coordinates are not same length.");
+
+            Points = new List<Point>();
+            for (int i = 0; i < xs.Count; ++i)
+                Points.Add(new Point(xs[i], ys[i]));
+
+            Name = name;
+        }
+
+        /// <summary>
+        /// Constructor function for FuzzyInput class
+        /// </summary>
+        /// <param name="name">Describe string of function</param>
+        /// <param name="xs">List of X coordinates of edge points</param>
+        /// <param name="ys">List of Y coordinates of edge points</param>
         /// <param name="value">X coordinate of point that we want to get function value</param>
         public FuzzyInput(string name, List<float> xs, List<float> ys, float value)
         {
@@ -42,6 +60,15 @@ namespace FuzzyLib
                 Points.Add(new Point(xs[i], ys[i]));
 
             Name = name;
+            Mu = CalculateMi(value);
+        }
+
+        /// <summary>
+        /// Method used for recalculating Mu value if neccessary
+        /// </summary>
+        /// <param name="value">Value for which we will calculate what function value is</param>
+        public void RecalculateMu(float value)
+        {
             Mu = CalculateMi(value);
         }
 
