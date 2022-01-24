@@ -10,6 +10,18 @@ namespace FuzzyLib
     public class FuzzyInputSet
     {
         /// <summary>
+        /// Constructor for FuzzyInputSet class
+        /// </summary>
+        /// <param name="id">Id from database</param>
+        /// <param name="name">Name of fuzzy set</param>
+        public FuzzyInputSet(int id, string name)
+        {
+            Id = id;
+            Name = name;
+            Values = new List<FuzzyInput>();
+        }
+
+        /// <summary>
         /// This method will add new FuzzyInput to collection
         /// </summary>
         /// <param name="value"> FuzzyInput that will be added</param>
@@ -26,6 +38,11 @@ namespace FuzzyLib
         {
             Values.ForEach(e => e.RecalculateMu(value));
         }
+
+        /// <summary>
+        /// This property represents id from database
+        /// </summary>
+        public int Id { get; set; }
 
         /// <summary>
         /// This property represents fuzzy set name

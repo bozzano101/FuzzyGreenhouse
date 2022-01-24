@@ -1,6 +1,7 @@
 ﻿using FuzzyLib;
 using MySql.Data.MySqlClient;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace GreenhouseCore
@@ -27,34 +28,44 @@ namespace GreenhouseCore
         {
             var commandSet = new MySqlCommand("SELECT * FROM fuzzygreenhouse.set;", connection);
             var resultSet = commandSet.ExecuteReader();
+
+            var list = new List<dynamic>();
+
             while(resultSet.Read())
             {
-                var setId = Convert.ToInt32(resultSet[0]);
-                var setName = Convert.ToString(resultSet[1]);
-                var setType = Convert.ToBoolean(resultSet[2]) ? "Output" : "Input";
-                dynamic set;
+                int setId = Convert.ToInt32(resultSet[0]);
+                string setName = Convert.ToString(resultSet[1]);
+                string setType = Convert.ToBoolean(resultSet[2]) ? "Output" : "Input";
 
                 if (setType == "Output")
-                    set = new FuzzyOutputSet();
+                    list.Add(new FuzzyOutputSet(setId, setName));
                 else
-                    set = new FuzzyInputSet();
+                    list.Add(new FuzzyInputSet(setId, setName));
+            }
 
+            resultSet.Close();
 
-                var commandValues = new MySqlCommand($"SELECT * FROM fuzzygreenhouse.value WHERE SetID = {setId};", connection);
+            foreach (var set in list)
+            {
+                var commandValues = new MySqlCommand($"SELECT * FROM fuzzygreenhouse.value WHERE SetID = {set.Id};", connection);
                 var resultValues = commandValues.ExecuteReader();
 
-                while(resultValues.Read())
+                while (resultValues.Read())
                 {
                     var valueName = Convert.ToString(resultValues[1]);
                     var valueXCoords = (Convert.ToString(resultValues[2])).Split(',').Select(float.Parse).ToList();
                     var valueYCoords = (Convert.ToString(resultValues[3])).Split(',').Select(float.Parse).ToList();
 
-                    if(resultSet[2].ToString() == "0")
+                    if (set is FuzzyInputSet)
                         set.AddValue(new FuzzyInput(valueName, valueXCoords, valueYCoords));
                     else
                         set.AddValue(new FuzzyOutput(valueName, valueXCoords, valueYCoords));
                 }
+
+                resultValues.Close();
             }
+
+            Console.Write(" PROCESS LIST SOMEHOW ");
         }
 
         public void ConnectToDatabase() {
@@ -64,12 +75,7 @@ namespace GreenhouseCore
             {
                 connection.Open();
 
-                var command = new MySqlCommand("SELECT * FROM fuzzygreenhouse.set;", connection);
-                var result = command.ExecuteReader();
-                while(result.Read())
-                {
-                    Console.WriteLine($"{result[0]} - {result[1]} - {result[2]}");
-                }
+                FetchData(connection);
 
                 connection.Close();
             }

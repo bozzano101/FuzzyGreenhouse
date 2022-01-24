@@ -21,6 +21,14 @@
             <param name="points">List of edge points</param>
             <param name="value">X coordinate of point that we want to get function value</param>
         </member>
+        <member name="M:FuzzyLib.FuzzyInput.#ctor(System.String,System.Collections.Generic.List{System.Single},System.Collections.Generic.List{System.Single})">
+            <summary>
+            Constructor function for FuzzyInput class
+            </summary>
+            <param name="name">Describe string of function</param>
+            <param name="xs">List of X coordinates of edge points</param>
+            <param name="ys">List of Y coordinates of edge points</param>
+        </member>
         <member name="M:FuzzyLib.FuzzyInput.#ctor(System.String,System.Collections.Generic.List{System.Single},System.Collections.Generic.List{System.Single},System.Single)">
             <summary>
             Constructor function for FuzzyInput class
@@ -29,6 +37,12 @@
             <param name="xs">List of X coordinates of edge points</param>
             <param name="ys">List of Y coordinates of edge points</param>
             <param name="value">X coordinate of point that we want to get function value</param>
+        </member>
+        <member name="M:FuzzyLib.FuzzyInput.RecalculateMu(System.Single)">
+            <summary>
+            Method used for recalculating Mu value if neccessary
+            </summary>
+            <param name="value">Value for which we will calculate what function value is</param>
         </member>
         <member name="M:FuzzyLib.FuzzyInput.CalculateMi(System.Single)">
             <summary>
@@ -51,6 +65,45 @@
         <member name="P:FuzzyLib.FuzzyInput.Mu">
             <summary>
             Mu - This field is used for getting function value for given Mu number
+            </summary>
+        </member>
+        <member name="T:FuzzyLib.FuzzyInputSet">
+            <summary>
+            This class represents fuzzy set. It can contains many fuzzy values and manipulate with them
+            </summary>
+        </member>
+        <member name="M:FuzzyLib.FuzzyInputSet.#ctor(System.Int32,System.String)">
+            <summary>
+            Constructor for FuzzyInputSet class
+            </summary>
+            <param name="id">Id from database</param>
+            <param name="name">Name of fuzzy set</param>
+        </member>
+        <member name="M:FuzzyLib.FuzzyInputSet.AddValue(FuzzyLib.FuzzyInput)">
+            <summary>
+            This method will add new FuzzyInput to collection
+            </summary>
+            <param name="value"> FuzzyInput that will be added</param>
+        </member>
+        <member name="M:FuzzyLib.FuzzyInputSet.RecalculateMu(System.Single)">
+            <summary>
+            This method will update Mu value in all FuzzyInput objects that are part of this FuzzyInputSet object
+            </summary>
+            <param name="value"> Float number to update to</param>
+        </member>
+        <member name="P:FuzzyLib.FuzzyInputSet.Id">
+            <summary>
+            This property represents id from database
+            </summary>
+        </member>
+        <member name="P:FuzzyLib.FuzzyInputSet.Name">
+            <summary>
+            This property represents fuzzy set name
+            </summary>
+        </member>
+        <member name="P:FuzzyLib.FuzzyInputSet.Values">
+            <summary>
+            This property represents all values for this particular set
             </summary>
         </member>
         <member name="T:FuzzyLib.FuzzyOutput">
@@ -101,6 +154,39 @@
         <member name="P:FuzzyLib.FuzzyOutput.Centroid">
             <summary>
             Centroid - This field is used to store centroid value for this set function
+            </summary>
+        </member>
+        <member name="T:FuzzyLib.FuzzyOutputSet">
+            <summary>
+            This class represents fuzzy set. It can contains many fuzzy values and manipulate with them
+            </summary>
+        </member>
+        <member name="M:FuzzyLib.FuzzyOutputSet.#ctor(System.Int32,System.String)">
+            <summary>
+            Constructor for FuzzyOutputSet class
+            </summary>
+            <param name="setId"> Database ID of set</param>
+            <param name="setName">Name of fuzzy set</param>
+        </member>
+        <member name="M:FuzzyLib.FuzzyOutputSet.AddValue(FuzzyLib.FuzzyOutput)">
+            <summary>
+            This method will add new FuzzyOutput to collection
+            </summary>
+            <param name="value"> FuzzyOutput that will be added</param>
+        </member>
+        <member name="P:FuzzyLib.FuzzyOutputSet.Id">
+            <summary>
+            This property represents fuzzy set retrieved from database
+            </summary>
+        </member>
+        <member name="P:FuzzyLib.FuzzyOutputSet.Name">
+            <summary>
+            This property represents fuzzy set name
+            </summary>
+        </member>
+        <member name="P:FuzzyLib.FuzzyOutputSet.Values">
+            <summary>
+            This property represents all values for this particular set
             </summary>
         </member>
         <member name="T:FuzzyLib.LogicOperator">
