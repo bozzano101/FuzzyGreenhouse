@@ -15,10 +15,12 @@ namespace FuzzyLib
         /// <summary>
         /// Constructor function for FuzzyOutput class
         /// </summary>
+        /// <param name="id">Id from database</param>
         /// <param name="name">Describe string of function</param>
         /// <param name="points">List of edge points</param>
-        public FuzzyOutput(string name, List<Point> points)
+        public FuzzyOutput(int id, string name, List<Point> points)
         {
+            Id = id;
             Name = name;
             Points = points;
             Mu = 0;
@@ -28,10 +30,11 @@ namespace FuzzyLib
         /// <summary>
         ///  Constructor function for FuzzyOutput class
         /// </summary>
+        /// <param name="id">Id from database</param>
         /// <param name="name">Describe string of function</param>
         /// <param name="xs">List of X coordinates of edge points</param>
         /// <param name="ys">List of Y coordinates of edge points</param>
-        public FuzzyOutput(string name, List<float> xs, List<float> ys)
+        public FuzzyOutput(int id, string name, List<float> xs, List<float> ys)
         {
             if (xs.Count != ys.Count)
                 throw new ArgumentException("List of X coordinates and list of Y coordinates are not same length.");
@@ -40,6 +43,7 @@ namespace FuzzyLib
             for (int i = 0; i < xs.Count; ++i)
                 Points.Add(new Point(xs[i], ys[i]));
 
+            Id = id;
             Name = name;
             Mu = 0;
             Centroid = CalculateCentroid();
@@ -67,6 +71,11 @@ namespace FuzzyLib
 
             return average / n;
         }
+
+        /// <summary>
+        /// Id - field represents Id getted from database
+        /// </summary>
+        public int Id { get; set; }
 
         /// <summary>
         /// Name - field that will represent name of function. For example, in case we have car fuel consumption, it can be small, average or high

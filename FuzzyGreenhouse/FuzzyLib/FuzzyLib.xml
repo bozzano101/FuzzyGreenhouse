@@ -13,26 +13,29 @@
             range [0,1]
             </summary>
         </member>
-        <member name="M:FuzzyLib.FuzzyInput.#ctor(System.String,System.Collections.Generic.List{FuzzyLib.Point},System.Single)">
+        <member name="M:FuzzyLib.FuzzyInput.#ctor(System.Int32,System.String,System.Collections.Generic.List{FuzzyLib.Point},System.Single)">
             <summary>
             Constructor function for FuzzyInput class
             </summary>
+            <param name="id">Id getted from database</param>
             <param name="name">Describe string of function</param>
             <param name="points">List of edge points</param>
             <param name="value">X coordinate of point that we want to get function value</param>
         </member>
-        <member name="M:FuzzyLib.FuzzyInput.#ctor(System.String,System.Collections.Generic.List{System.Single},System.Collections.Generic.List{System.Single})">
+        <member name="M:FuzzyLib.FuzzyInput.#ctor(System.Int32,System.String,System.Collections.Generic.List{System.Single},System.Collections.Generic.List{System.Single})">
             <summary>
             Constructor function for FuzzyInput class
             </summary>
+            <param name="id">Id getted from database</param>
             <param name="name">Describe string of function</param>
             <param name="xs">List of X coordinates of edge points</param>
             <param name="ys">List of Y coordinates of edge points</param>
         </member>
-        <member name="M:FuzzyLib.FuzzyInput.#ctor(System.String,System.Collections.Generic.List{System.Single},System.Collections.Generic.List{System.Single},System.Single)">
+        <member name="M:FuzzyLib.FuzzyInput.#ctor(System.Int32,System.String,System.Collections.Generic.List{System.Single},System.Collections.Generic.List{System.Single},System.Single)">
             <summary>
             Constructor function for FuzzyInput class
             </summary>
+            <param name="id">Id getted from database</param>
             <param name="name">Describe string of function</param>
             <param name="xs">List of X coordinates of edge points</param>
             <param name="ys">List of Y coordinates of edge points</param>
@@ -51,6 +54,11 @@
             </summary>
             <param name="x">X coordinate of value that we want</param>
             <returns></returns>
+        </member>
+        <member name="P:FuzzyLib.FuzzyInput.Id">
+            <summary>
+            Id - field represents Id getted from database
+            </summary>
         </member>
         <member name="P:FuzzyLib.FuzzyInput.Name">
             <summary>
@@ -115,17 +123,19 @@
             is not true(1) or false(0) value, instead it is a number from range [0,1].
             </summary>
         </member>
-        <member name="M:FuzzyLib.FuzzyOutput.#ctor(System.String,System.Collections.Generic.List{FuzzyLib.Point})">
+        <member name="M:FuzzyLib.FuzzyOutput.#ctor(System.Int32,System.String,System.Collections.Generic.List{FuzzyLib.Point})">
             <summary>
             Constructor function for FuzzyOutput class
             </summary>
+            <param name="id">Id from database</param>
             <param name="name">Describe string of function</param>
             <param name="points">List of edge points</param>
         </member>
-        <member name="M:FuzzyLib.FuzzyOutput.#ctor(System.String,System.Collections.Generic.List{System.Single},System.Collections.Generic.List{System.Single})">
+        <member name="M:FuzzyLib.FuzzyOutput.#ctor(System.Int32,System.String,System.Collections.Generic.List{System.Single},System.Collections.Generic.List{System.Single})">
             <summary>
              Constructor function for FuzzyOutput class
             </summary>
+            <param name="id">Id from database</param>
             <param name="name">Describe string of function</param>
             <param name="xs">List of X coordinates of edge points</param>
             <param name="ys">List of Y coordinates of edge points</param>
@@ -135,6 +145,11 @@
             Method used for calculating centroid value of this set function
             </summary>
             <returns></returns>
+        </member>
+        <member name="P:FuzzyLib.FuzzyOutput.Id">
+            <summary>
+            Id - field represents Id getted from database
+            </summary>
         </member>
         <member name="P:FuzzyLib.FuzzyOutput.Name">
             <summary>

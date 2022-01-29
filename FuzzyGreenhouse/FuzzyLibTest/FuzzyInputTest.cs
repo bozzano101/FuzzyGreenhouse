@@ -19,7 +19,7 @@ namespace FuzzyLibTest
             float mi = 9;
 
             // Act & Assert
-            var input = new FuzzyInput(name, xs, ys, mi);
+            var input = new FuzzyInput(0, name, xs, ys, mi);
             Assert.IsTrue(Math.Abs(input.Mu - 0.14285715) < 0.001);
         }
 
@@ -39,7 +39,7 @@ namespace FuzzyLibTest
             float mi = 9;
 
             // Act & Assert
-            var input = new FuzzyInput(name, list, mi);
+            var input = new FuzzyInput(0, name, list, mi);
             Assert.IsTrue(Math.Abs(input.Mu - 0.14285715) < 0.001);
         }
 
@@ -54,7 +54,7 @@ namespace FuzzyLibTest
 
             // Act & Assert
             FuzzyInput input;
-            Assert.ThrowsException<ArgumentException>(() => input = new FuzzyInput(name, xs, ys, mi));
+            Assert.ThrowsException<ArgumentException>(() => input = new FuzzyInput(0, name, xs, ys, mi));
         }
     
         [TestMethod]
@@ -67,7 +67,7 @@ namespace FuzzyLibTest
             float mi = 9;
 
             // Act & Assert
-            var input = new FuzzyInput(name, xs, ys, mi);
+            var input = new FuzzyInput(0, name, xs, ys, mi);
             Assert.IsTrue(Math.Abs(input.Mu - 0.67) < 0.01);
         }
 
@@ -81,7 +81,7 @@ namespace FuzzyLibTest
             float mi = 9;
 
             // Act & Assert
-            var input = new FuzzyInput(name, xs, ys, mi);
+            var input = new FuzzyInput(0, name, xs, ys, mi);
             Debug.WriteLine(input.Mu);
             Assert.AreEqual(Math.Abs(input.Mu), 0);
         }

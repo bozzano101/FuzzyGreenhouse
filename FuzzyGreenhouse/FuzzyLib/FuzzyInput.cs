@@ -15,11 +15,13 @@ namespace FuzzyLib
         /// <summary>
         /// Constructor function for FuzzyInput class
         /// </summary>
+        /// <param name="id">Id getted from database</param>
         /// <param name="name">Describe string of function</param>
         /// <param name="points">List of edge points</param>
         /// <param name="value">X coordinate of point that we want to get function value</param>
-        public FuzzyInput(string name, List<Point> points, float value)
+        public FuzzyInput(int id, string name, List<Point> points, float value)
         {
+            Id = id;
             Name = name;
             Points = points;
             Mu = CalculateMi(value);
@@ -28,10 +30,11 @@ namespace FuzzyLib
         /// <summary>
         /// Constructor function for FuzzyInput class
         /// </summary>
+        /// <param name="id">Id getted from database</param>
         /// <param name="name">Describe string of function</param>
         /// <param name="xs">List of X coordinates of edge points</param>
         /// <param name="ys">List of Y coordinates of edge points</param>
-        public FuzzyInput(string name, List<float> xs, List<float> ys)
+        public FuzzyInput(int id, string name, List<float> xs, List<float> ys)
         {
             if (xs.Count != ys.Count)
                 throw new ArgumentException("List of X coordinates and list of Y coordinates are not same length.");
@@ -41,16 +44,18 @@ namespace FuzzyLib
                 Points.Add(new Point(xs[i], ys[i]));
 
             Name = name;
+            Id = id;
         }
 
         /// <summary>
         /// Constructor function for FuzzyInput class
         /// </summary>
+        /// <param name="id">Id getted from database</param>
         /// <param name="name">Describe string of function</param>
         /// <param name="xs">List of X coordinates of edge points</param>
         /// <param name="ys">List of Y coordinates of edge points</param>
         /// <param name="value">X coordinate of point that we want to get function value</param>
-        public FuzzyInput(string name, List<float> xs, List<float> ys, float value)
+        public FuzzyInput(int id, string name, List<float> xs, List<float> ys, float value)
         {
             if (xs.Count != ys.Count)
                 throw new ArgumentException("List of X coordinates and list of Y coordinates are not same length.");
@@ -59,6 +64,7 @@ namespace FuzzyLib
             for(int i = 0; i < xs.Count; ++i)
                 Points.Add(new Point(xs[i], ys[i]));
 
+            Id = id;
             Name = name;
             Mu = CalculateMi(value);
         }
@@ -104,6 +110,10 @@ namespace FuzzyLib
             throw new ArgumentOutOfRangeException("Given number X is not valid");
         }
 
+        /// <summary>
+        /// Id - field represents Id getted from database
+        /// </summary>
+        public int Id { get; set; }
         /// <summary>
         /// Name - field that will represent name of function. For example, in case we have car fuel consumption, it can be small, average or high
         /// </summary>

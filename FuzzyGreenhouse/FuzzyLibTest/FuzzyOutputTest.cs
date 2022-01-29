@@ -23,7 +23,7 @@ namespace FuzzyLibTest
                 list.Add(new Point(xs[i], ys[i]));
 
             // Act & Assert
-            FuzzyOutput input = new FuzzyOutput(name, list);
+            FuzzyOutput input = new FuzzyOutput(0, name, list);
             Debug.WriteLine(input.Mu);
         }
 
@@ -37,7 +37,7 @@ namespace FuzzyLibTest
             List<float> ys = new List<float> { 0, 1, 1, 0 };
 
             // Act & Assert
-            FuzzyOutput input = new FuzzyOutput(name, xs, ys);
+            FuzzyOutput input = new FuzzyOutput(0, name, xs, ys);
             Debug.WriteLine(input.Mu);
         }
 
@@ -52,7 +52,7 @@ namespace FuzzyLibTest
 
             // Act & Assert
             FuzzyOutput output;
-            Assert.ThrowsException<ArgumentException>(() => output = new FuzzyOutput(name, xs, ys));
+            Assert.ThrowsException<ArgumentException>(() => output = new FuzzyOutput(0, name, xs, ys));
         }
 
         [TestMethod]
@@ -65,7 +65,7 @@ namespace FuzzyLibTest
             List<float> ys = new List<float> { 0, 1, 1, 0 };
 
             // Act & Assert
-            FuzzyOutput input = new FuzzyOutput(name, xs, ys);
+            FuzzyOutput input = new FuzzyOutput(0, name, xs, ys);
             Assert.AreEqual(input.CalculateCentroid(), 20);
         }
     }
