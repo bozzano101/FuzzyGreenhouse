@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace FuzzyLib
 {
@@ -35,10 +36,17 @@ namespace FuzzyLib
             Input1 = input1;
             Input2 = input2;
             Output = output;
-            if (_operator == LogicOperator.AND)
-                Output.Mu = Math.Max(Output.Mu, Math.Min(input1.Mu, input2.Mu));
+            Operator = _operator;
+            RecalculateOutputMu();
+        }
+
+        public void RecalculateOutputMu()
+        {
+            if (Operator == LogicOperator.AND)
+                Output.Mu = Math.Max(Output.Mu, Math.Min(Input1.Mu, Input2.Mu));
             else
-                Output.Mu = Math.Max(Output.Mu, Math.Max(input1.Mu, input2.Mu));
+                Output.Mu = Math.Max(Output.Mu, Math.Max(Input1.Mu, Input2.Mu));
+            Console.WriteLine(Output.Mu);
         }
 
         /// <summary>
