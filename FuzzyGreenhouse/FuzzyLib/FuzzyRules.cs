@@ -40,13 +40,15 @@ namespace FuzzyLib
             RecalculateOutputMu();
         }
 
+        /// <summary>
+        /// This function is used for "refreshing" output value when input is changed. 
+        /// </summary>
         public void RecalculateOutputMu()
         {
             if (Operator == LogicOperator.AND)
                 Output.Mu = Math.Max(Output.Mu, Math.Min(Input1.Mu, Input2.Mu));
             else
                 Output.Mu = Math.Max(Output.Mu, Math.Max(Input1.Mu, Input2.Mu));
-            Console.WriteLine(Output.Mu);
         }
 
         /// <summary>

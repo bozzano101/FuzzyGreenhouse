@@ -166,7 +166,7 @@ namespace AdminBoard.Controllers
                 ViewBag.Operator = rule.Operator;
                 return View("Edit", model);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 _notificationService.Error("Failed to edit rule");
                 return StatusCode(500, "Failed to edit rule");

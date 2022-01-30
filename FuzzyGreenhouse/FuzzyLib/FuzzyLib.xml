@@ -234,6 +234,11 @@
             <param name="output">Output set function</param>
             <param name="_operator">Logical operator for deciding</param>
         </member>
+        <member name="M:FuzzyLib.FuzzyRules.RecalculateOutputMu">
+            <summary>
+            This function is used for "refreshing" output value when input is changed. 
+            </summary>
+        </member>
         <member name="P:FuzzyLib.FuzzyRules.Input1">
             <summary>
             Input1 - First input set functon
@@ -253,6 +258,48 @@
             <summary>
             Operator - Logical operator for calculating output value
             </summary>
+        </member>
+        <member name="T:FuzzyLib.FuzzySystem">
+            <summary>
+            This class represents major class whitin all operations on fuzzy system should be perfomed.
+            </summary>
+        </member>
+        <member name="P:FuzzyLib.FuzzySystem.InputSets">
+            <summary>
+            Field that represents all input variables (sets) that will affect output result
+            </summary>
+        </member>
+        <member name="P:FuzzyLib.FuzzySystem.OutputSet">
+            <summary>
+            Field that represent output result based upon input variables
+            </summary>
+        </member>
+        <member name="P:FuzzyLib.FuzzySystem.Rules">
+            <summary>
+            Field that represent all rules for determining output value
+            </summary>
+        </member>
+        <member name="M:FuzzyLib.FuzzySystem.#ctor(System.Collections.Generic.List{FuzzyLib.FuzzyInputSet},System.Collections.Generic.List{FuzzyLib.FuzzyOutputSet},System.Collections.Generic.List{FuzzyLib.FuzzyRules})">
+            <summary>
+            Constructor that accept sets and rules from other services
+            </summary>
+            <param name="inputSets"> Input variables (sets) </param>
+            <param name="outputSet"> Output variables (sets) </param>
+            <param name="rules"> Rules </param>
+        </member>
+        <member name="M:FuzzyLib.FuzzySystem.ChangeSetMuValue(System.Single,System.Nullable{System.Int32},System.String)">
+            <summary>
+            Method used for changing value in one of Input sets.
+            </summary>
+            <param name="value"> Value to change set input to. Mandatory field</param>
+            <param name="id"> If want to search for set by ID, provide this field </param>
+            <param name="name"> If want to search for set by Name, provide this field</param>
+        </member>
+        <member name="M:FuzzyLib.FuzzySystem.CalculateOutput">
+            <summary>
+            This method is used to generate output value for currently setted input values. Returns output value
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:FuzzyLib.Point">
             <summary>
