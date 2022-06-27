@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "8R/4UjFlktUUkT76nYfmp4rh8OcFkRRr+WiLcRIqS7YyeqIkBAERlgnpRSxWw74Y2q6K/ULAKuokoSQf+2nv3g==",
+  "dgSpecHash": "5EpHftOEWXjD8ERSmWOGHAi/qR09JTTJVRsh1jnsS9hWBqs08QchI8LhfDki6hy6PqWUREhCVzJ4AeMTI9L8rg==",
   "success": true,
   "projectFilePath": "C:\\Users\\bosko\\Desktop\\FuzzyGreenhouse\\FuzzyGreenhouse\\FuzzyLib\\FuzzyLib.csproj",
   "expectedPackageFiles": [
@@ -17,7 +17,10 @@
     "C:\\Users\\bosko\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.0\\microsoft.extensions.primitives.5.0.0.nupkg.sha512",
     "C:\\Users\\bosko\\.nuget\\packages\\system.collections.immutable\\5.0.0\\system.collections.immutable.5.0.0.nupkg.sha512",
     "C:\\Users\\bosko\\.nuget\\packages\\system.componentmodel.annotations\\5.0.0\\system.componentmodel.annotations.5.0.0.nupkg.sha512",
-    "C:\\Users\\bosko\\.nuget\\packages\\system.diagnostics.diagnosticsource\\5.0.1\\system.diagnostics.diagnosticsource.5.0.1.nupkg.sha512"
+    "C:\\Users\\bosko\\.nuget\\packages\\system.diagnostics.diagnosticsource\\5.0.1\\system.diagnostics.diagnosticsource.5.0.1.nupkg.sha512",
+    "C:\\Users\\bosko\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.10\\microsoft.aspnetcore.app.ref.3.1.10.nupkg.sha512",
+    "C:\\Users\\bosko\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\3.1.0\\microsoft.windowsdesktop.app.ref.3.1.0.nupkg.sha512",
+    "C:\\Users\\bosko\\.nuget\\packages\\microsoft.netcore.app.ref\\3.1.0\\microsoft.netcore.app.ref.3.1.0.nupkg.sha512"
   ],
   "logs": []
 }

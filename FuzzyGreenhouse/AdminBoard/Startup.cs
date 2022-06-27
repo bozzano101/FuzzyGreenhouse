@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,6 +28,8 @@ namespace AdminBoard
         }
 
         public IConfiguration Configuration { get; }
+
+        public const string Enviroment = "TestServer";
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -49,9 +52,13 @@ namespace AdminBoard
                 options.Conventions.AddAreaPageRoute("Identity", "/Account/ForgotPassword", "/forgot-password");
             });
 
-            services.AddDbContext<FuzzyGreenhouseDbContext>(option => option.UseMySql(Configuration.GetConnectionString("LocalServer"), ServerVersion.AutoDetect(Configuration.GetConnectionString("LocalServer")), b => b.SchemaBehavior(MySqlSchemaBehavior.Ignore)));
+            var connectionString = Configuration.GetConnectionString(Enviroment);
+            var serverVersion = ServerVersion.AutoDetect(connectionString);
 
-            services.AddDbContext<IdentityContext>(option => option.UseMySql(Configuration.GetConnectionString("LocalServer"), ServerVersion.AutoDetect(Configuration.GetConnectionString("LocalServer")), b => b.SchemaBehavior(MySqlSchemaBehavior.Ignore)));
+            
+            services.AddDbContext<FuzzyGreenhouseDbContext>(option => option.UseMySql(connectionString, serverVersion, b => b.SchemaBehavior(MySqlSchemaBehavior.Ignore)));
+
+            services.AddDbContext<IdentityContext>(option => option.UseMySql(connectionString, serverVersion, b => b.SchemaBehavior(MySqlSchemaBehavior.Ignore)));
             services.AddIdentity<User, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false).AddRoles<IdentityRole>().AddDefaultUI().AddEntityFrameworkStores<IdentityContext>();
 
             services.AddScoped<IUserClaimsPrincipalFactory<User>, AppUserClaimsPrincipalFactory>();
@@ -109,10 +116,17 @@ namespace AdminBoard
         private void UpgradeDatabase(IApplicationBuilder app)
         {
             using var serviceScope = app.ApplicationServices.CreateScope();
+
             var fuzzyGreenhouse = serviceScope.ServiceProvider.GetService<FuzzyGreenhouseDbContext>();
             if (fuzzyGreenhouse != null && fuzzyGreenhouse.Database != null)
             {
                 fuzzyGreenhouse.Database.Migrate();
+            }
+
+            var identity = serviceScope.ServiceProvider.GetService<IdentityContext>();
+            if (identity != null && identity.Database != null)
+            {
+                identity.Database.Migrate();
             }
         }
 
