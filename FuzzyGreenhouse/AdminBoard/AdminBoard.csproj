@@ -1,8 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
+
 
   <ItemGroup>
     <PackageReference Include="AspNetCoreHero.ToastNotification" Version="1.1.0" />
@@ -57,6 +58,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FuzzyLib\FuzzyLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\img\icons\common\" />
+    <Folder Include="wwwroot\img\theme\" />
+    <Folder Include="wwwroot\js\components\maps\" />
   </ItemGroup>
 
 </Project>
