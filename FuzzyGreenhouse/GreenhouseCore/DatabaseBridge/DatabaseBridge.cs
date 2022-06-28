@@ -2,25 +2,33 @@
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
 namespace GreenhouseCore
 {
-    class DatabaseBridge
+    public class DatabaseBridge
     {
-        public string Server { get; set; }
-        public string Database { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
         private string ConnectionString { get; set; }
+        private DbEnvironment DbEnvironment { get; set; }
 
-        public DatabaseBridge(string server, string database, string userName, string password)
+        public DatabaseBridge(DbEnvironment environment)
         {
-            Server = server;
-            Database = database;
-            Username = userName;
-            Password = password;
+            DbEnvironment = environment;
 
-            ConnectionString = $"Server={server}; Database={database}; Uid={userName}; Pwd={password}";
+            switch (DbEnvironment)  
+            {
+                case DbEnvironment.Local:
+                    ConnectionString = DatabaseConfig.LocalDb; break;
+                case DbEnvironment.Test:
+                    ConnectionString = DatabaseConfig.TestDb; break;
+                case DbEnvironment.Live:
+                    ConnectionString = DatabaseConfig.LiveDb; break;
+                default:
+                    throw new ArgumentException($"Database environment is not supported");
+            }
         }
 
         public FGCData FetchData()
@@ -65,8 +73,8 @@ namespace GreenhouseCore
                     {
                         var valueId = Convert.ToInt32(resultValues[0]);
                         var valueName = Convert.ToString(resultValues[1]);
-                        var valueXCoords = (Convert.ToString(resultValues[2])).Split(',').Select(float.Parse).ToList();
-                        var valueYCoords = (Convert.ToString(resultValues[3])).Split(',').Select(float.Parse).ToList();
+                        var valueXCoords = Convert.ToString(resultValues[2]).Split(',').Select(float.Parse).ToList();
+                        var valueYCoords = Convert.ToString(resultValues[3]).Split(',').Select(float.Parse).ToList();
 
                         if (set is FuzzyInputSet)
                             set.AddValue(new FuzzyInput(valueId, valueName, valueXCoords, valueYCoords));
@@ -127,7 +135,7 @@ namespace GreenhouseCore
                 connection.Close();
 
                 throw new Exception("Failed to fetch data from server", ex);
-            }    
+            }
         }
     }
 }

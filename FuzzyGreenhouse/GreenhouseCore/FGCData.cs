@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GreenhouseCore
 {
-    class FGCData
+    public class FGCData
     {
         public FGCData() { }
         public FGCData(List<FuzzyInputSet> inputSets, List<FuzzyOutputSet> outputSets, List<FuzzyRules> rules)
