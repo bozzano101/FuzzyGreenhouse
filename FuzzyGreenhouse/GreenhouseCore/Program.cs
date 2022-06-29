@@ -8,7 +8,7 @@
             var localBridge = new DatabaseBridge(DbEnvironment.Local);
 
             var x = testBridge.FetchData();
-            var y = localBridge.FetchData(); // This fetching is very slow, should be asynchronus
+            //var y = localBridge.FetchData(); // This fetching is very slow, should be asynchronus
         }
     }
 }

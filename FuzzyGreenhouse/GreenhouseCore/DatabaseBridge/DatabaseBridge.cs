@@ -39,7 +39,7 @@ namespace GreenhouseCore
             {
                 connection.Open();
 
-                var commandSet = new MySqlCommand("SELECT * FROM fuzzygreenhouse.set;", connection);
+                var commandSet = new MySqlCommand("SELECT * FROM `set`", connection);
                 var resultSet = commandSet.ExecuteReader();
 
                 var fuzzyInputSets = new List<FuzzyInputSet>();
@@ -66,7 +66,7 @@ namespace GreenhouseCore
 
                 foreach (var set in fuzzySets)
                 {
-                    var commandValues = new MySqlCommand($"SELECT * FROM fuzzygreenhouse.value WHERE SetID = {set.Id};", connection);
+                    var commandValues = new MySqlCommand($"SELECT * FROM `value` WHERE SetID = {set.Id};", connection);
                     var resultValues = commandValues.ExecuteReader();
 
                     while (resultValues.Read())
@@ -85,7 +85,7 @@ namespace GreenhouseCore
                     resultValues.Close();
                 }
 
-                var commandRules = new MySqlCommand($"SELECT * FROM fuzzygreenhouse.rule;", connection);
+                var commandRules = new MySqlCommand($"SELECT * FROM `rule`;", connection);
                 var resultRules = commandRules.ExecuteReader();
 
                 while (resultRules.Read())
