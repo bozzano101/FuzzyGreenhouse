@@ -11,27 +11,57 @@ namespace GreenhouseCore
 {
     public class DatabaseBridge
     {
-        private string ConnectionString { get; set; }
-        private DbEnvironment DbEnvironment { get; set; }
+        public static string ConnectionString { get; set; }
 
-        public DatabaseBridge(DbEnvironment environment)
+        // For given valueId, returns FuzzyOutput which contains given value
+        public static string GetOutputSetName(int valueId)
         {
-            DbEnvironment = environment;
+            var connection = new MySqlConnection(ConnectionString);
 
-            switch (DbEnvironment)  
+            try
             {
-                case DbEnvironment.Local:
-                    ConnectionString = DatabaseConfig.LocalDb; break;
-                case DbEnvironment.Test:
-                    ConnectionString = DatabaseConfig.TestDb; break;
-                case DbEnvironment.Live:
-                    ConnectionString = DatabaseConfig.LiveDb; break;
-                default:
-                    throw new ArgumentException($"Database environment is not supported");
+                connection.Open();
+
+                var command = new MySqlCommand(
+                    @"
+                    SELECT s.Name FROM 
+                    `rule` r JOIN `value` v ON r.OutputValueID = v.ValueID
+                    JOIN `set` s ON v.SetID = s.SetID
+                    WHERE r.OutputValueID = " + valueId.ToString(),
+                connection);
+
+                var result = command.ExecuteReader();
+
+                result.Read();
+                var name = result[0].ToString();
+
+                if (String.IsNullOrEmpty(name))
+                    throw new ArgumentException("Failed to fetch set name");
+
+                return name;
+
+            }
+            catch (MySqlException ex)
+            {
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.ForegroundColor = ConsoleColor.White;
+                switch (ex.Number)
+                {
+                    case 0:
+                        Console.WriteLine("Connection to MySql database failed. Reason: Cannot connect to server.");
+                        break;
+                    case 1045:
+                        Console.WriteLine("Connection to MySql database failed. Reason: Wrong username, password or url.");
+                        break;
+                }
+                connection.Close();
+
+                throw new Exception("Failed to fetch data from server", ex);
             }
         }
-
-        public FGCData FetchData()
+        
+        // Fetches all data from database: sets, values, rules
+        public static FGCData FetchData()
         {
             var connection = new MySqlConnection(ConnectionString);
 
