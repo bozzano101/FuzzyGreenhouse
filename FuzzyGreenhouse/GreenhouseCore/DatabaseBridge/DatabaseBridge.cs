@@ -10,6 +10,7 @@ using System.Text.Json.Serialization;
 namespace GreenhouseCore
 {
     public class DatabaseBridge
+
     {
         public static string ConnectionString { get; set; }
 
@@ -219,9 +220,47 @@ namespace GreenhouseCore
             }
         }
     
-        public static DateTime FetchLatestUpdate()
+        // Fetches latest version date
+        public static DateTime FetchLatestVersion()
         {
-            throw new NotImplementedException();
+            var connection = new MySqlConnection(ConnectionString);
+
+            try
+            {
+                connection.Open();
+
+                var command = new MySqlCommand(
+                    @"
+                    SELECT * FROM fuzzygreenhouse.version
+                    ORDER BY CreatedDate DESC
+                    LIMIT 1", connection);
+
+                var result = command.ExecuteReader();
+
+                result.Read();
+                var latestDate = DateTime.Parse(result[1].ToString());
+
+                connection.Close();
+
+                return latestDate;
+            }
+            catch (MySqlException ex)
+            {
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.ForegroundColor = ConsoleColor.White;
+                switch (ex.Number)
+                {
+                    case 0:
+                        Console.WriteLine("Connection to MySql database failed. Reason: Cannot connect to server.");
+                        break;
+                    case 1045:
+                        Console.WriteLine("Connection to MySql database failed. Reason: Wrong username, password or url.");
+                        break;
+                }
+                connection.Close();
+
+                throw new Exception("Failed to fetch data from server", ex);
+            }
         }
     }
 }
