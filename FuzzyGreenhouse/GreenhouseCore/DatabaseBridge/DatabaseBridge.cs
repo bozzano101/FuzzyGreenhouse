@@ -221,7 +221,7 @@ namespace GreenhouseCore
     
         public static DateTime FetchLatestUpdate()
         {
-
+            throw new NotImplementedException();
         }
     }
 }
