@@ -2,10 +2,8 @@
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 
 namespace GreenhouseCore
 {
@@ -15,13 +13,13 @@ namespace GreenhouseCore
         public static string ConnectionString { get; set; }
 
         // For given valueId, returns FuzzyOutput name which contains given value
-        public static string GetOutputSetName(int valueId)
+        public static async Task<string> GetOutputSetName(int valueId)
         {
             var connection = new MySqlConnection(ConnectionString);
 
             try
             {
-                connection.Open();
+                await connection.OpenAsync();
 
                 var command = new MySqlCommand(
                     @"
@@ -31,9 +29,9 @@ namespace GreenhouseCore
                     WHERE r.OutputValueID = " + valueId.ToString(),
                 connection);
 
-                var result = command.ExecuteReader();
+                var result = await command.ExecuteReaderAsync();
 
-                result.Read();
+                await result.ReadAsync();
                 var name = result[0].ToString();
 
                 if (String.IsNullOrEmpty(name))
@@ -55,21 +53,21 @@ namespace GreenhouseCore
                         Console.WriteLine("Connection to MySql database failed. Reason: Wrong username, password or url.");
                         break;
                 }
-                connection.Close();
+                await connection.CloseAsync();
 
                 throw new Exception("Failed to fetch data from server", ex);
             }
         }
 
         // For given valueId and position in rule, returns FuzzyInput name which contains given value
-        public static string GetInputSetName(int valueId, int position)
+        public static async Task<string> GetInputSetName(int valueId, int position)
         {
             var connection = new MySqlConnection(ConnectionString);
 
             try
             {
-                connection.Open();
-
+                await connection.OpenAsync();
+                
                 var command = new MySqlCommand(
                     $@"
                     SELECT DISTINCT s.Name 
@@ -80,15 +78,15 @@ namespace GreenhouseCore
                         AND r.InputValue{position}ID = {valueId.ToString()}",
                 connection);
 
-                var result = command.ExecuteReader();
+                var result = await command.ExecuteReaderAsync();
 
-                result.Read();
+                await result.ReadAsync();
                 var name = result[0].ToString();
 
                 if (String.IsNullOrEmpty(name))
                     throw new ArgumentException("Failed to fetch set name");
 
-                connection.Close();
+                await connection.CloseAsync();
 
                 return name;
 
@@ -106,14 +104,14 @@ namespace GreenhouseCore
                         Console.WriteLine("Connection to MySql database failed. Reason: Wrong username, password or url.");
                         break;
                 }
-                connection.Close();
+                await connection.CloseAsync();
 
                 throw new Exception("Failed to fetch data from server", ex);
             }
         }
 
         // Fetches all data from database: sets, values, rules
-        public static FGCData FetchData()
+        public static async Task<FGCData> FetchData()
         {
             var connection = new MySqlConnection(ConnectionString);
 
@@ -123,12 +121,12 @@ namespace GreenhouseCore
                 var fuzzyOutputSets = new List<FuzzyOutputSet>();
                 var fuzzyRules = new List<FuzzyRules>();
 
-                connection.Open();
+                await connection.OpenAsync();
 
                 var commandSet = new MySqlCommand("SELECT * FROM `set`", connection);
-                var resultSet = commandSet.ExecuteReader();
+                var resultSet = await commandSet.ExecuteReaderAsync();
 
-                while (resultSet.Read())
+                while (await resultSet.ReadAsync())
                 {
                     int setId = Convert.ToInt32(resultSet[0]);
                     string setName = Convert.ToString(resultSet[1]);
@@ -140,7 +138,7 @@ namespace GreenhouseCore
                         fuzzyOutputSets.Add(new FuzzyOutputSet(setId, setName));
                 }
 
-                resultSet.Close();
+                await resultSet.CloseAsync();
 
                 var fuzzySets = new List<dynamic>();
                 fuzzySets.AddRange(fuzzyInputSets);
@@ -149,9 +147,9 @@ namespace GreenhouseCore
                 foreach (var set in fuzzySets)
                 {
                     var commandValues = new MySqlCommand($"SELECT * FROM `value` WHERE SetID = {set.Id};", connection);
-                    var resultValues = commandValues.ExecuteReader();
+                    var resultValues = await commandValues.ExecuteReaderAsync();
 
-                    while (resultValues.Read())
+                    while (await resultValues.ReadAsync())
                     {
                         var valueId = Convert.ToInt32(resultValues[0]);
                         var valueName = Convert.ToString(resultValues[1]);
@@ -164,13 +162,13 @@ namespace GreenhouseCore
                             set.AddValue(new FuzzyOutput(valueId, valueName, valueXCoords, valueYCoords));
                     }
 
-                    resultValues.Close();
+                    await resultValues.CloseAsync();
                 }
 
                 var commandRules = new MySqlCommand($"SELECT * FROM `rule`;", connection);
-                var resultRules = commandRules.ExecuteReader();
+                var resultRules = await commandRules.ExecuteReaderAsync();
 
-                while (resultRules.Read())
+                while (await resultRules.ReadAsync())
                 {
                     var logicOperator = Convert.ToInt32(resultRules[1]) == 0 ? LogicOperator.AND : LogicOperator.OR;
                     var input1Id = Convert.ToInt32(resultRules[2]);
@@ -195,8 +193,8 @@ namespace GreenhouseCore
                     fuzzyRules.Add(new FuzzyRules(input1, input2, output, logicOperator));
                 }
 
-                resultRules.Close();
-                connection.Close();
+                await resultRules.CloseAsync();
+                await connection.CloseAsync();
 
                 FGCData data = new FGCData(fuzzyInputSets, fuzzyOutputSets, fuzzyRules);
                 return data;
@@ -214,20 +212,20 @@ namespace GreenhouseCore
                         Console.WriteLine("Connection to MySql database failed. Reason: Wrong username, password or url.");
                         break;
                 }
-                connection.Close();
+                await connection.CloseAsync();
 
                 throw new Exception("Failed to fetch data from server", ex);
             }
         }
     
         // Fetches latest version date
-        public static DateTime FetchLatestVersion()
+        public static async Task<DateTime> FetchLatestVersion()
         {
             var connection = new MySqlConnection(ConnectionString);
 
             try
             {
-                connection.Open();
+                await connection.OpenAsync();
 
                 var command = new MySqlCommand(
                     @"
@@ -235,12 +233,12 @@ namespace GreenhouseCore
                     ORDER BY CreatedDate DESC
                     LIMIT 1", connection);
 
-                var result = command.ExecuteReader();
+                var result = await command.ExecuteReaderAsync();
 
-                result.Read();
+                await result.ReadAsync();
                 var latestDate = DateTime.Parse(result[1].ToString());
 
-                connection.Close();
+                await connection.CloseAsync();
 
                 return latestDate;
             }
@@ -257,7 +255,7 @@ namespace GreenhouseCore
                         Console.WriteLine("Connection to MySql database failed. Reason: Wrong username, password or url.");
                         break;
                 }
-                connection.Close();
+                await connection.CloseAsync();
 
                 throw new Exception("Failed to fetch data from server", ex);
             }
