@@ -29,7 +29,7 @@ namespace AdminBoard
 
         public IConfiguration Configuration { get; }
 
-        public const string Enviroment = "TestServer";
+        public const string Enviroment = "LocalServer";
 
         public void ConfigureServices(IServiceCollection services)
         {
