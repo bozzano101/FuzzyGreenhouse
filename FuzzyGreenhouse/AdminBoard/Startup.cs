@@ -57,7 +57,6 @@ namespace AdminBoard
 
             
             services.AddDbContext<FuzzyGreenhouseDbContext>(option => option.UseMySql(connectionString, serverVersion, b => b.SchemaBehavior(MySqlSchemaBehavior.Ignore)));
-
             services.AddDbContext<IdentityContext>(option => option.UseMySql(connectionString, serverVersion, b => b.SchemaBehavior(MySqlSchemaBehavior.Ignore)));
             services.AddIdentity<User, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false).AddRoles<IdentityRole>().AddDefaultUI().AddEntityFrameworkStores<IdentityContext>();
 
@@ -65,6 +64,7 @@ namespace AdminBoard
             services.AddScoped<VariableService, VariableService>();
             services.AddScoped<ValuesService, ValuesService>();
             services.AddScoped<RuleService, RuleService>();
+            services.AddScoped<VersionService, VersionService>();
 
             services.Configure<IdentityOptions>(options =>
             {

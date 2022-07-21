@@ -12,11 +12,13 @@ namespace AdminBoard.Infrastructure.Services
     {
         private readonly ILogger<VariableService> _logger;
         private readonly FuzzyGreenhouseDbContext _context;
+        private readonly VersionService _versionService;
 
-        public VariableService(ILogger<VariableService> logger, FuzzyGreenhouseDbContext context)
+        public VariableService(ILogger<VariableService> logger, FuzzyGreenhouseDbContext context, VersionService versionService)
         {
             _logger = logger;
             _context = context;
+            _versionService = versionService;
         }
 
         public List<Set> GetAll()
@@ -68,6 +70,7 @@ namespace AdminBoard.Infrastructure.Services
             {
                 _context.Set.Add(set);
                 _context.SaveChanges();
+                _versionService.CreateNewVersion($"Inserted new set: {set.Name}");
             }
             catch (Exception e)
             {
@@ -83,6 +86,7 @@ namespace AdminBoard.Infrastructure.Services
                 var setForDelete = _context.Set.Where(e => e.SetID == id).First();
                 _context.Set.Remove(setForDelete);
                 _context.SaveChanges();
+                _versionService.CreateNewVersion($"Deleted set: {id}");
             }
             catch (Exception e)
             {
@@ -99,6 +103,7 @@ namespace AdminBoard.Infrastructure.Services
                 setForUpdate.Name = set.Name;
                 setForUpdate.Type = set.Type;
                 _context.SaveChanges();
+                _versionService.CreateNewVersion($"Updated set: {set.Name}");
             }
             catch (Exception e)
             {

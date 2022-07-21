@@ -11,11 +11,13 @@ namespace AdminBoard.Infrastructure.Services
     {
         private readonly ILogger<ValuesService> _logger;
         private readonly FuzzyGreenhouseDbContext _context;
+        private readonly VersionService _versionService;
 
-        public ValuesService(ILogger<ValuesService> logger, FuzzyGreenhouseDbContext context)
+        public ValuesService(ILogger<ValuesService> logger, FuzzyGreenhouseDbContext context, VersionService versionService)
         {
             _logger = logger;
             _context = context;
+            _versionService = versionService;
         }
 
         public Value Get(int id)
@@ -50,6 +52,7 @@ namespace AdminBoard.Infrastructure.Services
             {
                 _context.Value.Add(value);
                 _context.SaveChanges();
+                _versionService.CreateNewVersion($"Inserted new value: {value.Name}");
             }
             catch (Exception e)
             {
@@ -65,6 +68,7 @@ namespace AdminBoard.Infrastructure.Services
                 var valueForDelete = _context.Value.Where(e => e.ValueID == id).First();
                 _context.Value.Remove(valueForDelete);
                 _context.SaveChanges();
+                _versionService.CreateNewVersion($"Deleted value: {id}");
             }
             catch (Exception e)
             {
@@ -83,6 +87,7 @@ namespace AdminBoard.Infrastructure.Services
                 valueForUpdate.XCoords = value.XCoords;
                 valueForUpdate.YCoords = value.YCoords;
                 _context.SaveChanges();
+                _versionService.CreateNewVersion($"Updated value: {value.Name}");
             }
             catch (Exception e)
             {
