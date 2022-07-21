@@ -18,12 +18,14 @@ namespace AdminBoard.Data
         public DbSet<Rule> Rule { get; set; }
         public DbSet<Set> Set { get; set; }
         public DbSet<Value> Value { get; set; }
+        public DbSet<Version> Version { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new RuleConfiguration());
             modelBuilder.ApplyConfiguration(new SetConfiguration());
             modelBuilder.ApplyConfiguration(new ValueConfiguration());
+            modelBuilder.ApplyConfiguration(new VersionConfiguration());
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AdminBoard.Models.FuzzyGreenHouse;
+using Microsoft.EntityFrameworkCore;
 
 namespace AdminBoard.Data.Contexts
 {
