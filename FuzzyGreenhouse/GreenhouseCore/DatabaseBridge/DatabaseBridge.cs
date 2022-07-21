@@ -120,6 +120,7 @@ namespace GreenhouseCore
                 var fuzzyInputSets = new List<FuzzyInputSet>();
                 var fuzzyOutputSets = new List<FuzzyOutputSet>();
                 var fuzzyRules = new List<FuzzyRules>();
+                var fuzzySystems = new List<FuzzySystem>();
 
                 await connection.OpenAsync();
 
@@ -196,8 +197,40 @@ namespace GreenhouseCore
                 await resultRules.CloseAsync();
                 await connection.CloseAsync();
 
-                FGCData data = new FGCData(fuzzyInputSets, fuzzyOutputSets, fuzzyRules);
-                return data;
+                foreach (var outputSet in fuzzyOutputSets)
+                {
+                    var rulesForOutputSet = new List<FuzzyRules>();
+                    foreach(var rule in fuzzyRules)
+                    {
+                        var outputRuleName = await GetOutputSetName(rule.Output.Id);
+                        if(outputSet.Name.Equals(outputRuleName))
+                            rulesForOutputSet.Add(rule);
+                    }
+
+                    var inputsForThisSystem = new HashSet<FuzzyInputSet>();
+                    foreach (var rule in rulesForOutputSet)
+                    {
+                        var input1SetName = await GetInputSetName(rule.Input1.Id, 1);
+                        var input2SetName = await GetInputSetName(rule.Input2.Id, 2);
+
+                        inputsForThisSystem.Add(
+                            fuzzyInputSets.Where(e => e.Name.Equals(input1SetName)).First()
+                        );
+                        inputsForThisSystem.Add(
+                            fuzzyInputSets.Where(e => e.Name.Equals(input2SetName)).First()
+                        );
+                    }
+
+                    var fuzzySystem = new FuzzySystem(
+                        inputsForThisSystem.ToList(),
+                        new List<FuzzyOutputSet> { outputSet },
+                        rulesForOutputSet
+                    ); ;
+
+                    fuzzySystems.Add(fuzzySystem);
+                }
+
+                return new FGCData(fuzzySystems);
             }
             catch (MySqlException ex)
             {

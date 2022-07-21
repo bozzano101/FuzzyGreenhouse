@@ -1,12 +1,14 @@
-﻿namespace GreenhouseCore
+﻿using System.Threading.Tasks;
+
+namespace GreenhouseCore
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             DatabaseBridge.ConnectionString = DatabaseConfig.LocalDb;
 
-            var x = DatabaseBridge.FetchData();
+            var x = await DatabaseBridge.FetchData();
         }
     }
 }
