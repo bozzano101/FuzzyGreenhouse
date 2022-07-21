@@ -13,7 +13,7 @@ namespace GreenhouseCore
     {
         public static string ConnectionString { get; set; }
 
-        // For given valueId, returns FuzzyOutput which contains given value
+        // For given valueId, returns FuzzyOutput name which contains given value
         public static string GetOutputSetName(int valueId)
         {
             var connection = new MySqlConnection(ConnectionString);
@@ -59,9 +59,9 @@ namespace GreenhouseCore
                 throw new Exception("Failed to fetch data from server", ex);
             }
         }
-        
-        // Fetches all data from database: sets, values, rules
-        public static FGCData FetchData()
+
+        // For given valueId and position in rule, returns FuzzyInput name which contains given value
+        public static string GetInputSetName(int valueId, int position)
         {
             var connection = new MySqlConnection(ConnectionString);
 
@@ -69,12 +69,63 @@ namespace GreenhouseCore
             {
                 connection.Open();
 
-                var commandSet = new MySqlCommand("SELECT * FROM `set`", connection);
-                var resultSet = commandSet.ExecuteReader();
+                var command = new MySqlCommand(
+                    $@"
+                    SELECT DISTINCT s.Name 
+	                FROM  `rule` r, `value` v, `set` s
+                    WHERE  
+                            r.InputValue{position}ID = v.ValueID    
+		                AND v.SetID = s.SetID
+                        AND r.InputValue{position}ID = {valueId.ToString()}",
+                connection);
 
+                var result = command.ExecuteReader();
+
+                result.Read();
+                var name = result[0].ToString();
+
+                if (String.IsNullOrEmpty(name))
+                    throw new ArgumentException("Failed to fetch set name");
+
+                connection.Close();
+
+                return name;
+
+            }
+            catch (MySqlException ex)
+            {
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.ForegroundColor = ConsoleColor.White;
+                switch (ex.Number)
+                {
+                    case 0:
+                        Console.WriteLine("Connection to MySql database failed. Reason: Cannot connect to server.");
+                        break;
+                    case 1045:
+                        Console.WriteLine("Connection to MySql database failed. Reason: Wrong username, password or url.");
+                        break;
+                }
+                connection.Close();
+
+                throw new Exception("Failed to fetch data from server", ex);
+            }
+        }
+
+        // Fetches all data from database: sets, values, rules
+        public static FGCData FetchData()
+        {
+            var connection = new MySqlConnection(ConnectionString);
+
+            try
+            {
                 var fuzzyInputSets = new List<FuzzyInputSet>();
                 var fuzzyOutputSets = new List<FuzzyOutputSet>();
                 var fuzzyRules = new List<FuzzyRules>();
+
+                connection.Open();
+
+                var commandSet = new MySqlCommand("SELECT * FROM `set`", connection);
+                var resultSet = commandSet.ExecuteReader();
 
                 while (resultSet.Read())
                 {
@@ -166,6 +217,11 @@ namespace GreenhouseCore
 
                 throw new Exception("Failed to fetch data from server", ex);
             }
+        }
+    
+        public static DateTime FetchLatestUpdate()
+        {
+
         }
     }
 }

@@ -4,7 +4,7 @@
     {
         static void Main(string[] args)
         {
-            DatabaseBridge.ConnectionString = DatabaseConfig.TestDb;
+            DatabaseBridge.ConnectionString = DatabaseConfig.LocalDb;
 
             var x = DatabaseBridge.FetchData();
         }
