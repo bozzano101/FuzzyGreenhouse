@@ -23,9 +23,19 @@ namespace AdminBoard.Controllers
         private readonly RuleService _ruleService;
         private readonly VariableService _variableService;
         private readonly ValuesService _valueService;
+        private readonly SubsystemService _subsystemService;
         private readonly INotyfService _notificationService;
 
-        public RulesController(ILogger<RulesController> logger, UserManager<User> userManager, SignInManager<User> signInManager, ValuesService valuesService, RuleService ruleService, VariableService variableService, INotyfService notificationService)
+        public RulesController(
+            ILogger<RulesController> logger, 
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
+            ValuesService valuesService,
+            RuleService ruleService,
+            VariableService variableService,
+            INotyfService notificationService,
+            SubsystemService subsystemService
+        )
         {
             _logger = logger;
             _userManager = userManager;
@@ -34,6 +44,7 @@ namespace AdminBoard.Controllers
             _variableService = variableService;
             _valueService = valuesService;
             _notificationService = notificationService;
+            _subsystemService = subsystemService;
         }
 
         [HttpGet]
@@ -71,8 +82,9 @@ namespace AdminBoard.Controllers
                 var input1 = _valueService.Get(Convert.ToInt32(model.InputValue1Representation));
                 var input2 = _valueService.Get(Convert.ToInt32(model.InputValue2Representation));
                 var output = _valueService.Get(Convert.ToInt32(model.OutputValueRepresentation));
+                var subsystem = _subsystemService.Get(Convert.ToInt32(model.SubsystemRepresentation));
 
-                Rule rule = new Rule(input1, input2, output, model.Operator);
+                Rule rule = new Rule(input1, input2, output, model.Operator, subsystem);
 
                 _ruleService.Insert(rule);
 
@@ -94,6 +106,7 @@ namespace AdminBoard.Controllers
             {
                 RuleViewModel ruleViewModel = new RuleViewModel();
                 var sets = _variableService.GetAll();
+                var subsystems = _subsystemService.GetAll();
 
                 sets.ForEach(set =>
                     set.Values.ToList().ForEach(value =>
@@ -107,6 +120,10 @@ namespace AdminBoard.Controllers
                         if (set.Type == Models.FuzzyGreenHouse.SetType.Output)
                             ruleViewModel.OutputList.Add(new SelectListItem { Text = name, Value = value.ValueID.ToString() });
                     })
+                );
+
+                subsystems.ForEach(subsystem =>
+                    ruleViewModel.SubsystemList.Add(new SelectListItem { Text = subsystem.Name, Value = subsystem.SubsystemID.ToString() })
                 );
 
                 return View("Create", ruleViewModel);
@@ -145,6 +162,7 @@ namespace AdminBoard.Controllers
                 model.RuleID = id;
 
                 var sets = _variableService.GetAll();
+                var subsystems = _subsystemService.GetAll();
 
                 sets.ForEach(set =>
                     set.Values.ToList().ForEach(value =>
@@ -160,9 +178,14 @@ namespace AdminBoard.Controllers
                     })
                 );
 
+                subsystems.ForEach(subsystem =>
+                    model.SubsystemList.Add(new SelectListItem { Text = subsystem.Name, Value = subsystem.SubsystemID.ToString() })
+                );
+
                 ViewBag.Input1 = rule.InputValue1ID;
                 ViewBag.Input2 = rule.InputValue2ID;
                 ViewBag.Output = rule.OutputValueID;
+                ViewBag.Subsystem = rule.SubsystemID;
                 ViewBag.Operator = rule.Operator;
                 return View("Edit", model);
             }

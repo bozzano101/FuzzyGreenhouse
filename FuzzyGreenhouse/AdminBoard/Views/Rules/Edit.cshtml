@@ -41,6 +41,12 @@
                         </select>
                     </div>
 
+                    @*SelectSubsystem*@
+                    <div class="form-group">
+                        <label for="set">Select <i>subsystem</i> to assign <i>this rule</i> to</label>
+                        <select class="form-control" asp-for="SubsystemRepresentation" asp-items="Model.SubsystemList"></select>
+                    </div>
+
                     @*Save*@
                     <div class="form-group w-100 mx-auto">
                         <div class="input-group-addon text-center" id="buttons">

@@ -65,6 +65,7 @@ namespace AdminBoard
             services.AddScoped<ValuesService, ValuesService>();
             services.AddScoped<RuleService, RuleService>();
             services.AddScoped<VersionService, VersionService>();
+            services.AddScoped<SubsystemService, SubsystemService>();
 
             services.Configure<IdentityOptions>(options =>
             {

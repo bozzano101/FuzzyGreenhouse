@@ -32,12 +32,13 @@ namespace AdminBoard.Models.FuzzyGreenHouse
 
         }
 
-        public Rule(Value inputValue1, Value inputValue2, Value outputValue, LogicOperator logicOperator)
+        public Rule(Value inputValue1, Value inputValue2, Value outputValue, LogicOperator logicOperator, Subsystem subsystem)
         {
             InputValue1 = inputValue1;
             InputValue2 = inputValue2;
             OutputValue = outputValue;
             Operator = logicOperator;
+            Subsystem = subsystem;
         }
     }
 

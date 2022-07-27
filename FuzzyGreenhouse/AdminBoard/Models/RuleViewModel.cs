@@ -12,21 +12,21 @@ namespace AdminBoard.Models
         public string InputValue1Representation { get; set; }
         public string InputValue2Representation { get; set; }
         public string OutputValueRepresentation { get; set; }
-
-        public List<Subsystem> AllSubsystems { get; set; }
+        public string SubsystemRepresentation { get; set; }
 
         public List<SelectListItem> InputList1 { get; } = new List<SelectListItem>();
         public List<SelectListItem> InputList2 { get; } = new List<SelectListItem>();
         public List<SelectListItem> OutputList { get; } = new List<SelectListItem>();
+        public List<SelectListItem> SubsystemList { get; } = new List<SelectListItem>();
 
         public RuleViewModel() { }
 
         public RuleViewModel(Rule rule)
-            :base(rule.InputValue1, rule.InputValue2, rule.OutputValue, rule.Operator) { 
+            :base(rule.InputValue1, rule.InputValue2, rule.OutputValue, rule.Operator, rule.Subsystem) { 
         }
 
         public RuleViewModel(Rule rule, List<Set> sets)
-            :base(rule.InputValue1, rule.InputValue2, rule.OutputValue, rule.Operator)
+            :base(rule.InputValue1, rule.InputValue2, rule.OutputValue, rule.Operator, rule.Subsystem)
         {
             RuleID = rule.RuleID;
 
@@ -47,6 +47,7 @@ namespace AdminBoard.Models
                 InputValue1ID = Convert.ToInt32(InputValue1Representation),
                 InputValue2ID = Convert.ToInt32(InputValue2Representation),
                 OutputValueID = Convert.ToInt32(OutputValueRepresentation),
+                SubsystemID = Convert.ToInt32(SubsystemRepresentation),
                 Operator = this.Operator,
                 RuleID = this.RuleID
             };
