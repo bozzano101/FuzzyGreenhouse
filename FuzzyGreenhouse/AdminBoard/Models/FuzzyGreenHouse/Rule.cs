@@ -1,9 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AdminBoard.Models.FuzzyGreenHouse
 {
@@ -25,6 +21,9 @@ namespace AdminBoard.Models.FuzzyGreenHouse
         
         public Value OutputValue { get; set; }
         public int OutputValueID { get; set; }
+
+        public Subsystem Subsystem { get; set; }
+        public int SubsystemID { get; set; }
 
         public LogicOperator Operator { get; set; }
 
