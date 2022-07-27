@@ -1,0 +1,40 @@
+﻿@model AdminBoard.Models.FuzzyGreenHouse.Subsystem
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="row">
+    <div class="col">
+        <div class="card w-75 mx-auto">
+            <div>
+                <h3 class="pt-4 text-center"> Edit fuzzy variable ID = @Model.SubsystemID </h3>
+                <form method="post" asp-controller="Subsystems" asp-action="Edit" class="p-4">
+                    @*SubsystemID*@
+                    <input hidden type="text" asp-for="SubsystemID" value=@Model.SubsystemID>
+
+                    @*Name*@
+                    <div class="form-group">
+                        <label for="nameInput">Name</label>
+                        <input type="text" class="form-control" id="nameInput" placeholder="Enter subsystem name" asp-for="Name">
+                    </div>
+
+                    @*Description*@
+                    <div class="form-group">
+                        <label for="descriptionInput">Description</label>
+                        <input type="text" class="form-control" id="descriptionInput" placeholder="Enter subsystem description" asp-for="Description">
+                    </div>
+
+
+                    @*Save*@
+                    <div class="form-group w-100 mx-auto">
+                        <div class="input-group-addon text-center" id="buttons">
+                            <button class="btn btn-outline-success" type="submit">Update</button>
+                            <a class="btn btn-outline-warning" href="@Url.Action("Index", "Subsystems")">Back</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
