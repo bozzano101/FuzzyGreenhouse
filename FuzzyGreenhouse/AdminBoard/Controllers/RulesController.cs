@@ -52,9 +52,10 @@ namespace AdminBoard.Controllers
         {
             var rules = new List<RuleViewModel>();
             var sets = _variableService.GetAll();
+            var subsystems = _subsystemService.GetAll();
 
             foreach (var rule in _ruleService.GetAll())
-                rules.Add(new RuleViewModel(rule, sets));
+                rules.Add(new RuleViewModel(rule, sets, subsystems));
 
             return View("Index", rules);
         }
@@ -168,7 +169,7 @@ namespace AdminBoard.Controllers
                     set.Values.ToList().ForEach(value =>
                     {
                         string name = set.Name + " - " + value.Name;
-                        if (set.Type == Models.FuzzyGreenHouse.SetType.Input)
+                        if (set.Type == SetType.Input)
                         {
                             model.InputList1.Add(new SelectListItem { Text = name, Value = value.ValueID.ToString() });
                             model.InputList2.Add(new SelectListItem { Text = name, Value = value.ValueID.ToString() });

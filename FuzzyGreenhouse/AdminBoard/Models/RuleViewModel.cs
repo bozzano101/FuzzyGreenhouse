@@ -25,7 +25,7 @@ namespace AdminBoard.Models
             :base(rule.InputValue1, rule.InputValue2, rule.OutputValue, rule.Operator, rule.Subsystem) { 
         }
 
-        public RuleViewModel(Rule rule, List<Set> sets)
+        public RuleViewModel(Rule rule, List<Set> sets, List<Subsystem> subsystems)
             :base(rule.InputValue1, rule.InputValue2, rule.OutputValue, rule.Operator, rule.Subsystem)
         {
             RuleID = rule.RuleID;
@@ -38,6 +38,9 @@ namespace AdminBoard.Models
 
             var outputValueSet = sets.Where(e => e.SetID == rule.OutputValue.SetID).First();
             OutputValueRepresentation = outputValueSet.Name + " - " + rule.OutputValue.Name;
+
+            var subsystemSelected = subsystems.Where(e => e.SubsystemID == rule.SubsystemID).First();
+            SubsystemRepresentation = subsystemSelected.Name;
         }
 
         public Rule ConvertToRule()

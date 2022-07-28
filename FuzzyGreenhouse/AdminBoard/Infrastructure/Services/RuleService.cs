@@ -82,6 +82,7 @@ namespace AdminBoard.Infrastructure.Services
                 ruleForUpdate.InputValue2ID = rule.InputValue2ID;
                 ruleForUpdate.OutputValueID = rule.OutputValueID;
                 ruleForUpdate.Operator = rule.Operator;
+                ruleForUpdate.SubsystemID = rule.SubsystemID;
                 _context.SaveChanges();
             }
             catch (Exception e)
