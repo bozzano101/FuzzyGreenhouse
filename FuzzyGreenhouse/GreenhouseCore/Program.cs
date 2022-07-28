@@ -8,7 +8,13 @@ namespace GreenhouseCore
         {
             DatabaseBridge.ConnectionString = DatabaseConfig.LocalDb;
 
-            var x = await DatabaseBridge.FetchData();
+            var databaseData = await DatabaseBridge.FetchData();
+            var carSystem = databaseData.FuzzySystems[0];
+
+            carSystem.ChangeSetMuValue(9, null, "Potrosnja");
+            carSystem.ChangeSetMuValue(8, null, "Pouzdanost");
+
+            var result = carSystem.CalculateOutput();
         }
     }
 }
