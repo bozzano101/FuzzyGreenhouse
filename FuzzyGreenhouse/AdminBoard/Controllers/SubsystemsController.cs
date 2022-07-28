@@ -11,16 +11,16 @@ using System;
 namespace AdminBoard.Controllers
 {
     [Authorize]
-    public class SubsystemController : Controller
+    public class SubsystemsController : Controller
     {
-        private readonly ILogger<SubsystemController> _logger;
+        private readonly ILogger<SubsystemsController> _logger;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly INotyfService _notificationService;
         private readonly SubsystemService _subsystemService;
 
-        public SubsystemController(
-            ILogger<SubsystemController> logger, 
+        public SubsystemsController(
+            ILogger<SubsystemsController> logger, 
             UserManager<User> userManager, 
             SignInManager<User> signInManager, 
             SubsystemService subsystemService, 

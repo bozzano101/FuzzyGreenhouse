@@ -10,6 +10,8 @@ namespace AdminBoard.Models.FuzzyGreenHouse
         public string Name { get; set; }
         public string Description { get; set; }
 
+        public Subsystem() { }
+
         public Subsystem(string name, string description)
         {
             Name = name;
