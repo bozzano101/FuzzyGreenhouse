@@ -1,5 +1,8 @@
-﻿
-using System.Diagnostics;
+﻿using Unosquare.RaspberryIO.Abstractions;
+using Unosquare.RaspberryIO;
+using Unosquare.WiringPi;
+using System.Device.Spi;
+using Iot.Device.Adc;
 
 namespace PiTestAndDebugApp
 {
@@ -7,10 +10,51 @@ namespace PiTestAndDebugApp
     {
         static void Main(string[] args)
         {
-            Debugger.Break();
-            int x = 2 + 3;
-            Console.WriteLine("hello world");
-            Console.WriteLine($"{x}");
+            Console.WriteLine("HelloWorld!");
+            SpiMCP3008();
         }
+
+        static void LedBlink()
+        {
+            Pi.Init<BootstrapWiringPi>();
+            var blinkingPin = Pi.Gpio[BcmPin.Gpio17];
+            blinkingPin.PinMode = GpioPinDriveMode.Output;
+
+            var isOn = false;
+            for (var i = 0; i < 20; i++)
+            {
+                isOn = !isOn;
+                blinkingPin.Write(isOn);
+                Thread.Sleep(500);
+            }
+        }
+
+        static void SpiMCP3008()
+        {
+            var hardwareSpiSettings = new SpiConnectionSettings(0, 0)
+            {
+                ClockFrequency = 1000000
+            };
+
+            using (SpiDevice spi = SpiDevice.Create(hardwareSpiSettings))
+            using (Mcp3008 mcp = new Mcp3008(spi))
+            {
+                while (true)
+                {
+                    string word = "";
+                    for(int i = 0; i < 5; ++i)
+                    {
+                        double value = mcp.Read(i);
+                        value = value / 10.24;
+                        value = Math.Round(value);
+                        word += $"{value}%     ";
+                        Thread.Sleep(100);
+                    }
+                    Console.WriteLine(word);
+                }
+            }
+        }
+
+
     }
 }
