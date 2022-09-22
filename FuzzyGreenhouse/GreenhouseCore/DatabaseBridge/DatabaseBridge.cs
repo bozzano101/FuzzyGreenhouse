@@ -1,5 +1,5 @@
 ﻿using FuzzyLib;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -113,7 +113,7 @@ namespace GreenhouseCore
         // Fetches all data from database: sets, values, rules
         public static async Task<FGCData> FetchData()
         {
-            var connection = new MySqlConnection(ConnectionString);
+            var connection = new MySqlConnection(DatabaseBridge.ConnectionString);
 
             try
             {
@@ -241,7 +241,7 @@ namespace GreenhouseCore
                     case 0:
                         Console.WriteLine("Connection to MySql database failed. Reason: Cannot connect to server.");
                         break;
-                    case 1045:
+                    case 1042:
                         Console.WriteLine("Connection to MySql database failed. Reason: Wrong username, password or url.");
                         break;
                 }

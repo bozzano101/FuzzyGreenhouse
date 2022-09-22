@@ -24,7 +24,7 @@ namespace GreenhouseCore.HardwareBridge
 
         public void DisplayPinoutAndValues()
         {
-            Console.WriteLine("{0,10}{1,10}{2,10}{3,10}{4,15}",
+            Console.WriteLine("{0,15}{1,15}{2,15}{3,15}{4,15}",
                 "Pin",
                 "Name",
                 "MinValue",

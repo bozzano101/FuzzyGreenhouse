@@ -2,6 +2,7 @@
 using GreenhouseCore.HardwareBridge;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,15 +13,15 @@ namespace GreenhouseCore
         private static FGCData Data;
         private static FuzzySystem CarSystem;
         private static PinoutConfigurations PinoutConfiguration;
-        private static bool Exit;
 
-        private static async Task Config()
+        private static async Task FetchDataForFirstTime()
         {
-            // Connect to database and fetch data for first time upon starting application
-            DatabaseBridge.ConnectionString = DatabaseConfig.TestDb;
             try
             {
+                Console.WriteLine("Fetching data from database started.");
                 Data = await DatabaseBridge.FetchData();
+                Console.WriteLine("Fetching data from database finished.");
+                Console.WriteLine();
             }
             catch (Exception e)
             {
@@ -28,7 +29,10 @@ namespace GreenhouseCore
                 Console.WriteLine(e.Message);
                 Environment.Exit(-1);
             }
+        }
 
+        private static void TEST_CAR()
+        {            
             // BEGIN TEST: Prepare PinoutConfiguration for Car example
             PinoutConfiguration = new PinoutConfigurations();
             int i = 0;
@@ -62,53 +66,91 @@ namespace GreenhouseCore
             PinoutConfiguration.DisplayPinoutAndValues();
         } 
 
+        private static void SelectDatabase()
+        {
+            Console.WriteLine("Choose database connection string: ");
+            Console.WriteLine("     (1) Localhost");
+            Console.WriteLine("     (2) SmarterASP - Test");
+            Console.WriteLine("     (3) HP Probook 450 - Local");
+            Console.WriteLine();
+            Console.WriteLine("Select mode: ");
+            //var input = Console.Read();
+            var input = '3';
+
+            switch (Convert.ToChar(input))
+            {
+                case '1':
+                    DatabaseBridge.ConnectionString = DatabaseConfig.LocalDb;
+                    break;
+
+                case '2':
+                    DatabaseBridge.ConnectionString = DatabaseConfig.TestDb;
+                    break;
+
+                case '3':
+                    DatabaseBridge.ConnectionString = DatabaseConfig.LiveDb;
+                    break;
+
+                default:
+                    Console.WriteLine("Invalid database selected. Exiting");
+                    Environment.Exit(-1);
+                    break;
+            }
+
+            Console.WriteLine();
+        }
+
+        private static void OperationSelector()
+        {
+            Console.WriteLine("Select mode of operation: ");
+            Console.WriteLine("     (1) Update data from AdminBoard ");
+            Console.WriteLine("     (2) Display current pinout assignment with values");
+            Console.WriteLine("     (3) Start Greenhouse ");
+            Console.WriteLine("     (4) Stop Greenhouse ");
+            Console.WriteLine("     (5) Exit ");
+            Console.WriteLine();
+            Console.WriteLine("Select mode: ");
+            var input = Console.Read();
+
+            switch (Convert.ToChar(input))
+            {
+                case '1':
+                    break;
+                case '2':
+                    DisplayPinoutAndValues();
+                    break;
+                case '3':
+                    break;
+                case '4':
+                    break;
+                case '5':
+                    Console.WriteLine("Goodbye!");
+                    Environment.Exit(0);
+                    break;
+
+                default:
+                    Console.WriteLine("Invalid mode selected. Exiting");
+                    Environment.Exit(-1);
+                    break;
+            }
+
+            Console.Read();
+            Console.Clear();
+        }
+
         public static async Task Main(string[] args)
         {
-            
-            await Config();
+            Console.WriteLine("----- GreenhouseCore -----");
+            Console.WriteLine("Application started.");
+            Console.WriteLine();
 
-            while(!Exit)
+            SelectDatabase();
+            await FetchDataForFirstTime();
+            TEST_CAR();
+
+            while(true)
             {
-                Console.WriteLine("Available modes of operation: ");
-                Console.WriteLine("     (1) Update data from AdminBoard ");
-                Console.WriteLine("     (2) Display current pinout assignment with values");
-                Console.WriteLine("     (3) Start Greenhouse ");
-                Console.WriteLine("     (4) Stop Greenhouse ");
-                Console.WriteLine("     (5) Exit ");
-                Console.WriteLine();
-                Console.WriteLine("Select mode: ");
-                var input = Console.Read();
-
-                switch (Convert.ToChar(input))
-                {
-                    case '1':
-                        break;
-
-                    case '2':
-                        DisplayPinoutAndValues();
-                        break;
-
-                    case '3':
-                        break;
-
-                    case '4':
-                        break;
-
-                    case '5':
-                        Exit = true;
-                        break;
-
-                    default:
-                        Console.WriteLine("Invalid mode selected. Exiting");
-                        Exit = true;
-                        break;
-                }
-
-                Console.WriteLine();
-                Console.WriteLine("Press any key to continue");
-                Console.Read();
-                Console.Clear();
-
+                OperationSelector(); 
             }
         }
     }
