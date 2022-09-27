@@ -68,26 +68,28 @@ namespace GreenhouseCore
 
         private static void SelectDatabase()
         {
+            Console.WriteLine();
+            Console.WriteLine("----------------------- Select database ----------------------");
+            Console.WriteLine();
             Console.WriteLine("Choose database connection string: ");
             Console.WriteLine("     (1) Localhost");
             Console.WriteLine("     (2) SmarterASP - Test");
             Console.WriteLine("     (3) HP Probook 450 - Local");
             Console.WriteLine();
             Console.WriteLine("Select mode: ");
-            //var input = Console.Read();
-            var input = '3';
-
-            switch (Convert.ToChar(input))
+            var input = Console.ReadLine();
+            
+            switch (input)
             {
-                case '1':
+                case "1":
                     DatabaseBridge.ConnectionString = DatabaseConfig.LocalDb;
                     break;
 
-                case '2':
+                case "2":
                     DatabaseBridge.ConnectionString = DatabaseConfig.TestDb;
                     break;
 
-                case '3':
+                case "3":
                     DatabaseBridge.ConnectionString = DatabaseConfig.LiveDb;
                     break;
 
@@ -98,10 +100,18 @@ namespace GreenhouseCore
             }
 
             Console.WriteLine();
+            Console.WriteLine($"Selected connection string: {DatabaseBridge.ConnectionString}");
+            Console.WriteLine("--------------------------------------------------------------");
+            
+            Console.WriteLine();
         }
 
         private static void OperationSelector()
         {
+            Console.WriteLine();
+            Console.WriteLine("----------------------- Select operation ----------------------");
+            Console.WriteLine();
+
             Console.WriteLine("Select mode of operation: ");
             Console.WriteLine("     (1) Update data from AdminBoard ");
             Console.WriteLine("     (2) Display current pinout assignment with values");
@@ -109,32 +119,33 @@ namespace GreenhouseCore
             Console.WriteLine("     (4) Stop Greenhouse ");
             Console.WriteLine("     (5) Exit ");
             Console.WriteLine();
-            Console.WriteLine("Select mode: ");
-            var input = Console.Read();
+            Console.WriteLine("Choose mode: ");
 
-            switch (Convert.ToChar(input))
+            var input = Console.ReadLine();
+
+            switch (input)
             {
-                case '1':
+                case "1":
                     break;
-                case '2':
+                case "2":
                     DisplayPinoutAndValues();
                     break;
-                case '3':
+                case "3":
                     break;
-                case '4':
+                case "4":
                     break;
-                case '5':
+                case "5":
                     Console.WriteLine("Goodbye!");
                     Environment.Exit(0);
                     break;
 
                 default:
-                    Console.WriteLine("Invalid mode selected. Exiting");
-                    Environment.Exit(-1);
-                    break;
+                    Console.WriteLine("Invalid mode selected. Select one from range [1 - 4]. 5 is for exiting app");
+                    return;
             }
 
-            Console.Read();
+            Console.WriteLine();
+            Console.ReadLine();
             Console.Clear();
         }
 
