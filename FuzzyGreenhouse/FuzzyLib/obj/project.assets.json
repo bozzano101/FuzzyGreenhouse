@@ -854,8 +854,16 @@
             "version": "[3.1.10, 3.1.10]"
           },
           {
+            "name": "Microsoft.AspNetCore.App.Runtime.linux-arm",
+            "version": "[3.1.28, 3.1.28]"
+          },
+          {
             "name": "Microsoft.NETCore.App.Ref",
             "version": "[3.1.0, 3.1.0]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Runtime.linux-arm",
+            "version": "[3.1.28, 3.1.28]"
           },
           {
             "name": "Microsoft.WindowsDesktop.App.Ref",

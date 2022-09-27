@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "n2mY+t/nCfyRcxHcYepJMg0ZAZagXtbAQmAunOeUXA9Up16999x2DQU1U4biP0huvZZWszFifK5FL+xMnpzTvQ==",
+  "dgSpecHash": "xrLgj18WilxZvQtdQmH/yycIMluR/D7DC9RztiECK32cTI9EOYn2pcyiiKzm3HAem/ETjqIdVzTRH0ZZeLDK0g==",
   "success": true,
   "projectFilePath": "C:\\Users\\bosko\\Desktop\\FuzzyGreenhouse\\FuzzyGreenhouse\\FuzzyLib\\FuzzyLib.csproj",
   "expectedPackageFiles": [
@@ -20,6 +20,8 @@
     "C:\\Users\\bosko\\.nuget\\packages\\system.diagnostics.diagnosticsource\\5.0.1\\system.diagnostics.diagnosticsource.5.0.1.nupkg.sha512",
     "C:\\Users\\bosko\\.nuget\\packages\\microsoft.netcore.app.ref\\3.1.0\\microsoft.netcore.app.ref.3.1.0.nupkg.sha512",
     "C:\\Users\\bosko\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\3.1.0\\microsoft.windowsdesktop.app.ref.3.1.0.nupkg.sha512",
+    "C:\\Users\\bosko\\.nuget\\packages\\microsoft.netcore.app.runtime.linux-arm\\3.1.28\\microsoft.netcore.app.runtime.linux-arm.3.1.28.nupkg.sha512",
+    "C:\\Users\\bosko\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.linux-arm\\3.1.28\\microsoft.aspnetcore.app.runtime.linux-arm.3.1.28.nupkg.sha512",
     "C:\\Users\\bosko\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.10\\microsoft.aspnetcore.app.ref.3.1.10.nupkg.sha512"
   ],
   "logs": []
