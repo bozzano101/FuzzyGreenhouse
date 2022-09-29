@@ -5,14 +5,15 @@ namespace GreenhouseCore.HardwareBridge
 {
     public class PinoutConfigurations
     {
-        public Dictionary<int, SensorInput> InputsPinoutConfigurations { get; set; }
+        public Dictionary<int, Sensor> InputsPinoutConfigurations { get; set; }
+        public KeyValuePair<int, Sensor> OutputPinoutConfiguration { get; set; }
 
         public PinoutConfigurations()
         {
-            InputsPinoutConfigurations = new Dictionary<int, SensorInput>();
+            InputsPinoutConfigurations = new Dictionary<int, Sensor>();
         }
 
-        public void AssignPin(SensorInput sensorInput, int pinNumber)
+        public void AssignInputPin(Sensor sensorInput, int pinNumber)
         {
             if(InputsPinoutConfigurations.ContainsKey(pinNumber))
             {
@@ -20,6 +21,11 @@ namespace GreenhouseCore.HardwareBridge
             }
 
             InputsPinoutConfigurations.Add(pinNumber, sensorInput);
+        }
+
+        public void AssingOutputPin(Sensor sensorOutput, int pinNumber)
+        {
+            OutputPinoutConfiguration = new KeyValuePair<int, Sensor>(pinNumber, sensorOutput);
         }
 
         public double ReadPinValuePercentage(int pinNumber)

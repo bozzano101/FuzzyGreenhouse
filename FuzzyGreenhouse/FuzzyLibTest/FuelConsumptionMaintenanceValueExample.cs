@@ -42,6 +42,10 @@ namespace FuzzyLibTest
             system.ChangeSetMuValue(8, null, "Pouzdanost");
            
             Assert.IsTrue(Math.Abs(system.CalculateOutput() - 25.26315) < 0.001);
+
+            system.ChangeSetMuValue(3, null, "Potrosnja");
+            system.ChangeSetMuValue(4, null, "Pouzdanost");
+            var x = system.CalculateOutput();
         }
 
         [TestMethod]

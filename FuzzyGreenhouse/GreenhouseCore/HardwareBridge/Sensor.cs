@@ -1,6 +1,6 @@
 ﻿namespace GreenhouseCore.HardwareBridge
 {
-    public class SensorInput
+    public class Sensor
     {
         public string Name { get; set; }
         public int DatabaseID { get; set; }

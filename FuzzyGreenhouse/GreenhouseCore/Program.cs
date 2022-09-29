@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GreenhouseCore
@@ -37,6 +38,8 @@ namespace GreenhouseCore
             PinoutConfiguration = new PinoutConfigurations();
             int i = 0;
             CarSystem = Data.FuzzySystems[0];
+
+            // Prepare input sets
             foreach(var inputSet in CarSystem.InputSets)
             {
                 var xValues = new List<float>();
@@ -48,7 +51,7 @@ namespace GreenhouseCore
                         xValues.Add(point.X);
                 }
 
-                SensorInput sensorInput = new SensorInput()
+                Sensor sensorInput = new Sensor()
                 {
                     DatabaseID = inputSet.Id,
                     Name = inputSet.Name,
@@ -56,8 +59,29 @@ namespace GreenhouseCore
                     MaxValue = xValues.Max()
                 };
 
-                PinoutConfiguration.AssignPin(sensorInput, i); ++i;
+                PinoutConfiguration.AssignInputPin(sensorInput, i); ++i;
             }
+
+            // Prepare output set
+            var outputXValues = new List<float>();
+            var outputValues = CarSystem.OutputSet.Values.ToList();
+            foreach (var value in outputValues)
+            {
+                var pointList = value.Points.ToList();
+                foreach (var point in pointList)
+                    outputXValues.Add(point.X);
+            }
+
+            Sensor sensorOutput = new Sensor()
+            {
+                DatabaseID = CarSystem.OutputSet.Id,
+                Name = CarSystem.OutputSet.Name,
+                MinValue = outputXValues.Min(),
+                MaxValue = outputXValues.Max()
+            };
+
+            PinoutConfiguration.AssingOutputPin(sensorOutput, i); ++i;
+
             // END TEST
         }
 
@@ -116,8 +140,7 @@ namespace GreenhouseCore
             Console.WriteLine("     (1) Update data from AdminBoard ");
             Console.WriteLine("     (2) Display current pinout assignment with values");
             Console.WriteLine("     (3) Start Greenhouse ");
-            Console.WriteLine("     (4) Stop Greenhouse ");
-            Console.WriteLine("     (5) Exit ");
+            Console.WriteLine("     (4) Exit ");
             Console.WriteLine();
             Console.WriteLine("Choose mode: ");
 
@@ -131,22 +154,41 @@ namespace GreenhouseCore
                     DisplayPinoutAndValues();
                     break;
                 case "3":
+                    StartGreenhouse();
                     break;
-                case "4":
-                    break;
-                case "5":
+                case "0":
                     Console.WriteLine("Goodbye!");
                     Environment.Exit(0);
                     break;
 
                 default:
-                    Console.WriteLine("Invalid mode selected. Select one from range [1 - 4]. 5 is for exiting app");
+                    Console.WriteLine("Invalid mode selected. Select one from range [1 - 3]. 0 is for exiting app");
                     return;
             }
 
             Console.WriteLine();
             Console.ReadLine();
             Console.Clear();
+        }
+
+        private static void StartGreenhouse()
+        {
+            while(true)
+            {
+                var message = "";
+
+                foreach(var input in PinoutConfiguration.InputsPinoutConfigurations)
+                {
+                    var value = PinoutConfiguration.ReadPinValueInRange(input.Key);
+                    CarSystem.ChangeSetMuValue((float)value, input.Value.DatabaseID);
+
+                    message += $"| {input.Value.Name}:  {value}    |     ";
+                }
+
+                message += $"Output: {CarSystem.CalculateOutput()}";
+                Console.WriteLine(message);
+                Thread.Sleep(500);
+            }
         }
 
         public static async Task Main(string[] args)
