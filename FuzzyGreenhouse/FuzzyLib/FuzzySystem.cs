@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace FuzzyLib
 {
@@ -54,14 +53,6 @@ namespace FuzzyLib
                     return;
                 }
             });
-            UpdateOutputMu();
-        }
-
-        private void UpdateOutputMu()
-        {
-            Rules.ForEach(rule => {
-                rule.RecalculateOutputMu();
-            });
         }
 
         /// <summary>
@@ -70,6 +61,8 @@ namespace FuzzyLib
         /// <returns></returns>
         public float CalculateOutput()
         {
+            UpdateOutputMu();
+
             float up = 0, down = 0;
             foreach(var outputValue in OutputSet.Values)
             {
@@ -77,9 +70,28 @@ namespace FuzzyLib
                 down += outputValue.Mu;
             }
 
+            ResetOutputMu();
             return (up / down);
         }
 
+        /// <summary>
+        /// This method is used for recalculating outputs (indicated by all rules)
+        /// </summary>
+        private void UpdateOutputMu()
+        {
+            Rules.ForEach(rule => {
+                rule.RecalculateOutputMu();
+            });
+        }
 
+        /// <summary>
+        /// This method is used for reseting output for each rule before new fuzzy calculation is made
+        /// </summary>
+        private void ResetOutputMu()
+        {
+            Rules.ForEach(rule => {
+                rule.ResetOutputMu();
+            });
+        }
     }
 }

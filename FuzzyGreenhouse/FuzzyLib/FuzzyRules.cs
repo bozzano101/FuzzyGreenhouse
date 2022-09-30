@@ -52,6 +52,14 @@ namespace FuzzyLib
         }
 
         /// <summary>
+        /// This function is used for reseting output value between two calculations for fuzzy output.
+        /// </summary>
+        public void ResetOutputMu()
+        {
+            Output.Mu = 0;
+        }
+
+        /// <summary>
         /// Input1 - First input set functon
         /// </summary>
         public FuzzyInput Input1 { get; set; }

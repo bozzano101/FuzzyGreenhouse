@@ -38,14 +38,15 @@ namespace FuzzyLibTest
             rules.Add(new FuzzyRules(Potrosnja.Values[2], Pouzdanost.Values[1], Vrednost.Values[0], LogicOperator.AND));
 
             FuzzySystem system = new FuzzySystem(fuzzyInputSets, new List<FuzzyOutputSet> { Vrednost }, rules);
+
+            system.ChangeSetMuValue(8, null, "Potrosnja");
+            system.ChangeSetMuValue(7, null, "Pouzdanost");
+            Assert.IsTrue(Math.Abs(system.CalculateOutput() - 29.23076) < 0.001);
+
             system.ChangeSetMuValue(9, null, "Potrosnja");
             system.ChangeSetMuValue(8, null, "Pouzdanost");
-           
             Assert.IsTrue(Math.Abs(system.CalculateOutput() - 25.26315) < 0.001);
 
-            system.ChangeSetMuValue(3, null, "Potrosnja");
-            system.ChangeSetMuValue(4, null, "Pouzdanost");
-            var x = system.CalculateOutput();
         }
 
         [TestMethod]
