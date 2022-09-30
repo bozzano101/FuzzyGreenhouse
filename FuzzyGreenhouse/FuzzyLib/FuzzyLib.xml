@@ -239,6 +239,11 @@
             This function is used for "refreshing" output value when input is changed. 
             </summary>
         </member>
+        <member name="M:FuzzyLib.FuzzyRules.ResetOutputMu">
+            <summary>
+            This function is used for reseting output value between two calculations for fuzzy output.
+            </summary>
+        </member>
         <member name="P:FuzzyLib.FuzzyRules.Input1">
             <summary>
             Input1 - First input set functon
@@ -300,6 +305,16 @@
             This method is used to generate output value for currently setted input values. Returns output value
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:FuzzyLib.FuzzySystem.UpdateOutputMu">
+            <summary>
+            This method is used for recalculating outputs (indicated by all rules)
+            </summary>
+        </member>
+        <member name="M:FuzzyLib.FuzzySystem.ResetOutputMu">
+            <summary>
+            This method is used for reseting output for each rule before new fuzzy calculation is made
+            </summary>
         </member>
         <member name="T:FuzzyLib.Point">
             <summary>
