@@ -1,9 +1,61 @@
-<mxfile host="app.diagrams.net" modified="2023-03-26T19:56:29.288Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/111.0" version="21.1.1" etag="qye0XzakgqcjWtIdFEeq" type="github">
+<mxfile host="app.diagrams.net" modified="2023-03-26T20:11:06.140Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/111.0" etag="YbyZSLMQ2pGlIj35CvbC" version="21.1.1" type="github">
   <diagram name="Page-1" id="nwmzDDg9rzGXQXywoVDp">
-    <mxGraphModel>
+    <mxGraphModel dx="1434" dy="754" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="Svi2D5dXMXJ2sk7aOZPu-1" value="&lt;h3&gt;&lt;b&gt;Hardware&lt;/b&gt;&lt;/h3&gt;" style="rounded=1;whiteSpace=wrap;html=1;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;horizontal=1;arcSize=5;" vertex="1" parent="1">
+          <mxGeometry x="70" y="50" width="580" height="690" as="geometry" />
+        </mxCell>
+        <mxCell id="Svi2D5dXMXJ2sk7aOZPu-6" value="Општи параметри пластеника" style="swimlane;whiteSpace=wrap;html=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="90" width="200" height="270" as="geometry">
+            <mxRectangle x="140" y="150" width="140" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Svi2D5dXMXJ2sk7aOZPu-2" value="Температура" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="Svi2D5dXMXJ2sk7aOZPu-6">
+          <mxGeometry x="35" y="30" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Svi2D5dXMXJ2sk7aOZPu-3" value="Влажност ваздуха" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="Svi2D5dXMXJ2sk7aOZPu-6">
+          <mxGeometry x="35" y="70" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Svi2D5dXMXJ2sk7aOZPu-4" value="Влажност земљишта" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="Svi2D5dXMXJ2sk7aOZPu-6">
+          <mxGeometry x="35" y="110" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Svi2D5dXMXJ2sk7aOZPu-8" value="Угљен диоксид" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="Svi2D5dXMXJ2sk7aOZPu-6">
+          <mxGeometry x="35" y="190" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Svi2D5dXMXJ2sk7aOZPu-9" value=". . ." style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="Svi2D5dXMXJ2sk7aOZPu-6">
+          <mxGeometry x="35" y="230" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Svi2D5dXMXJ2sk7aOZPu-5" value="Светлост" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="Svi2D5dXMXJ2sk7aOZPu-6">
+          <mxGeometry x="35" y="150" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Svi2D5dXMXJ2sk7aOZPu-10" value="Сензори " style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=2" vertex="1" parent="1">
+          <mxGeometry x="150" y="60" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Svi2D5dXMXJ2sk7aOZPu-11" value="Ђубрење" style="swimlane;whiteSpace=wrap;html=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="370" width="210" height="230" as="geometry">
+            <mxRectangle x="140" y="150" width="140" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Svi2D5dXMXJ2sk7aOZPu-12" value="pH вредност" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="Svi2D5dXMXJ2sk7aOZPu-11">
+          <mxGeometry x="35" y="30" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Svi2D5dXMXJ2sk7aOZPu-13" value="Проводљивост" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="Svi2D5dXMXJ2sk7aOZPu-11">
+          <mxGeometry x="35" y="70" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Svi2D5dXMXJ2sk7aOZPu-14" value="Aзотна једињења" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="Svi2D5dXMXJ2sk7aOZPu-11">
+          <mxGeometry x="35" y="110" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Svi2D5dXMXJ2sk7aOZPu-18" value="Калијумова једињења" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="Svi2D5dXMXJ2sk7aOZPu-11">
+          <mxGeometry x="35" y="190" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Svi2D5dXMXJ2sk7aOZPu-19" value="Фосфатна једињења" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="Svi2D5dXMXJ2sk7aOZPu-11">
+          <mxGeometry x="35" y="150" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Svi2D5dXMXJ2sk7aOZPu-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="Svi2D5dXMXJ2sk7aOZPu-11" source="Svi2D5dXMXJ2sk7aOZPu-19" target="Svi2D5dXMXJ2sk7aOZPu-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
