@@ -1,14 +1,17 @@
-<mxfile host="app.diagrams.net" modified="2023-03-26T20:11:06.140Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/111.0" etag="YbyZSLMQ2pGlIj35CvbC" version="21.1.1" type="github">
+<mxfile host="app.diagrams.net" modified="2023-03-26T20:27:19.564Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/111.0" etag="04__CeIHAKEzgsDNwtUO" version="21.1.1" type="github">
   <diagram name="Page-1" id="nwmzDDg9rzGXQXywoVDp">
     <mxGraphModel dx="1434" dy="754" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="Svi2D5dXMXJ2sk7aOZPu-1" value="&lt;h3&gt;&lt;b&gt;Hardware&lt;/b&gt;&lt;/h3&gt;" style="rounded=1;whiteSpace=wrap;html=1;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;horizontal=1;arcSize=5;" vertex="1" parent="1">
-          <mxGeometry x="70" y="50" width="580" height="690" as="geometry" />
+        <mxCell id="Svi2D5dXMXJ2sk7aOZPu-1" value="&lt;h3&gt;Хардвер&lt;br&gt;&lt;/h3&gt;" style="rounded=1;whiteSpace=wrap;html=1;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;horizontal=1;arcSize=5;" vertex="1" parent="1">
+          <mxGeometry x="20" y="10" width="760" height="690" as="geometry" />
+        </mxCell>
+        <mxCell id="Svi2D5dXMXJ2sk7aOZPu-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;" edge="1" parent="1" source="Svi2D5dXMXJ2sk7aOZPu-6" target="Svi2D5dXMXJ2sk7aOZPu-22">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="Svi2D5dXMXJ2sk7aOZPu-6" value="Општи параметри пластеника" style="swimlane;whiteSpace=wrap;html=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" vertex="1" parent="1">
-          <mxGeometry x="80" y="90" width="200" height="270" as="geometry">
+          <mxGeometry x="390" y="100" width="200" height="270" as="geometry">
             <mxRectangle x="140" y="150" width="140" height="30" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
@@ -31,10 +34,13 @@
           <mxGeometry x="35" y="150" width="130" height="30" as="geometry" />
         </mxCell>
         <mxCell id="Svi2D5dXMXJ2sk7aOZPu-10" value="Сензори " style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=2" vertex="1" parent="1">
-          <mxGeometry x="150" y="60" width="60" height="30" as="geometry" />
+          <mxGeometry x="460" y="70" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Svi2D5dXMXJ2sk7aOZPu-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;" edge="1" parent="1" source="Svi2D5dXMXJ2sk7aOZPu-11" target="Svi2D5dXMXJ2sk7aOZPu-25">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="Svi2D5dXMXJ2sk7aOZPu-11" value="Ђубрење" style="swimlane;whiteSpace=wrap;html=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" vertex="1" parent="1">
-          <mxGeometry x="80" y="370" width="210" height="230" as="geometry">
+          <mxGeometry x="390" y="380" width="200" height="230" as="geometry">
             <mxRectangle x="140" y="150" width="140" height="30" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
@@ -55,6 +61,24 @@
         </mxCell>
         <mxCell id="Svi2D5dXMXJ2sk7aOZPu-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="Svi2D5dXMXJ2sk7aOZPu-11" source="Svi2D5dXMXJ2sk7aOZPu-19" target="Svi2D5dXMXJ2sk7aOZPu-19">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Svi2D5dXMXJ2sk7aOZPu-22" value="Аналогно/дигитални трансформатор" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="640" y="205" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Svi2D5dXMXJ2sk7aOZPu-25" value="Аналогно/дигитални трансформатор" style="rounded=1;whiteSpace=wrap;html=1;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="640" y="465" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Svi2D5dXMXJ2sk7aOZPu-39" value="" style="swimlane;startSize=0;" vertex="1" parent="1">
+          <mxGeometry x="60" y="120" width="200" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="Svi2D5dXMXJ2sk7aOZPu-41" value="Вентилација / Хлађење" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="Svi2D5dXMXJ2sk7aOZPu-39">
+          <mxGeometry x="35" y="50" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Svi2D5dXMXJ2sk7aOZPu-40" value="Грејање" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="95" y="130" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Svi2D5dXMXJ2sk7aOZPu-42" value="Наводњавање" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="95" y="210" width="130" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
