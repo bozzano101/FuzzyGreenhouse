@@ -9,18 +9,9 @@
             FuzzyInput class represents one fuzzy input set. It is used for describing function
             in 2D Cartesian plane with list of 2D Points. That function is used for us to descirbe
             how much something belong to that set. Fuzzy logic differs from traditional, binary logic
-            and belonging function here is not true(1) or false(0) value, instead it is a number from 
+            and belonging function here is not true(1) or false(0) x, instead it is a number from 
             range [0,1]
             </summary>
-        </member>
-        <member name="M:FuzzyLib.FuzzyInput.#ctor(System.Int32,System.String,System.Collections.Generic.List{FuzzyLib.Point},System.Single)">
-            <summary>
-            Constructor function for FuzzyInput class
-            </summary>
-            <param name="id">Id getted from database</param>
-            <param name="name">Describe string of function</param>
-            <param name="points">List of edge points</param>
-            <param name="value">X coordinate of point that we want to get function value</param>
         </member>
         <member name="M:FuzzyLib.FuzzyInput.#ctor(System.Int32,System.String,System.Collections.Generic.List{System.Single},System.Collections.Generic.List{System.Single})">
             <summary>
@@ -39,20 +30,20 @@
             <param name="name">Describe string of function</param>
             <param name="xs">List of X coordinates of edge points</param>
             <param name="ys">List of Y coordinates of edge points</param>
-            <param name="value">X coordinate of point that we want to get function value</param>
+            <param name="x">X coordinate of point that we want to get function x</param>
         </member>
-        <member name="M:FuzzyLib.FuzzyInput.RecalculateMu(System.Single)">
+        <member name="M:FuzzyLib.FuzzyInput.RecalculateFunctionValue(System.Single)">
             <summary>
-            Method used for recalculating Mu value if neccessary
+            Method used for recalculating Value x if neccessary
             </summary>
-            <param name="value">Value for which we will calculate what function value is</param>
+            <param name="x">Value for which we will calculate what function x is</param>
         </member>
-        <member name="M:FuzzyLib.FuzzyInput.CalculateMi(System.Single)">
+        <member name="M:FuzzyLib.FuzzyInput.CalculateFunctionValue(System.Single)">
             <summary>
-            Method used to calculate value of function in X point. It traverse Points list and check if X point is between two edge points, 
-            and if it's inside, it calculate appropriate Y value
+            Method used to calculate x of function in X point. It traverse Points list and check if X point is between two edge points, 
+            and if it's inside, it calculate appropriate Y x
             </summary>
-            <param name="x">X coordinate of value that we want</param>
+            <param name="x">X coordinate of x that we want</param>
             <returns></returns>
         </member>
         <member name="P:FuzzyLib.FuzzyInput.Id">
@@ -70,9 +61,9 @@
             Points - List of 2D points which represents edge points of function line
             </summary>
         </member>
-        <member name="P:FuzzyLib.FuzzyInput.Mu">
+        <member name="P:FuzzyLib.FuzzyInput.Value">
             <summary>
-            Mu - This field is used for getting function value for given Mu number
+            Value - This field is used for getting function x for given number
             </summary>
         </member>
         <member name="T:FuzzyLib.FuzzyInputSet">
@@ -93,11 +84,11 @@
             </summary>
             <param name="value"> FuzzyInput that will be added</param>
         </member>
-        <member name="M:FuzzyLib.FuzzyInputSet.RecalculateMu(System.Single)">
+        <member name="M:FuzzyLib.FuzzyInputSet.RecalculateFunctionsValues(System.Single)">
             <summary>
-            This method will update Mu value in all FuzzyInput objects that are part of this FuzzyInputSet object
+            This method will update Value x in all FuzzyInput objects that are part of this FuzzyInputSet object
             </summary>
-            <param name="value"> Float number to update to</param>
+            <param name="x"> Float number to update to</param>
         </member>
         <member name="P:FuzzyLib.FuzzyInputSet.Id">
             <summary>
@@ -140,7 +131,7 @@
             <param name="xs">List of X coordinates of edge points</param>
             <param name="ys">List of Y coordinates of edge points</param>
         </member>
-        <member name="M:FuzzyLib.FuzzyOutput.CalculateCentroid">
+        <member name="M:FuzzyLib.FuzzyOutput.CalculateWeightedAverage">
             <summary>
             Method used for calculating centroid value of this set function
             </summary>
@@ -161,14 +152,14 @@
             Points - List of 2D points which represents edge points of function line
             </summary>
         </member>
-        <member name="P:FuzzyLib.FuzzyOutput.Mu">
+        <member name="P:FuzzyLib.FuzzyOutput.Value">
             <summary>
-            Mu - This field is used for getting function value for given Mu number
+            Value - This field is used for getting function value for given Value number
             </summary>
         </member>
-        <member name="P:FuzzyLib.FuzzyOutput.Centroid">
+        <member name="P:FuzzyLib.FuzzyOutput.WeightedAverage">
             <summary>
-            Centroid - This field is used to store centroid value for this set function
+            WeightedAverage - This field is used to store centroid value for this set function
             </summary>
         </member>
         <member name="T:FuzzyLib.FuzzyOutputSet">
@@ -180,8 +171,8 @@
             <summary>
             Constructor for FuzzyOutputSet class
             </summary>
-            <param name="setId"> Database ID of set</param>
-            <param name="setName">Name of fuzzy set</param>
+            <param name="id"> Database ID of set</param>
+            <param name="name">Name of fuzzy set</param>
         </member>
         <member name="M:FuzzyLib.FuzzyOutputSet.AddValue(FuzzyLib.FuzzyOutput)">
             <summary>
@@ -222,7 +213,7 @@
         <member name="T:FuzzyLib.FuzzyRules">
             <summary>
             This class represents fuzzy rules that are used for deciding output values. It gets two inputs and based on logical operator
-            calculates Mu value for output set. After this calculation, it can be used for fuzzy deciding.
+            calculates Value value for output set. After this calculation, it can be used for fuzzy deciding.
             </summary>
         </member>
         <member name="M:FuzzyLib.FuzzyRules.#ctor(FuzzyLib.FuzzyInput,FuzzyLib.FuzzyInput,FuzzyLib.FuzzyOutput,FuzzyLib.LogicOperator)">
@@ -232,14 +223,14 @@
             <param name="input1">First input set functon</param>
             <param name="input2">Second input set function</param>
             <param name="output">Output set function</param>
-            <param name="_operator">Logical operator for deciding</param>
+            <param name="logicOperator">Logical operator for deciding</param>
         </member>
-        <member name="M:FuzzyLib.FuzzyRules.RecalculateOutputMu">
+        <member name="M:FuzzyLib.FuzzyRules.RecalculateOutputValue">
             <summary>
             This function is used for "refreshing" output value when input is changed. 
             </summary>
         </member>
-        <member name="M:FuzzyLib.FuzzyRules.ResetOutputMu">
+        <member name="M:FuzzyLib.FuzzyRules.ResetOutputValue">
             <summary>
             This function is used for reseting output value between two calculations for fuzzy output.
             </summary>
@@ -284,7 +275,7 @@
             Field that represent all rules for determining output value
             </summary>
         </member>
-        <member name="M:FuzzyLib.FuzzySystem.#ctor(System.Collections.Generic.List{FuzzyLib.FuzzyInputSet},System.Collections.Generic.List{FuzzyLib.FuzzyOutputSet},System.Collections.Generic.List{FuzzyLib.FuzzyRules})">
+        <member name="M:FuzzyLib.FuzzySystem.#ctor(System.Collections.Generic.List{FuzzyLib.FuzzyInputSet},FuzzyLib.FuzzyOutputSet,System.Collections.Generic.List{FuzzyLib.FuzzyRules})">
             <summary>
             Constructor that accept sets and rules from other services
             </summary>
@@ -292,7 +283,7 @@
             <param name="outputSet"> Output variables (sets) </param>
             <param name="rules"> Rules </param>
         </member>
-        <member name="M:FuzzyLib.FuzzySystem.ChangeSetMuValue(System.Single,System.Nullable{System.Int32},System.String)">
+        <member name="M:FuzzyLib.FuzzySystem.ChangeInputSetValue(System.Single,System.Nullable{System.Int32},System.String)">
             <summary>
             Method used for changing value in one of Input sets.
             </summary>
@@ -306,12 +297,12 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:FuzzyLib.FuzzySystem.UpdateOutputMu">
+        <member name="M:FuzzyLib.FuzzySystem.UpdateOutputValue">
             <summary>
             This method is used for recalculating outputs (indicated by all rules)
             </summary>
         </member>
-        <member name="M:FuzzyLib.FuzzySystem.ResetOutputMu">
+        <member name="M:FuzzyLib.FuzzySystem.ResetOutputValue">
             <summary>
             This method is used for reseting output for each rule before new fuzzy calculation is made
             </summary>

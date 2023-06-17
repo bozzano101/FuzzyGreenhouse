@@ -180,7 +180,7 @@ namespace GreenhouseCore
                 foreach(var input in PinoutConfiguration.InputsPinoutConfigurations)
                 {
                     var value = PinoutConfiguration.ReadPinValueInRange(input.Key);
-                    CarSystem.ChangeSetMuValue((float)value, input.Value.DatabaseID);
+                    CarSystem.ChangeInputSetValue((float)value, input.Value.DatabaseID);
 
                     message += $"| {input.Value.Name}:  {value}    |     ";
                 }

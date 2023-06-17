@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace FuzzyLib
 {
@@ -27,14 +26,11 @@ namespace FuzzyLib
         /// <param name="inputSets"> Input variables (sets) </param>
         /// <param name="outputSet"> Output variables (sets) </param>
         /// <param name="rules"> Rules </param>
-        public FuzzySystem(List<FuzzyInputSet> inputSets, List<FuzzyOutputSet> outputSet, List<FuzzyRules> rules)
+        public FuzzySystem(List<FuzzyInputSet> inputSets, FuzzyOutputSet outputSet, List<FuzzyRules> rules)
         {
             InputSets = inputSets;
             Rules = rules;
-            if (outputSet.Count == 1)
-                OutputSet = outputSet[0];
-            else
-                throw new Exception("Output set list has more than one set.");
+            OutputSet = outputSet;
         }
 
         /// <summary>
@@ -43,13 +39,13 @@ namespace FuzzyLib
         /// <param name="value"> Value to change set input to. Mandatory field</param>
         /// <param name="id"> If want to search for set by ID, provide this field </param>
         /// <param name="name"> If want to search for set by Name, provide this field</param>
-        public void ChangeSetMuValue(float value, int? id, string name = null)
+        public void ChangeInputSetValue(float value, int? id, string name = null)
         {
             InputSets.ForEach(set =>
             {
                 if ((id.HasValue && set.Id == id) || (name != null && set.Name == name))
                 {
-                    set.RecalculateMu(value);
+                    set.RecalculateFunctionsValues(value);
                     return;
                 }
             });
@@ -61,36 +57,36 @@ namespace FuzzyLib
         /// <returns></returns>
         public float CalculateOutput()
         {
-            UpdateOutputMu();
+            UpdateOutputValue();
 
             float up = 0, down = 0;
             foreach(var outputValue in OutputSet.Values)
             {
-                up += outputValue.Mu * outputValue.Centroid;
-                down += outputValue.Mu;
+                up += outputValue.Value * outputValue.WeightedAverage;
+                down += outputValue.Value;
             }
 
-            ResetOutputMu();
+            ResetOutputValue();
             return (up / down);
         }
 
         /// <summary>
         /// This method is used for recalculating outputs (indicated by all rules)
         /// </summary>
-        private void UpdateOutputMu()
+        private void UpdateOutputValue()
         {
             Rules.ForEach(rule => {
-                rule.RecalculateOutputMu();
+                rule.RecalculateOutputValue();
             });
         }
 
         /// <summary>
         /// This method is used for reseting output for each rule before new fuzzy calculation is made
         /// </summary>
-        private void ResetOutputMu()
+        private void ResetOutputValue()
         {
             Rules.ForEach(rule => {
-                rule.ResetOutputMu();
+                rule.ResetOutputValue();
             });
         }
     }

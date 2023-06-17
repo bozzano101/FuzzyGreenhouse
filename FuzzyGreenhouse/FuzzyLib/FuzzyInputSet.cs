@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace FuzzyLib
 {
@@ -31,12 +29,12 @@ namespace FuzzyLib
         }
 
         /// <summary>
-        /// This method will update Mu value in all FuzzyInput objects that are part of this FuzzyInputSet object
+        /// This method will update Value x in all FuzzyInput objects that are part of this FuzzyInputSet object
         /// </summary>
-        /// <param name="value"> Float number to update to</param>
-        public void RecalculateMu(float value)
+        /// <param name="x"> Float number to update to</param>
+        public void RecalculateFunctionsValues(float x)
         {
-            Values.ForEach(e => e.RecalculateMu(value));
+            Values.ForEach(e => e.RecalculateFunctionValue(x));
         }
 
         /// <summary>

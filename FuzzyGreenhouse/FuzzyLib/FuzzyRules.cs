@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 
 namespace FuzzyLib
 {
@@ -11,16 +10,16 @@ namespace FuzzyLib
         /// <summary>
         /// AND operator
         /// </summary>
-        AND = 1,
+        AND,
         /// <summary>
         /// OR operator
         /// </summary>
-        OR = 1
+        OR
     }
 
     /// <summary>
     /// This class represents fuzzy rules that are used for deciding output values. It gets two inputs and based on logical operator
-    /// calculates Mu value for output set. After this calculation, it can be used for fuzzy deciding.
+    /// calculates Value value for output set. After this calculation, it can be used for fuzzy deciding.
     /// </summary>
     public class FuzzyRules
     {
@@ -30,33 +29,33 @@ namespace FuzzyLib
         /// <param name="input1">First input set functon</param>
         /// <param name="input2">Second input set function</param>
         /// <param name="output">Output set function</param>
-        /// <param name="_operator">Logical operator for deciding</param>
-        public FuzzyRules(FuzzyInput input1, FuzzyInput input2, FuzzyOutput output, LogicOperator _operator)
+        /// <param name="logicOperator">Logical operator for deciding</param>
+        public FuzzyRules(FuzzyInput input1, FuzzyInput input2, FuzzyOutput output, LogicOperator logicOperator)
         {
             Input1 = input1;
             Input2 = input2;
             Output = output;
-            Operator = _operator;
-            RecalculateOutputMu();
+            Operator = logicOperator;
+            RecalculateOutputValue();
         }
 
         /// <summary>
         /// This function is used for "refreshing" output value when input is changed. 
         /// </summary>
-        public void RecalculateOutputMu()
+        public void RecalculateOutputValue()
         {
             if (Operator == LogicOperator.AND)
-                Output.Mu = Math.Max(Output.Mu, Math.Min(Input1.Mu, Input2.Mu));
+                Output.Value = Math.Max(Output.Value, Math.Min(Input1.Value, Input2.Value));
             else
-                Output.Mu = Math.Max(Output.Mu, Math.Max(Input1.Mu, Input2.Mu));
+                Output.Value = Math.Max(Output.Value, Math.Max(Input1.Value, Input2.Value));
         }
 
         /// <summary>
         /// This function is used for reseting output value between two calculations for fuzzy output.
         /// </summary>
-        public void ResetOutputMu()
+        public void ResetOutputValue()
         {
-            Output.Mu = 0;
+            Output.Value = 0;
         }
 
         /// <summary>

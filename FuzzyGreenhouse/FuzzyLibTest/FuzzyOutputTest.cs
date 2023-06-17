@@ -24,7 +24,7 @@ namespace FuzzyLibTest
 
             // Act & Assert
             FuzzyOutput input = new FuzzyOutput(0, name, list);
-            Debug.WriteLine(input.Mu);
+            Debug.WriteLine(input.Value);
         }
 
         [TestMethod]
@@ -38,7 +38,7 @@ namespace FuzzyLibTest
 
             // Act & Assert
             FuzzyOutput input = new FuzzyOutput(0, name, xs, ys);
-            Debug.WriteLine(input.Mu);
+            Debug.WriteLine(input.Value);
         }
 
         [TestMethod]
@@ -66,7 +66,7 @@ namespace FuzzyLibTest
 
             // Act & Assert
             FuzzyOutput input = new FuzzyOutput(0, name, xs, ys);
-            Assert.AreEqual(input.CalculateCentroid(), 20);
+            Assert.AreEqual(input.CalculateWeightedAverage(), 20);
         }
     }
 }

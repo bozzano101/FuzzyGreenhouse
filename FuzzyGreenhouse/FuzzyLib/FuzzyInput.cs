@@ -7,26 +7,11 @@ namespace FuzzyLib
     /// FuzzyInput class represents one fuzzy input set. It is used for describing function
     /// in 2D Cartesian plane with list of 2D Points. That function is used for us to descirbe
     /// how much something belong to that set. Fuzzy logic differs from traditional, binary logic
-    /// and belonging function here is not true(1) or false(0) value, instead it is a number from 
+    /// and belonging function here is not true(1) or false(0) x, instead it is a number from 
     /// range [0,1]
     /// </summary>
     public class FuzzyInput
     {
-        /// <summary>
-        /// Constructor function for FuzzyInput class
-        /// </summary>
-        /// <param name="id">Id getted from database</param>
-        /// <param name="name">Describe string of function</param>
-        /// <param name="points">List of edge points</param>
-        /// <param name="value">X coordinate of point that we want to get function value</param>
-        public FuzzyInput(int id, string name, List<Point> points, float value)
-        {
-            Id = id;
-            Name = name;
-            Points = points;
-            Mu = CalculateMi(value);
-        }
-
         /// <summary>
         /// Constructor function for FuzzyInput class
         /// </summary>
@@ -54,42 +39,34 @@ namespace FuzzyLib
         /// <param name="name">Describe string of function</param>
         /// <param name="xs">List of X coordinates of edge points</param>
         /// <param name="ys">List of Y coordinates of edge points</param>
-        /// <param name="value">X coordinate of point that we want to get function value</param>
-        public FuzzyInput(int id, string name, List<float> xs, List<float> ys, float value)
+        /// <param name="x">X coordinate of point that we want to get function x</param>
+        public FuzzyInput(int id, string name, List<float> xs, List<float> ys, float x)
+            : this(id, name, xs, ys)
         {
-            if (xs.Count != ys.Count)
-                throw new ArgumentException("List of X coordinates and list of Y coordinates are not same length.");
-
-            Points = new List<Point>();
-            for(int i = 0; i < xs.Count; ++i)
-                Points.Add(new Point(xs[i], ys[i]));
-
-            Id = id;
-            Name = name;
-            Mu = CalculateMi(value);
+            Value = CalculateFunctionValue(x);
         }
 
         /// <summary>
-        /// Method used for recalculating Mu value if neccessary
+        /// Method used for recalculating Value x if neccessary
         /// </summary>
-        /// <param name="value">Value for which we will calculate what function value is</param>
-        public void RecalculateMu(float value)
+        /// <param name="x">Value for which we will calculate what function x is</param>
+        public void RecalculateFunctionValue(float x)
         {
-            Mu = CalculateMi(value);
+            Value = CalculateFunctionValue(x);
         }
 
         /// <summary>
-        /// Method used to calculate value of function in X point. It traverse Points list and check if X point is between two edge points, 
-        /// and if it's inside, it calculate appropriate Y value
+        /// Method used to calculate x of function in X point. It traverse Points list and check if X point is between two edge points, 
+        /// and if it's inside, it calculate appropriate Y x
         /// </summary>
-        /// <param name="x">X coordinate of value that we want</param>
+        /// <param name="x">X coordinate of x that we want</param>
         /// <returns></returns>
-        public float CalculateMi(float x)
+        public float CalculateFunctionValue(float x)
         {
             if (x < Points[0].X)
                 return Points[0].Y;
-            if (x > Points[Points.Count - 1].X)
-                return Points[Points.Count - 1].Y;
+            if (x > Points[^1].X)
+                return Points[^1].Y;
             for(int i = 0; i < Points.Count-1; ++i)
             {
                 float x1 = Points[i].X;
@@ -107,6 +84,7 @@ namespace FuzzyLib
                     return (x2 - x) / (x2 - x1);
                 }
             }
+
             throw new ArgumentOutOfRangeException("Given number X is not valid");
         }
 
@@ -123,9 +101,9 @@ namespace FuzzyLib
         /// </summary>
         public List<Point> Points { get; set; }
         /// <summary>
-        /// Mu - This field is used for getting function value for given Mu number
+        /// Value - This field is used for getting function x for given number
         /// </summary>
-        public float Mu { get; set; }
+        public float Value { get; set; }
         
         
     }

@@ -12,12 +12,12 @@ namespace FuzzyLib
         /// <summary>
         /// Constructor for FuzzyOutputSet class
         /// </summary>
-        /// <param name="setId"> Database ID of set</param>
-        /// <param name="setName">Name of fuzzy set</param>
-        public FuzzyOutputSet(int setId, string setName)
+        /// <param name="id"> Database ID of set</param>
+        /// <param name="name">Name of fuzzy set</param>
+        public FuzzyOutputSet(int id, string name)
         {
-            Id = setId;
-            Name = setName;
+            Id = id;
+            Name = name;
             Values = new List<FuzzyOutput>();
         }
 

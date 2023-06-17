@@ -23,8 +23,8 @@ namespace FuzzyLib
             Id = id;
             Name = name;
             Points = points;
-            Mu = 0;
-            Centroid = CalculateCentroid();
+            Value = 0;
+            WeightedAverage = CalculateWeightedAverage();
         }
 
         /// <summary>
@@ -45,15 +45,15 @@ namespace FuzzyLib
 
             Id = id;
             Name = name;
-            Mu = 0;
-            Centroid = CalculateCentroid();
+            Value = 0;
+            WeightedAverage = CalculateWeightedAverage();
         }
 
         /// <summary>
         /// Method used for calculating centroid value of this set function
         /// </summary>
         /// <returns></returns>
-        public float CalculateCentroid()
+        public float CalculateWeightedAverage()
         {
             float average = 0;
             float n = 0;
@@ -88,13 +88,13 @@ namespace FuzzyLib
         public List<Point> Points { get; set; }
 
         /// <summary>
-        /// Mu - This field is used for getting function value for given Mu number
+        /// Value - This field is used for getting function value for given Value number
         /// </summary>
-        public float Mu { get; set; }
+        public float Value { get; set; }
 
         /// <summary>
-        /// Centroid - This field is used to store centroid value for this set function
+        /// WeightedAverage - This field is used to store centroid value for this set function
         /// </summary>
-        public float Centroid { get; set; }
+        public float WeightedAverage { get; set; }
     }
 }

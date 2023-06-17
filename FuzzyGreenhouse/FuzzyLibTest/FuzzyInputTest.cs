@@ -20,27 +20,7 @@ namespace FuzzyLibTest
 
             // Act & Assert
             var input = new FuzzyInput(0, name, xs, ys, mi);
-            Assert.IsTrue(Math.Abs(input.Mu - 0.14285715) < 0.001);
-        }
-
-        [TestMethod]
-        public void FuzzyInputConstructorValidOneList()
-        {
-            // Arrange
-            string name = "potrosnja";
-
-            List<Point> list = new List<Point>();
-            List<float> xs = new List<float> { 3, 10 };
-            List<float> ys = new List<float> { 1, 0 };
-
-            for(int i = 0; i < xs.Count; ++i)
-                list.Add(new Point(xs[i], ys[i]));
-
-            float mi = 9;
-
-            // Act & Assert
-            var input = new FuzzyInput(0, name, list, mi);
-            Assert.IsTrue(Math.Abs(input.Mu - 0.14285715) < 0.001);
+            Assert.IsTrue(Math.Abs(input.Value - 0.14285715) < 0.001);
         }
 
         [TestMethod]
@@ -68,7 +48,7 @@ namespace FuzzyLibTest
 
             // Act & Assert
             var input = new FuzzyInput(0, name, xs, ys, mi);
-            Assert.IsTrue(Math.Abs(input.Mu - 0.67) < 0.01);
+            Assert.IsTrue(Math.Abs(input.Value - 0.67) < 0.01);
         }
 
         [TestMethod] 
@@ -82,8 +62,8 @@ namespace FuzzyLibTest
 
             // Act & Assert
             var input = new FuzzyInput(0, name, xs, ys, mi);
-            Debug.WriteLine(input.Mu);
-            Assert.AreEqual(Math.Abs(input.Mu), 0);
+            Debug.WriteLine(input.Value);
+            Assert.AreEqual(Math.Abs(input.Value), 0);
         }
     }
 }
