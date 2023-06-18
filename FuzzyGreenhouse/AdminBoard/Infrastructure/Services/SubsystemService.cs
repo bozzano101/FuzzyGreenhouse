@@ -49,6 +49,23 @@ namespace AdminBoard.Infrastructure.Services
             }
         }
 
+        public Dictionary<int, string> GetNames()
+        {
+            try
+            {
+                var subsystems = GetAll();
+                var namesDict = new Dictionary<int, string>();
+                foreach (var subsystem in subsystems)
+                    namesDict.Add(subsystem.SubsystemID, subsystem.Name);
+                return namesDict;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Failed to get subsystem names. Message: {e.Message}");
+                throw new Exception(e.Message);
+            }
+        }
+
         public void Insert(Subsystem subsystem)
         {
             try

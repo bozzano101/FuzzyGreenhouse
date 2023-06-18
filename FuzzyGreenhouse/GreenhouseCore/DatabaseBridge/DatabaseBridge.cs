@@ -223,7 +223,7 @@ namespace GreenhouseCore
 
                     var fuzzySystem = new FuzzySystem(
                         inputsForThisSystem.ToList(),
-                        new List<FuzzyOutputSet> { outputSet },
+                        outputSet,
                         rulesForOutputSet
                     ); ;
 

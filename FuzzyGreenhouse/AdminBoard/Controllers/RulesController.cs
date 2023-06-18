@@ -21,7 +21,7 @@ namespace AdminBoard.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly RuleService _ruleService;
-        private readonly VariableService _variableService;
+        private readonly SetService _setService;
         private readonly ValuesService _valueService;
         private readonly SubsystemService _subsystemService;
         private readonly INotyfService _notificationService;
@@ -32,7 +32,7 @@ namespace AdminBoard.Controllers
             SignInManager<User> signInManager,
             ValuesService valuesService,
             RuleService ruleService,
-            VariableService variableService,
+            SetService setService,
             INotyfService notificationService,
             SubsystemService subsystemService
         )
@@ -41,7 +41,7 @@ namespace AdminBoard.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
             _ruleService = ruleService;
-            _variableService = variableService;
+            _setService = setService;
             _valueService = valuesService;
             _notificationService = notificationService;
             _subsystemService = subsystemService;
@@ -51,7 +51,7 @@ namespace AdminBoard.Controllers
         public IActionResult Index()
         {
             var rules = new List<RuleViewModel>();
-            var sets = _variableService.GetAll();
+            var sets = _setService.GetAll();
             var subsystems = _subsystemService.GetAll();
 
             foreach (var rule in _ruleService.GetAll())
@@ -106,7 +106,7 @@ namespace AdminBoard.Controllers
             try
             {
                 RuleViewModel ruleViewModel = new RuleViewModel();
-                var sets = _variableService.GetAll();
+                var sets = _setService.GetAll();
                 var subsystems = _subsystemService.GetAll();
 
                 sets.ForEach(set =>
@@ -162,7 +162,7 @@ namespace AdminBoard.Controllers
                 RuleViewModel model = new RuleViewModel();
                 model.RuleID = id;
 
-                var sets = _variableService.GetAll();
+                var sets = _setService.GetAll();
                 var subsystems = _subsystemService.GetAll();
 
                 sets.ForEach(set =>

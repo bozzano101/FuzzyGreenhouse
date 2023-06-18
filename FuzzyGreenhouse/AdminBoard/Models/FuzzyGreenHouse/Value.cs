@@ -8,17 +8,7 @@ namespace AdminBoard.Models.FuzzyGreenHouse
 {
     public class Value
     {
-        public int ValueID { get; set; }
-        public string Name { get; set; }
-        public List<float> XCoords { get; set; }
-        public List<float> YCoords { get; set; }
-        public Set Set { get; set; }
-        public int SetID { get; set; }
-
-        public Value()
-        {
-
-        }
+        public Value() { }
 
         public Value(string valueName, List<float> xs, List<float> ys)
         {
@@ -26,6 +16,14 @@ namespace AdminBoard.Models.FuzzyGreenHouse
             XCoords = xs;
             YCoords = ys;
         }
+
+        public int ValueID { get; set; }
+        public string Name { get; set; }
+        public List<float> XCoords { get; set; }
+        public List<float> YCoords { get; set; }
+
+        public Set Set { get; set; }
+        public int SetID { get; set; }
     }
 
     public class ValueConfiguration : IEntityTypeConfiguration<Value>

@@ -8,7 +8,6 @@
     <div class="col">
         <div class="card w-75 mx-auto">
             <div>
-                <h3 class="pt-4 text-center"> Edit fuzzy variable ID = @Model.SubsystemID </h3>
                 <form method="post" asp-controller="Subsystems" asp-action="Edit" class="p-4">
                     @*SubsystemID*@
                     <input hidden type="text" asp-for="SubsystemID" value=@Model.SubsystemID>

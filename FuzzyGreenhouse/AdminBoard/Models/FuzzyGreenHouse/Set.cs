@@ -12,22 +12,21 @@ namespace AdminBoard.Models.FuzzyGreenHouse
 
     public class Set
     {
-        public int SetID { get; set; }
-        public string Name { get; set; }
-
-        public SetType Type { get; set; }
-        public ICollection<Value> Values { get; set; }
-
-        public Set()
-        {
-
-        }
+        public Set() { }
 
         public Set(string name, SetType type)
         {
             Name = name;
             Type = type;
         }
+
+        public int SetID { get; set; }
+        public string Name { get; set; }
+        public SetType Type { get; set; }
+        public ICollection<Value> Values { get; set; }
+
+        public Subsystem Subsystem { get; set; }
+        public int SubsystemID { get; set; }
     }
 
     public class SetConfiguration : IEntityTypeConfiguration<Set>

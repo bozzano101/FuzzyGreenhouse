@@ -1,19 +1,22 @@
 ﻿@model AdminBoard.Models.FuzzyGreenHouse.Set
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
 }
 
 <div class="row">
     <div class="col">
         <div class="card w-75 mx-auto">
             <div>
-                <h3 class="pt-4 text-center"> Create new fuzzy variable</h3>
-                <form method="post" asp-controller="Variables" asp-action="Create" class="p-4">
+                <h3 class="pt-4 text-center"> Edit fuzzy set </h3>
+                <form method="post" asp-controller="Set" asp-action="Edit" class="p-4">
+                    @*SetID*@
+                    <input hidden type="text" asp-for="SetID" value=@Model.SetID>
+
                     @*Name*@
                     <div class="form-group">
                         <label for="nameInput">Name</label>
-                        <input type="text" class="form-control" id="nameInput" placeholder="Enter fuzzy variable name" asp-for="Name">
+                        <input type="text" class="form-control" id="nameInput" placeholder="Enter fuzzy set name" asp-for="Name">
                     </div>
 
                     @*Type*@
@@ -25,11 +28,11 @@
                         </select>
                     </div>
 
-                    @*Save*@ 
+                    @*Save*@
                     <div class="form-group w-100 mx-auto">
                         <div class="input-group-addon text-center" id="buttons">
-                            <button class="btn btn-outline-success" type="submit">Save</button>
-                            <a class="btn btn-outline-warning" href="@Url.Action("Index", "Variables")">Back</a>
+                            <button class="btn btn-outline-success" type="submit">Update</button>
+                            <a class="btn btn-outline-warning" href="@Url.Action("Index", "Set")">Back</a>
                         </div>
                     </div>
                 </form>
@@ -37,4 +40,3 @@
         </div>
     </div>
 </div>
-

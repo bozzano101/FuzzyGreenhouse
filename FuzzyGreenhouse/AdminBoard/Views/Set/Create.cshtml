@@ -1,22 +1,19 @@
-﻿@model AdminBoard.Models.FuzzyGreenHouse.Set
+﻿@model AdminBoard.Models.SetViewModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Create";
 }
 
 <div class="row">
     <div class="col">
         <div class="card w-75 mx-auto">
             <div>
-                <h3 class="pt-4 text-center"> Edit fuzzy variable ID = @Model.SetID </h3>
-                <form method="post" asp-controller="Variables" asp-action="Edit" class="p-4">
-                    @*SetID*@
-                    <input hidden type="text" asp-for="SetID" value=@Model.SetID>
-
+                <h3 class="pt-4 text-center"> Create new fuzzy set</h3>
+                <form method="post" asp-controller="Set" asp-action="Create" class="p-4">
                     @*Name*@
                     <div class="form-group">
                         <label for="nameInput">Name</label>
-                        <input type="text" class="form-control" id="nameInput" placeholder="Enter fuzzy variable name" asp-for="Name">
+                        <input type="text" class="form-control" id="nameInput" placeholder="Enter fuzzy set name" asp-for="Name">
                     </div>
 
                     @*Type*@
@@ -28,11 +25,17 @@
                         </select>
                     </div>
 
-                    @*Save*@
+                    @*SelectSubsystem*@
+                    <div class="form-group">
+                        <label for="set">Select <i>Subsystem</i> to assign <i>Set</i> to</label>
+                        <select class="form-control" asp-for="SelectedSubsystem" asp-items="Model.AllSubsystems"></select>
+                    </div>
+
+                    @*Save*@ 
                     <div class="form-group w-100 mx-auto">
                         <div class="input-group-addon text-center" id="buttons">
-                            <button class="btn btn-outline-success" type="submit">Update</button>
-                            <a class="btn btn-outline-warning" href="@Url.Action("Index", "Variables")">Back</a>
+                            <button class="btn btn-outline-success" type="submit">Save</button>
+                            <a class="btn btn-outline-warning" href="@Url.Action("Index", "Set")">Back</a>
                         </div>
                     </div>
                 </form>
@@ -40,3 +43,4 @@
         </div>
     </div>
 </div>
+

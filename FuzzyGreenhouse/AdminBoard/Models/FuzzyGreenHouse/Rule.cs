@@ -11,26 +11,7 @@ namespace AdminBoard.Models.FuzzyGreenHouse
 
     public class Rule
     {
-        public int RuleID { get; set; }
-     
-        public Value InputValue1 { get; set; }
-        public int InputValue1ID { get; set; }
-
-        public Value InputValue2 { get; set; }
-        public int InputValue2ID { get; set; }
-        
-        public Value OutputValue { get; set; }
-        public int OutputValueID { get; set; }
-
-        public Subsystem Subsystem { get; set; }
-        public int SubsystemID { get; set; }
-
-        public LogicOperator Operator { get; set; }
-
-        public Rule()
-        {
-
-        }
+        public Rule() { }
 
         public Rule(Value inputValue1, Value inputValue2, Value outputValue, LogicOperator logicOperator, Subsystem subsystem)
         {
@@ -40,6 +21,22 @@ namespace AdminBoard.Models.FuzzyGreenHouse
             Operator = logicOperator;
             Subsystem = subsystem;
         }
+
+        public int RuleID { get; set; }
+
+        public Value InputValue1 { get; set; }
+        public int InputValue1ID { get; set; }
+
+        public Value InputValue2 { get; set; }
+        public int InputValue2ID { get; set; }
+
+        public Value OutputValue { get; set; }
+        public int OutputValueID { get; set; }
+
+        public Subsystem Subsystem { get; set; }
+        public int SubsystemID { get; set; }
+
+        public LogicOperator Operator { get; set; }
     }
 
     public class RuleConfiguration : IEntityTypeConfiguration<Rule>

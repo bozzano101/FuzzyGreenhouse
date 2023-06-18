@@ -8,13 +8,13 @@ using System.Linq;
 
 namespace AdminBoard.Infrastructure.Services
 {
-    public class VariableService
+    public class SetService
     {
-        private readonly ILogger<VariableService> _logger;
+        private readonly ILogger<SetService> _logger;
         private readonly FuzzyGreenhouseDbContext _context;
         private readonly VersionService _versionService;
 
-        public VariableService(ILogger<VariableService> logger, FuzzyGreenhouseDbContext context, VersionService versionService)
+        public SetService(ILogger<SetService> logger, FuzzyGreenhouseDbContext context, VersionService versionService)
         {
             _logger = logger;
             _context = context;

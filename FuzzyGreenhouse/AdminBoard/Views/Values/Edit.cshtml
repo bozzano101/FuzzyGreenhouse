@@ -11,7 +11,7 @@
     <div class="col">
         <div class="card w-75 mx-auto">
             <div>
-                <h3 class="pt-4 text-center"> Edit value : @Model.ValueID </h3>
+                <h3 class="pt-4 text-center"> Edit value  </h3>
                 <form method="post" asp-controller="Values" asp-action="Edit" class="p-4">
 
                     @*Canvas*@
@@ -22,7 +22,7 @@
                     @*Name*@
                     <div class="form-group">
                         <label for="nameInput">Name</label>
-                        <input type="text" class="form-control" id="nameInput" placeholder="Enter fuzzy variable name" asp-for="Name">
+                        <input type="text" class="form-control" id="nameInput" placeholder="Enter fuzzy value name" asp-for="Name">
                     </div>
 
                     @*XCoords*@

@@ -15,32 +15,32 @@ namespace AdminBoard.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly ValuesService _valuesService;
-        private readonly VariableService _variableService;
+        private readonly SetService _setService;
         private readonly INotyfService _notificationService;
 
-        public ValuesController(ILogger<ValuesController> logger, UserManager<User> userManager, SignInManager<User> signInManager, ValuesService valuesService, VariableService variableService, INotyfService notificationService)
+        public ValuesController(ILogger<ValuesController> logger, UserManager<User> userManager, SignInManager<User> signInManager, ValuesService valuesService, SetService setService, INotyfService notificationService)
         {
             _logger = logger;
             _userManager = userManager;
             _signInManager = signInManager;
             _valuesService = valuesService;
-            _variableService = variableService;
+            _setService = setService;
             _notificationService = notificationService;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            var allValues = _valuesService.GetAll();
-            ViewBag.Names = _variableService.GetNames();
+            var values = _valuesService.GetAll();
+            ViewBag.Names = _setService.GetNames();
 
-            return View("Index", _valuesService.GetAll());
+            return View("Index", values);
         }
 
         [HttpGet]
         public IActionResult Create()
         {
-            ValueViewModel valueViewModel = new ValueViewModel(_variableService.GetAll());
+            ValueViewModel valueViewModel = new ValueViewModel(_setService.GetAll());
 
             return View("Create", valueViewModel);
         }
@@ -50,7 +50,7 @@ namespace AdminBoard.Controllers
         {
             try
             {
-                _valuesService.Insert(model.ConvertToValue(_variableService.Get(Convert.ToInt32(model.SelectedSet))));
+                _valuesService.Insert(model.ConvertToValue(_setService.Get(Convert.ToInt32(model.SelectedSet))));
                 _notificationService.Success("Value inserted successfully.");
                 return RedirectToAction("Index");
             }
@@ -71,8 +71,8 @@ namespace AdminBoard.Controllers
             }
             catch (Exception e)
             {
-                _notificationService.Error("Failed to delete variable");
-                return StatusCode(500, $"Failed to delete set: {e.Message}");
+                _notificationService.Error("Failed to delete value");
+                return StatusCode(500, $"Failed to delete value: {e.Message}");
             }
         }
 
@@ -81,7 +81,7 @@ namespace AdminBoard.Controllers
         {
             try
             {
-                var model = new ValueViewModel(_valuesService.Get(id), _variableService.GetAll());
+                var model = new ValueViewModel(_valuesService.Get(id), _setService.GetAll());
                 return View("Edit", model);
             }
             catch (Exception e)
@@ -95,14 +95,14 @@ namespace AdminBoard.Controllers
         {
             try
             {
-                _valuesService.Update(model.ConvertToValue(_variableService.Get(Convert.ToInt32(model.SelectedSet))));
-                _notificationService.Success("Variable successfully edited.");
+                _valuesService.Update(model.ConvertToValue(_setService.Get(Convert.ToInt32(model.SelectedSet))));
+                _notificationService.Success("Value successfully edited.");
                 return RedirectToAction("Index");
             }
             catch (Exception e)
              {
                 _notificationService.Error("Failed to edit value");
-                return StatusCode(500, $"Failed to update set: {e.Message}");
+                return StatusCode(500, $"Failed to update value: {e.Message}");
             }
         }
     }

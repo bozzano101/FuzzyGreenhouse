@@ -6,10 +6,6 @@ namespace AdminBoard.Models.FuzzyGreenHouse
 {
     public class Subsystem
     {
-        public int SubsystemID { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-
         public Subsystem() { }
 
         public Subsystem(string name, string description)
@@ -17,6 +13,10 @@ namespace AdminBoard.Models.FuzzyGreenHouse
             Name = name;
             Description = description;
         }
+
+        public int SubsystemID { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
     }
 
     public class SubsystemConfiguration : IEntityTypeConfiguration<Version>

@@ -1,4 +1,5 @@
 ﻿using AdminBoard.Infrastructure.Services;
+using AdminBoard.Models;
 using AdminBoard.Models.FuzzyGreenHouse;
 using AdminBoard.Models.Identity;
 using AspNetCoreHero.ToastNotification.Abstractions;
@@ -11,47 +12,58 @@ using System;
 namespace AdminBoard.Controllers
 {
     [Authorize]
-    public class VariablesController : Controller
+    public class SetController : Controller
     {
-        private readonly ILogger<VariablesController> _logger;
+        private readonly ILogger<SetController> _logger;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly VariableService _variableService;
+        private readonly SetService _setService;
+        private readonly SubsystemService _subsystemService;
         private readonly INotyfService _notificationService;
 
-        public VariablesController(ILogger<VariablesController> logger, UserManager<User> userManager, SignInManager<User> signInManager, VariableService variableService, INotyfService notificationService)
+        public SetController(
+            ILogger<SetController> logger, 
+            UserManager<User> userManager, 
+            SignInManager<User> signInManager,
+            SubsystemService subsystemService,
+            SetService setService, 
+            INotyfService notificationService)
         {
             _logger = logger;
             _userManager = userManager;
             _signInManager = signInManager;
-            _variableService = variableService;
+            _setService = setService;
+            _subsystemService = subsystemService;
             _notificationService = notificationService;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            return View("Index",_variableService.GetAll());
+            var sets = _setService.GetAll();
+            ViewBag.Names = _subsystemService.GetNames();
+            return View("Index", sets);
         }
 
         [HttpGet]
         public IActionResult Create()
         {
-            return View("Create");
+            SetViewModel setViewModel = new(_subsystemService.GetAll());
+            return View("Create", setViewModel);
         }
 
         [HttpPost]
-        public IActionResult Create(Set model)
+        public IActionResult Create(SetViewModel model)
         {
             try
             {
-                _variableService.Insert(model);
-                _notificationService.Success("Variable inserted successfully.");
+                _setService.Insert(model.ConvertToSet());
+                _notificationService.Success("Set inserted successfully.");
                 return RedirectToAction("Index");
             }
             catch (Exception e)
             {
-                _notificationService.Error("Failed to insert variable");
+                _notificationService.Error("Failed to insert set");
                 return StatusCode(500, $"Failed to create set: {e.Message}");
             }
         }
@@ -61,12 +73,12 @@ namespace AdminBoard.Controllers
         {
             try
             {
-                _variableService.Delete(id);
+                _setService.Delete(id);
                 return Json(true);
             }
             catch (Exception e)
             {
-                _notificationService.Error("Failed to delete variable");
+                _notificationService.Error("Failed to delete set");
                 return StatusCode(500, $"Failed to delete set: {e.Message}");
             }
         }
@@ -76,7 +88,7 @@ namespace AdminBoard.Controllers
         {
             try
             {
-                var model = _variableService.Get(id);
+                var model = _setService.Get(id);
                 return View("Edit", model);
             }
             catch (Exception e)
@@ -90,13 +102,13 @@ namespace AdminBoard.Controllers
         {
             try
             {
-                _variableService.Update(model);
-                _notificationService.Success("Variable successfully edited.");
+                _setService.Update(model);
+                _notificationService.Success("Set successfully edited.");
                 return RedirectToAction("Index");
             }
             catch (Exception e)
             {
-                _notificationService.Error("Failed to edit variable");
+                _notificationService.Error("Failed to edit set");
                 return StatusCode(500, $"Failed to update set: {e.Message}");
             }
         }

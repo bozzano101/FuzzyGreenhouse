@@ -61,7 +61,7 @@ namespace AdminBoard
             services.AddIdentity<User, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false).AddRoles<IdentityRole>().AddDefaultUI().AddEntityFrameworkStores<IdentityContext>();
 
             services.AddScoped<IUserClaimsPrincipalFactory<User>, AppUserClaimsPrincipalFactory>();
-            services.AddScoped<VariableService, VariableService>();
+            services.AddScoped<SetService, SetService>();
             services.AddScoped<ValuesService, ValuesService>();
             services.AddScoped<RuleService, RuleService>();
             services.AddScoped<VersionService, VersionService>();
