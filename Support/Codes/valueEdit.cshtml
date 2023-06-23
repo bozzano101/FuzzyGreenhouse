@@ -1,0 +1,62 @@
+@model AdminBoard.Models.ValueViewModel
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="row" id="edit">
+    <div class="col">
+        <div class="card w-75 mx-auto">
+            <div>
+                <h3 class="pt-4 text-center"> Edit value  </h3>
+                <form method="post" asp-controller="Values" asp-action="Edit" class="p-4">
+
+                    @*Canvas*@
+                    <canvas id="chart"></canvas>
+                    <input type="hidden" asp-for="ValueID"/>
+
+                    @*Name*@
+                    <div class="form-group">
+                        <label for="nameInput">Name</label>
+                        <input type="text" class="form-control" id="nameInput" placeholder="Enter fuzzy value name" asp-for="Name">
+                    </div>
+
+                    ... 
+
+                    @*Save*@
+                    <div class="form-group w-100 mx-auto">
+                        <div class="input-group-addon text-center" id="buttons">
+                            <button class="btn btn-outline-success" type="submit">Save</button>
+                            <a class="btn btn-outline-warning" href="@Url.Action("Index", "Values")">Back</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const config = {
+       ...
+    };
+    const myChart = new Chart(document.getElementById("chart"), config);
+
+    const XCoordFunc = () => {
+        let array = JSON.parse("[" + $("#XCoords").val() + "]");
+        myChart.data.labels = array.map((e) => { return String(e) });
+        myChart.update();
+    }
+
+    const YCoordFunc = () => {
+       ...
+    }
+
+    $("#XCoords").change(() => { XCoordFunc() });
+    $("#YCoords").change(() => { YCoordFunc() });
+
+    $("#edit").ready(() => {
+        $("SelectedSet").val(@Model.SelectedSet);
+        XCoordFunc();
+        YCoordFunc();
+    });
+</script>
