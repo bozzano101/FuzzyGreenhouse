@@ -1,5 +1,9 @@
 ﻿using FuzzyLib;
 using GreenhouseCore.HardwareBridge;
+using GreenhouseCore.WebServer;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,6 +18,8 @@ namespace GreenhouseCore
         private static FGCData Data;
         private static FuzzySystem CarSystem;
         private static PinoutConfigurations PinoutConfiguration;
+
+        private static Thread webServer;
 
         private static async Task FetchDataForFirstTime()
         {
@@ -157,6 +163,7 @@ namespace GreenhouseCore
                     StartGreenhouse();
                     break;
                 case "0":
+                    StopHttpServer();
                     Console.WriteLine("Goodbye!");
                     Environment.Exit(0);
                     break;
@@ -191,12 +198,36 @@ namespace GreenhouseCore
             }
         }
 
+        private static void CreateAndStartHttpServer()
+        {
+            var host = Host.CreateDefaultBuilder().ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseKestrel();
+                webBuilder.UseStartup<WebStartup>();
+                webBuilder.UseUrls("http://*:5006");
+                webBuilder.ConfigureLogging((logging) => { logging.ClearProviders(); });
+            }).Build();
+
+            webServer = new Thread(delegate () { host.Run(); });
+
+            webServer.Start();
+
+        }
+
+        private static void StopHttpServer()
+        {
+            webServer.Interrupt();
+        }
+
         public static async Task Main(string[] args)
         {
             Console.WriteLine("----- GreenhouseCore -----");
             Console.WriteLine("Application started.");
             Console.WriteLine();
 
+            Debugger.Break();
+
+            CreateAndStartHttpServer();
             SelectDatabase();
             await FetchDataForFirstTime();
             TEST_CAR();
