@@ -4,9 +4,11 @@ using GreenhouseCore.WebServer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,7 +28,7 @@ namespace GreenhouseCore
             try
             {
                 Console.WriteLine("Fetching data from database started.");
-                Data = await DatabaseBridge.FetchData();
+                Data = await DatabaseBridge.FetchDataV2();
                 Console.WriteLine("Fetching data from database finished.");
                 Console.WriteLine();
             }
@@ -35,6 +37,57 @@ namespace GreenhouseCore
                 Console.WriteLine("Failed to connect to database and fetch data.");
                 Console.WriteLine(e.Message);
                 Environment.Exit(-1);
+            }
+        }
+
+        private static void AssignInputDataToPins(FGCData data)
+        {
+            PinoutConfiguration = new PinoutConfigurations();
+            Console.WriteLine("Assigning input pins started.");
+
+            var inputSets = new List<FuzzyInputSet>();
+            foreach (var fuzzySystem in data.FuzzySystems)
+                inputSets.AddRange(fuzzySystem.InputSets);
+
+            inputSets = inputSets.Distinct().ToList();
+            foreach (var inputSet in inputSets)
+            {
+                Console.WriteLine($"    Setting up pin for sensor: {inputSet.Name} ");
+
+                // Found sensor boundaries
+                var xValues = new List<float>();
+                foreach (var value in inputSet.Values)
+                    xValues.Add(value.Value);
+
+                // Create sensor
+                Sensor sensorInput = new()
+                {
+                    DatabaseID = inputSet.Id,
+                    Name = inputSet.Name,
+                    MinValue = xValues.Min(),
+                    MaxValue = xValues.Max()
+                };
+
+                
+                while(true)
+                {
+                    Console.WriteLine($"    Available pins are: {PinoutConfiguration.GetAvailablePins()}");
+                    var input = Console.ReadLine();
+                    var result = input switch
+                    {
+                        "0" => 0,
+                        "1" => 1,
+                        "2" => 2,
+                        "3" => 3,
+                        "4" => 4,
+                        "5" => 5,
+                        _ => -1
+                    };
+                    var isAssigned = PinoutConfiguration.AssignInputPin(sensorInput, result);
+                    if (isAssigned)
+                        break;
+                    Console.WriteLine($"    Wrong pin entered: {input}");
+                }
             }
         }
 
@@ -89,6 +142,12 @@ namespace GreenhouseCore
             PinoutConfiguration.AssingOutputPin(sensorOutput, i); ++i;
 
             // END TEST
+        }
+
+        private static void PrintFGCDataToFile()
+        {
+            var output = JsonConvert.SerializeObject(Data);
+            File.WriteAllText("./output.txt", output);
         }
 
         private static void DisplayPinoutAndValues()
@@ -224,13 +283,12 @@ namespace GreenhouseCore
             Console.WriteLine("----- GreenhouseCore -----");
             Console.WriteLine("Application started.");
             Console.WriteLine();
-
-            Debugger.Break();
-
+            
             CreateAndStartHttpServer();
             SelectDatabase();
             await FetchDataForFirstTime();
-            TEST_CAR();
+            PrintFGCDataToFile();
+            AssignInputDataToPins(Data);
 
             while(true)
             {

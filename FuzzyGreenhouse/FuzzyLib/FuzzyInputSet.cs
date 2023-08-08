@@ -50,6 +50,6 @@ namespace FuzzyLib
         /// <summary>
         /// This property represents all values for this particular set
         /// </summary>
-        public List<FuzzyInput> Values { get; set; }
+        public List<FuzzyInput> Values { get; set; }   
     }
 }

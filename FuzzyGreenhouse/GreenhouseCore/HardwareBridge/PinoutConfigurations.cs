@@ -7,20 +7,31 @@ namespace GreenhouseCore.HardwareBridge
     {
         public Dictionary<int, Sensor> InputsPinoutConfigurations { get; set; }
         public KeyValuePair<int, Sensor> OutputPinoutConfiguration { get; set; }
+        private readonly List<string> availablePins = new() { "0", "1", "2", "3", "4", "5", "6" };
 
         public PinoutConfigurations()
         {
             InputsPinoutConfigurations = new Dictionary<int, Sensor>();
         }
 
-        public void AssignInputPin(Sensor sensorInput, int pinNumber)
+        public string GetAvailablePins()
         {
-            if(InputsPinoutConfigurations.ContainsKey(pinNumber))
+            return String.Join(", ", availablePins.ToArray());
+        }
+
+        public bool AssignInputPin(Sensor sensorInput, int pinNumber)
+        {
+            if(availablePins.Contains(pinNumber.ToString()))
             {
-                throw new ArgumentException($"Pin number {pinNumber} is occupied by sensor: {InputsPinoutConfigurations[pinNumber]}");
+                if (InputsPinoutConfigurations.ContainsKey(pinNumber))
+                    throw new ArgumentException($"Pin number {pinNumber} is occupied by sensor: {InputsPinoutConfigurations[pinNumber]}");
+
+                availablePins.Remove(pinNumber.ToString());
+                InputsPinoutConfigurations.Add(pinNumber, sensorInput);
+                return true;
             }
 
-            InputsPinoutConfigurations.Add(pinNumber, sensorInput);
+            return false;
         }
 
         public void AssingOutputPin(Sensor sensorOutput, int pinNumber)

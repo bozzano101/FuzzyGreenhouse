@@ -275,13 +275,15 @@
             Field that represent all rules for determining output value
             </summary>
         </member>
-        <member name="M:FuzzyLib.FuzzySystem.#ctor(System.Collections.Generic.List{FuzzyLib.FuzzyInputSet},FuzzyLib.FuzzyOutputSet,System.Collections.Generic.List{FuzzyLib.FuzzyRules})">
+        <member name="P:FuzzyLib.FuzzySystem.Name">
             <summary>
-            Constructor that accept sets and rules from other services
+            Field that represents Fuzzy system name
             </summary>
-            <param name="inputSets"> Input variables (sets) </param>
-            <param name="outputSet"> Output variables (sets) </param>
-            <param name="rules"> Rules </param>
+        </member>
+        <member name="P:FuzzyLib.FuzzySystem.Description">
+            <summary>
+            Field that represents Fuzzy system description
+            </summary>
         </member>
         <member name="M:FuzzyLib.FuzzySystem.ChangeInputSetValue(System.Single,System.Nullable{System.Int32},System.String)">
             <summary>

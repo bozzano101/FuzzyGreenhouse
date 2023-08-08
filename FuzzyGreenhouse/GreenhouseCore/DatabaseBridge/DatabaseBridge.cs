@@ -110,11 +110,138 @@ namespace GreenhouseCore
             }
         }
 
-        // Fetches all data from database: sets, values, rules
-        public static async Task<FGCData> FetchData()
+        public static async Task<FGCData> FetchDataV2()
         {
             var connection = new MySqlConnection(DatabaseBridge.ConnectionString);
 
+            try
+            {
+                // Fetch subsystems
+                var fuzzySystems = new List<FuzzySystem>();
+
+                await connection.OpenAsync();
+                var commandSubsystem = new MySqlCommand("SELECT * FROM `subsystem`", connection);
+                var resultSubsystem = await commandSubsystem.ExecuteReaderAsync();
+
+                while (await resultSubsystem.ReadAsync())
+                {
+                    int subSystemId      = Convert.ToInt32(resultSubsystem[0]);
+                    string subSystemName = Convert.ToString(resultSubsystem[1]);
+                    string subsystemDesc = Convert.ToString(resultSubsystem[2]);
+
+                    fuzzySystems.Add(new FuzzySystem() { Name = subSystemName, Description = subsystemDesc, Id = subSystemId });
+                }
+                await resultSubsystem.CloseAsync();
+
+                // Fetch sets
+                var commandSet = new MySqlCommand("SELECT * FROM `set`", connection);
+                var resultSet = await commandSet.ExecuteReaderAsync();
+
+                while (await resultSet.ReadAsync())
+                {
+                    int setId = Convert.ToInt32(resultSet[0]);
+                    string setName = Convert.ToString(resultSet[1]);
+                    string setType = Convert.ToBoolean(resultSet[2]) ? "Output" : "Input";
+                    int subSystemId = Convert.ToInt32(resultSet[3]);
+
+                    var subSystem = fuzzySystems.Where(f => f.Id == subSystemId).First();
+                    if (setType == "Input")
+                        subSystem.InputSets.Add(new FuzzyInputSet(setId, setName));
+                    else
+                        subSystem.OutputSet = new FuzzyOutputSet(setId, setName);
+                }
+                await resultSet.CloseAsync();
+
+                // Fetch values
+                var commandValues = new MySqlCommand($"SELECT * FROM `value`", connection);
+                var resultValues = await commandValues.ExecuteReaderAsync();
+
+                while (await resultValues.ReadAsync())
+                {
+                    var valueId = Convert.ToInt32(resultValues[0]);
+                    var valueName = Convert.ToString(resultValues[1]);
+                    var valueXCoords = Convert.ToString(resultValues[2]).Split(',').Select(float.Parse).ToList();
+                    var valueYCoords = Convert.ToString(resultValues[3]).Split(',').Select(float.Parse).ToList();
+                    var setId = Convert.ToInt32(resultValues[4]);
+
+                    foreach(var fuzzySystem in fuzzySystems)
+                    {
+                        var inputSet = fuzzySystem.InputSets.Where(f => f.Id == setId).ToList();
+                        if (inputSet.Count == 1)
+                        {
+                            inputSet[0].AddValue(new FuzzyInput(valueId, valueName, valueXCoords, valueYCoords));
+                            break;
+                        }
+
+                        if(fuzzySystem.OutputSet.Id == setId)
+                        {
+                            fuzzySystem.OutputSet.AddValue(new FuzzyOutput(valueId, valueName, valueXCoords, valueYCoords));
+                            break;
+                        }
+                    };
+                }
+                await resultValues.CloseAsync();
+
+                // Fetch rules
+                var commandRules = new MySqlCommand($"SELECT * FROM `rule`", connection);
+                var resultRules = await commandRules.ExecuteReaderAsync();
+
+                while (await resultRules.ReadAsync())
+                {
+                    var logicOperator = Convert.ToInt32(resultRules[1]) == 0 ? LogicOperator.AND : LogicOperator.OR;
+                    var input1Id = Convert.ToInt32(resultRules[2]);
+                    var input2Id = Convert.ToInt32(resultRules[3]);
+                    var outputId = Convert.ToInt32(resultRules[4]);
+                    var subsystemId = Convert.ToInt32(resultRules[5]);
+
+                    var subSystem = fuzzySystems.Where(f => f.Id == subsystemId).First();
+                    FuzzyInput input1 = null;
+                    FuzzyInput input2 = null;
+                    FuzzyOutput output = null;
+
+                    output = subSystem.OutputSet.Values.Where(f => f.Id == outputId).First();
+
+                    foreach (var input in subSystem.InputSets)
+                    {
+                        var input1Candidate = input.Values.Where(f => f.Id == input1Id).FirstOrDefault();
+                        var input2Candidate = input.Values.Where(f => f.Id == input2Id).FirstOrDefault();
+                        input1 ??= input1Candidate;
+                        input2 ??= input2Candidate;
+                    }
+
+                    subSystem.Rules.Add(new FuzzyRules(input1, input2, output, logicOperator));
+                }
+                await resultRules.CloseAsync();
+
+                // Close SQL connection, FGC data can be created
+                await connection.CloseAsync();
+
+                return new FGCData(fuzzySystems);
+            }
+            catch (MySqlException ex)
+            {
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.ForegroundColor = ConsoleColor.White;
+                switch (ex.Number)
+                {
+                    case 0:
+                        Console.WriteLine("Connection to MySql database failed. Reason: Cannot connect to server.");
+                        break;
+                    case 1042:
+                        Console.WriteLine("Connection to MySql database failed. Reason: Wrong username, password or url.");
+                        break;
+                }
+                await connection.CloseAsync();
+
+                throw new Exception("Failed to fetch data from server", ex);
+            }
+        }
+
+        // Fetches all data from database: sets, values, rules
+        [Obsolete("FetchDataV2 is faster, easier to read and accompany new updates to actual database. Use it instead.")]
+        public static async Task<FGCData> FetchData()
+        {
+            var connection = new MySqlConnection(DatabaseBridge.ConnectionString);
             try
             {
                 var fuzzyInputSets = new List<FuzzyInputSet>();
@@ -200,10 +327,10 @@ namespace GreenhouseCore
                 foreach (var outputSet in fuzzyOutputSets)
                 {
                     var rulesForOutputSet = new List<FuzzyRules>();
-                    foreach(var rule in fuzzyRules)
+                    foreach (var rule in fuzzyRules)
                     {
                         var outputRuleName = await GetOutputSetName(rule.Output.Id);
-                        if(outputSet.Name.Equals(outputRuleName))
+                        if (outputSet.Name.Equals(outputRuleName))
                             rulesForOutputSet.Add(rule);
                     }
 
@@ -221,11 +348,12 @@ namespace GreenhouseCore
                         );
                     }
 
-                    var fuzzySystem = new FuzzySystem(
-                        inputsForThisSystem.ToList(),
-                        outputSet,
-                        rulesForOutputSet
-                    ); ;
+                    var fuzzySystem = new FuzzySystem()
+                    {
+                        InputSets = inputsForThisSystem.ToList(),
+                        OutputSet = outputSet,
+                        Rules = rulesForOutputSet
+                    };
 
                     fuzzySystems.Add(fuzzySystem);
                 }
@@ -250,7 +378,7 @@ namespace GreenhouseCore
                 throw new Exception("Failed to fetch data from server", ex);
             }
         }
-    
+
         // Fetches latest version date
         public static async Task<DateTime> FetchLatestVersion()
         {
@@ -294,4 +422,6 @@ namespace GreenhouseCore
             }
         }
     }
+
+
 }

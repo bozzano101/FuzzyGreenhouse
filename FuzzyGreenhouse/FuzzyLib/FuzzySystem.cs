@@ -10,7 +10,7 @@ namespace FuzzyLib
         /// <summary>
         /// Field that represents all input variables (sets) that will affect output result
         /// </summary>
-        public List<FuzzyInputSet> InputSets { get; set; }
+        public List<FuzzyInputSet> InputSets { get; set; } = new List<FuzzyInputSet>();
         /// <summary>
         /// Field that represent output result based upon input variables
         /// </summary>
@@ -18,20 +18,19 @@ namespace FuzzyLib
         /// <summary>
         /// Field that represent all rules for determining output value
         /// </summary>
-        public List<FuzzyRules> Rules { get; set; }
-
+        public List<FuzzyRules> Rules { get; set; } = new List<FuzzyRules>();
         /// <summary>
-        /// Constructor that accept sets and rules from other services
+        /// Field that represents Fuzzy system name
         /// </summary>
-        /// <param name="inputSets"> Input variables (sets) </param>
-        /// <param name="outputSet"> Output variables (sets) </param>
-        /// <param name="rules"> Rules </param>
-        public FuzzySystem(List<FuzzyInputSet> inputSets, FuzzyOutputSet outputSet, List<FuzzyRules> rules)
-        {
-            InputSets = inputSets;
-            Rules = rules;
-            OutputSet = outputSet;
-        }
+        public string Name { get; set; }
+        /// <summary>
+        /// Field that represents Fuzzy system description
+        /// </summary>
+        public string Description { get; set; }
+        /// <summary>
+        /// Field that represents Fuzzy system Id
+        /// </summary>
+        public int Id { get; set; }
 
         /// <summary>
         /// Method used for changing value in one of Input sets.

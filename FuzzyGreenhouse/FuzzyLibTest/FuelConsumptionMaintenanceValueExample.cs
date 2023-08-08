@@ -41,7 +41,12 @@ namespace FuzzyLibTest
                 new FuzzyRules(Potrosnja.Values[2], Pouzdanost.Values[1], Vrednost.Values[0], LogicOperator.AND)
             };
 
-            FuzzySystem system = new(fuzzyInputSets, Vrednost, rules);
+            FuzzySystem system = new()
+            {
+                InputSets = fuzzyInputSets,
+                OutputSet = Vrednost,
+                Rules = rules
+            };
 
             system.ChangeInputSetValue(8, null, "Potrosnja");
             system.ChangeInputSetValue(7, null, "Pouzdanost");
@@ -81,7 +86,13 @@ namespace FuzzyLibTest
             rules.Add(new FuzzyRules(Potrosnja.Values[2], Pouzdanost.Values[0], Vrednost.Values[1], LogicOperator.AND));
             rules.Add(new FuzzyRules(Potrosnja.Values[2], Pouzdanost.Values[1], Vrednost.Values[0], LogicOperator.AND));
 
-            FuzzySystem system = new FuzzySystem(fuzzyInputSets, Vrednost, rules);
+            FuzzySystem system = new()
+            {
+                InputSets = fuzzyInputSets,
+                OutputSet = Vrednost,
+                Rules = rules
+            };
+
             Assert.IsTrue(Math.Abs(system.CalculateOutput() - 25.26315) < 0.001);
         }
 
