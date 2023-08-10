@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -57,7 +58,7 @@ namespace GreenhouseCore
                 // Found sensor boundaries
                 var xValues = new List<float>();
                 foreach (var value in inputSet.Values)
-                    xValues.Add(value.Value);
+                    xValues.AddRange(value.Points.Select(p => p.X).ToList());
 
                 // Create sensor
                 Sensor sensorInput = new()
@@ -71,7 +72,12 @@ namespace GreenhouseCore
                 
                 while(true)
                 {
-                    Console.WriteLine($"    Available pins are: {PinoutConfiguration.GetAvailablePins()}");
+                    var availablePins = PinoutConfiguration.GetAvailablePins();
+                    if(string.IsNullOrEmpty(availablePins))
+                    {
+                        Console.WriteLine($"    There is no more available hardware pins. Proceeding with already assigned."); return;
+                    }    
+                    Console.WriteLine($"    Available pins are: {availablePins}");
                     var input = Console.ReadLine();
                     var result = input switch
                     {
@@ -102,15 +108,11 @@ namespace GreenhouseCore
             foreach(var inputSet in CarSystem.InputSets)
             {
                 var xValues = new List<float>();
-                var values = inputSet.Values.ToList();
-                foreach(var value in values)
-                {
-                    var pointList = value.Points.ToList();
-                    foreach(var point in pointList)
-                        xValues.Add(point.X);
-                }
+                foreach (var value in inputSet.Values)
+                    xValues.AddRange(value.Points.Select(p => p.X).ToList());
+                Console.WriteLine($"INFO: {string.Join(", ", xValues.ToArray())}");
 
-                Sensor sensorInput = new Sensor()
+                Sensor sensorInput = new()
                 {
                     DatabaseID = inputSet.Id,
                     Name = inputSet.Name,
@@ -205,7 +207,7 @@ namespace GreenhouseCore
             Console.WriteLine("     (1) Update data from AdminBoard ");
             Console.WriteLine("     (2) Display current pinout assignment with values");
             Console.WriteLine("     (3) Start Greenhouse ");
-            Console.WriteLine("     (4) Exit ");
+            Console.WriteLine("     (0) Exit ");
             Console.WriteLine();
             Console.WriteLine("Choose mode: ");
 
@@ -239,21 +241,35 @@ namespace GreenhouseCore
 
         private static void StartGreenhouse()
         {
+            Console.WriteLine();
+            var consoleLeftPointer = Console.CursorLeft;
+            var consoleTopPointer = Console.CursorTop;
+
             while(true)
             {
-                var message = "";
+                StringBuilder message = new();
 
-                foreach(var input in PinoutConfiguration.InputsPinoutConfigurations)
+                foreach (var system in Data.FuzzySystems)
                 {
-                    var value = PinoutConfiguration.ReadPinValueInRange(input.Key);
-                    CarSystem.ChangeInputSetValue((float)value, input.Value.DatabaseID);
+                    foreach(var input in system.InputSets)
+                    {
+                        var pin = PinoutConfiguration.FindInputPin(input.Id);
+                        var value = PinoutConfiguration.ReadPinValueInRange(pin);
+                        system.ChangeInputSetValue((float)value, input.Id);
 
-                    message += $"| {input.Value.Name}:  {value}    |     ";
+                        message.Append($"   | {input.Name}:  {value.ToString("000.0000")}   |");
+                    }
+
+                    message.Append($" {system.OutputSet.Name} :  {system.CalculateOutput().ToString("000.0000")}   |");
+                    message.AppendLine();
                 }
 
-                message += $"Output: {CarSystem.CalculateOutput()}";
-                Console.WriteLine(message);
-                Thread.Sleep(500);
+                Console.WriteLine(message.ToString());
+                Console.SetCursorPosition(consoleLeftPointer, consoleTopPointer);
+                Thread.Sleep(200);
+                if (Console.KeyAvailable)
+                    break;
+
             }
         }
 

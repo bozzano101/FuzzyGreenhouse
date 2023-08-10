@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GreenhouseCore.HardwareBridge
 {
@@ -7,7 +8,7 @@ namespace GreenhouseCore.HardwareBridge
     {
         public Dictionary<int, Sensor> InputsPinoutConfigurations { get; set; }
         public KeyValuePair<int, Sensor> OutputPinoutConfiguration { get; set; }
-        private readonly List<string> availablePins = new() { "0", "1", "2", "3", "4", "5", "6" };
+        private readonly List<string> availableInputPins = new() { "0", "1", "2", "3", "4", "5", "6" };
 
         public PinoutConfigurations()
         {
@@ -16,17 +17,17 @@ namespace GreenhouseCore.HardwareBridge
 
         public string GetAvailablePins()
         {
-            return String.Join(", ", availablePins.ToArray());
+            return String.Join(", ", availableInputPins.ToArray());
         }
 
         public bool AssignInputPin(Sensor sensorInput, int pinNumber)
         {
-            if(availablePins.Contains(pinNumber.ToString()))
+            if(availableInputPins.Contains(pinNumber.ToString()))
             {
                 if (InputsPinoutConfigurations.ContainsKey(pinNumber))
                     throw new ArgumentException($"Pin number {pinNumber} is occupied by sensor: {InputsPinoutConfigurations[pinNumber]}");
 
-                availablePins.Remove(pinNumber.ToString());
+                availableInputPins.Remove(pinNumber.ToString());
                 InputsPinoutConfigurations.Add(pinNumber, sensorInput);
                 return true;
             }
@@ -50,6 +51,11 @@ namespace GreenhouseCore.HardwareBridge
             var value = sensorInput.MinValue + 
                         (sensorInput.MaxValue - sensorInput.MinValue) * RPi3Middleware.ReadValueFromADConverter(pinNumber) / 100;
             return Math.Round(value, 2);
+        }
+
+        public int FindInputPin(int id)
+        {
+            return InputsPinoutConfigurations.Where(f => f.Value.DatabaseID == id).First().Key;
         }
 
         public void DisplayPinoutAndValues()

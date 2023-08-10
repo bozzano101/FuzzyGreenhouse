@@ -285,6 +285,11 @@
             Field that represents Fuzzy system description
             </summary>
         </member>
+        <member name="P:FuzzyLib.FuzzySystem.Id">
+            <summary>
+            Field that represents Fuzzy system Id
+            </summary>
+        </member>
         <member name="M:FuzzyLib.FuzzySystem.ChangeInputSetValue(System.Single,System.Nullable{System.Int32},System.String)">
             <summary>
             Method used for changing value in one of Input sets.
