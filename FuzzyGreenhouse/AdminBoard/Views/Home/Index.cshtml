@@ -1,3 +1,43 @@
 ﻿@{
     ViewData["Title"] = "Dashboard";
 }
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <!-- Card header -->
+            <div class="card-header">
+                <div class="row align-items-center">
+                    <div class="col-12">
+                        <h3 class="mb-0">Welcome to AdminBoard</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body border-0">
+                <h4>
+                    How to use:
+                </h4>
+                <h6 class="heading-small text-muted mb-4">
+                    1. Filling up Fuzzy data
+                </h6>
+                Before starting GreenhouseCore application, you need to define fuzzy subsystems, rules, values and sets. 
+                You can find forms for creating, editing them in left navigation list.
+                <br />
+
+                <h6 class="heading-small text-muted mb-4">
+                    2. Validating connection to remote computer
+                </h6>
+                This step is consistent of entering IP adress of remote computer and pressing button to check if remote connection to RaspberryPi is working 
+                properly. Green message will appear if everything works and red if connection cannot be established.
+                <br />
+
+                <h6 class="heading-small text-muted mb-4">
+                    3. Starting GreenhouseCore application on remote computer
+                </h6>
+                Application should be started manually on machine, and results can be read on output console.
+                <br />
+
+            </div>
+        </div>
+    </div>
+</div>
