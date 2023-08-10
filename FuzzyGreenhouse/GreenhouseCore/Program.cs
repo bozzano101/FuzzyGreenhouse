@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -95,55 +94,6 @@ namespace GreenhouseCore
                     Console.WriteLine($"    Wrong pin entered: {input}");
                 }
             }
-        }
-
-        private static void TEST_CAR()
-        {            
-            // BEGIN TEST: Prepare PinoutConfiguration for Car example
-            PinoutConfiguration = new PinoutConfigurations();
-            int i = 0;
-            CarSystem = Data.FuzzySystems[0];
-
-            // Prepare input sets
-            foreach(var inputSet in CarSystem.InputSets)
-            {
-                var xValues = new List<float>();
-                foreach (var value in inputSet.Values)
-                    xValues.AddRange(value.Points.Select(p => p.X).ToList());
-                Console.WriteLine($"INFO: {string.Join(", ", xValues.ToArray())}");
-
-                Sensor sensorInput = new()
-                {
-                    DatabaseID = inputSet.Id,
-                    Name = inputSet.Name,
-                    MinValue = xValues.Min(),
-                    MaxValue = xValues.Max()
-                };
-
-                PinoutConfiguration.AssignInputPin(sensorInput, i); ++i;
-            }
-
-            // Prepare output set
-            var outputXValues = new List<float>();
-            var outputValues = CarSystem.OutputSet.Values.ToList();
-            foreach (var value in outputValues)
-            {
-                var pointList = value.Points.ToList();
-                foreach (var point in pointList)
-                    outputXValues.Add(point.X);
-            }
-
-            Sensor sensorOutput = new Sensor()
-            {
-                DatabaseID = CarSystem.OutputSet.Id,
-                Name = CarSystem.OutputSet.Name,
-                MinValue = outputXValues.Min(),
-                MaxValue = outputXValues.Max()
-            };
-
-            PinoutConfiguration.AssingOutputPin(sensorOutput, i); ++i;
-
-            // END TEST
         }
 
         private static void PrintFGCDataToFile()
@@ -286,7 +236,6 @@ namespace GreenhouseCore
             webServer = new Thread(delegate () { host.Run(); });
 
             webServer.Start();
-
         }
 
         private static void StopHttpServer()
