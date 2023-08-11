@@ -18,7 +18,6 @@ namespace GreenhouseCore
     public class Program
     {
         private static FGCData Data;
-        private static FuzzySystem CarSystem;
         private static PinoutConfigurations PinoutConfiguration;
 
         private static Thread webServer;
