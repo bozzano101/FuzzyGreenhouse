@@ -59,18 +59,23 @@
 </div>
 
 <script>
-    document.getElementById("webhooktrigger").onclick = function () {
-        document.getElementById("webhooktrigger").style.backgroundColor = "CadetBlue";
+    var trigger = document.getElementById("webhooktrigger");
+    trigger.onclick = function () {
+        trigger.style.backgroundColor = "SlateBlue";
+        trigger.style.color = "White";
+        trigger.value = "Sending ping..."
         var url = $("#webhookadress").val();
 
         $.ajax(url,
             {
                 timeout: 2000,
                 success: function (data, status, xhr) {
-                    alert(status)
+                    trigger.style.backgroundColor = "MediumSeaGreen";
+                    trigger.value = "Connection successfully established"
                 },
                 error: function (data, status, xhr) {
-                    console.log(data);
+                    trigger.style.backgroundColor = "Tomato";
+                    trigger.value = "Failed to ping remote computer"
                 }
             }
         );
