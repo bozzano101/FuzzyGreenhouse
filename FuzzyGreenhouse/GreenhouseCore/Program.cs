@@ -112,9 +112,9 @@ namespace GreenhouseCore
             Console.WriteLine("----------------------- Select database ----------------------");
             Console.WriteLine();
             Console.WriteLine("Choose database connection string: ");
-            Console.WriteLine("     (1) Localhost");
-            Console.WriteLine("     (2) SmarterASP - Test");
-            Console.WriteLine("     (3) HP Probook 450 - Local");
+            Console.WriteLine("     (1) Localhost - RaspberryPi");
+            Console.WriteLine("     (2) Remote database - Test environment (SmarterASP)");
+            Console.WriteLine("     (3) HP 450 main computer");
             Console.WriteLine();
             Console.WriteLine("Select mode: ");
             var input = Console.ReadLine();
@@ -140,7 +140,6 @@ namespace GreenhouseCore
             }
 
             Console.WriteLine();
-            Console.WriteLine($"Selected connection string: {DatabaseBridge.ConnectionString}");
             Console.WriteLine("--------------------------------------------------------------");
             
             Console.WriteLine();
