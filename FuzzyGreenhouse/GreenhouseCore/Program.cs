@@ -205,15 +205,15 @@ namespace GreenhouseCore
                         var value = PinoutConfiguration.ReadPinValueInRange(pin);
                         system.ChangeInputSetValue((float)value, input.Id);
 
-                        message.Append($"   | {input.Name}:  {value.ToString("000.0000")}   |");
+                        message.Append($" | {input.Name}: {value.ToString("000.00")} ");
                     }
 
-                    message.Append($" {system.OutputSet.Name} :  {system.CalculateOutput().ToString("000.0000")}   |");
+                    message.Append($" {system.OutputSet.Name}: {system.CalculateOutput().ToString("000.00")} |");
                     message.AppendLine();
                 }
 
+                Console.Clear();
                 Console.WriteLine(message.ToString());
-                Console.SetCursorPosition(consoleLeftPointer, consoleTopPointer);
                 Thread.Sleep(200);
                 if (Console.KeyAvailable)
                     break;

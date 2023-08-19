@@ -45,6 +45,7 @@
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
     <PackageReference Include="System.Device.Gpio" Version="3.0.0" />
+    <PackageReference Include="table.lib" Version="1.16.0" />
     <PackageReference Include="Unosquare.Raspberry.IO" Version="0.27.1" />
     <PackageReference Include="Unosquare.WiringPi" Version="0.5.1" />
   </ItemGroup>
