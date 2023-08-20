@@ -190,8 +190,6 @@ namespace GreenhouseCore
         private static void StartGreenhouse()
         {
             Console.WriteLine();
-            var consoleLeftPointer = Console.CursorLeft;
-            var consoleTopPointer = Console.CursorTop;
 
             while(true)
             {
@@ -205,10 +203,10 @@ namespace GreenhouseCore
                         var value = PinoutConfiguration.ReadPinValueInRange(pin);
                         system.ChangeInputSetValue((float)value, input.Id);
 
-                        message.Append($" | {input.Name}: {value.ToString("000.00")} ");
+                        message.Append($"| {input.Name.PadCenter()}: {value.ToString("000.00")} ");
                     }
 
-                    message.Append($" {system.OutputSet.Name}: {system.CalculateOutput().ToString("000.00")} |");
+                    message.Append($"| {system.OutputSet.Name.PadCenter()}: {system.CalculateOutput().ToString("000.00")} |");
                     message.AppendLine();
                 }
 

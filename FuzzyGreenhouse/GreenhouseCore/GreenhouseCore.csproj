@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="StringExtensions.cs" />
     <Compile Include="DatabaseBridge\DatabaseBridge.cs" />
     <Compile Include="DatabaseBridge\DatabaseConfig.cs" />
     <Compile Include="DatabaseBridge\DbEnvironment.cs" />
