@@ -8,7 +8,7 @@ namespace GreenhouseCore.HardwareBridge
     {
         public Dictionary<int, Sensor> InputsPinoutConfigurations { get; set; }
         public KeyValuePair<int, Sensor> OutputPinoutConfiguration { get; set; }
-        private readonly List<string> availableInputPins = new() { "0", "1", "2", "3", "4", "5", "6" };
+        private readonly List<string> availableInputPins = new() { "0", "1", "2", "3", "4", "5" };
 
         public PinoutConfigurations()
         {
@@ -60,7 +60,7 @@ namespace GreenhouseCore.HardwareBridge
 
         public void DisplayPinoutAndValues()
         {
-            Console.WriteLine("{0,15}{1,15}{2,15}{3,15}{4,15}{5,15}",
+            Console.WriteLine("{0,8}{1,15}{2,10}{3,10}{4,8}{5,8}",
                 "Pin",
                 "Name",
                 "MinValue",
@@ -68,11 +68,11 @@ namespace GreenhouseCore.HardwareBridge
                 "Value %",
                 "Value"
             );
-            Console.WriteLine("------------------------------------------------------------------------------------------");
+            Console.WriteLine("---------------------------------------------------------");
 
             foreach (var pair in InputsPinoutConfigurations)
             {
-                Console.WriteLine("{0,15}{1,15}{2,15}{3,15}{4,15}{5,15}",
+                Console.WriteLine("{0,8}{1,15}{2,10}{3,10}{4,8}{5,8}",
                     pair.Key,
                     pair.Value.Name,
                     pair.Value.MinValue,

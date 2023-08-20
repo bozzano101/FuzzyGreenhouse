@@ -22,7 +22,7 @@ namespace GreenhouseCore
 
         private static Thread webServer;
 
-        private static async Task FetchDataForFirstTime()
+        private static async Task FetchData()
         {
             try
             {
@@ -145,7 +145,7 @@ namespace GreenhouseCore
             Console.WriteLine();
         }
 
-        private static void OperationSelector()
+        private static async Task OperationSelector()
         {
             Console.WriteLine();
             Console.WriteLine("----------------------- Select operation ----------------------");
@@ -164,6 +164,8 @@ namespace GreenhouseCore
             switch (input)
             {
                 case "1":
+                    await FetchData();
+                    AssignInputDataToPins(Data);
                     break;
                 case "2":
                     DisplayPinoutAndValues();
@@ -247,13 +249,13 @@ namespace GreenhouseCore
             
             CreateAndStartHttpServer();
             SelectDatabase();
-            await FetchDataForFirstTime();
-            PrintFGCDataToFile();
+            await FetchData();
             AssignInputDataToPins(Data);
+            Console.Clear();
 
             while(true)
             {
-                OperationSelector(); 
+                await OperationSelector(); 
             }
         }
     }
