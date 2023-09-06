@@ -25,7 +25,7 @@ namespace AdminBoard.Infrastructure.Services
         {
             try
             {
-                return _context.Set.Include(e => e.Values).ToList();
+                return _context.Set.Include(e => e.Values).Include(e => e.Subsystems).ToList();
             }
             catch (Exception e)
             {

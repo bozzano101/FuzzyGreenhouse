@@ -28,7 +28,7 @@
                     @*SelectSubsystem*@
                     <div class="form-group">
                         <label for="set">Select <i>Subsystem</i> to assign <i>Set</i> to</label>
-                        <select class="form-control" asp-for="SelectedSubsystem" asp-items="Model.AllSubsystems"></select>
+                        <select class="form-control" asp-for="SelectedSubsystems" name="SelectedSubsystems" asp-items="Model.AllSubsystems" multiple></select>
                     </div>
 
                     @*Save*@ 

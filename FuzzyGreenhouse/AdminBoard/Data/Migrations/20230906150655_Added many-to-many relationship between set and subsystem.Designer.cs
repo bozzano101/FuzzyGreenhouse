@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AdminBoard.Migrations.FuzzyGreenhouseDb
 {
     [DbContext(typeof(FuzzyGreenhouseDbContext))]
-    [Migration("20230618110904_AddedRefToSubsystemInSet")]
-    partial class AddedRefToSubsystemInSet
+    [Migration("20230906150655_Added many-to-many relationship between set and subsystem")]
+    partial class Addedmanytomanyrelationshipbetweensetandsubsystem
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -62,15 +62,10 @@ namespace AdminBoard.Migrations.FuzzyGreenhouseDb
                     b.Property<string>("Name")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("SubsystemID")
-                        .HasColumnType("int");
-
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.HasKey("SetID");
-
-                    b.HasIndex("SubsystemID");
 
                     b.ToTable("Set");
                 });
@@ -134,6 +129,21 @@ namespace AdminBoard.Migrations.FuzzyGreenhouseDb
                     b.ToTable("Version");
                 });
 
+            modelBuilder.Entity("SetSubsystem", b =>
+                {
+                    b.Property<int>("SetsSetID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubsystemsSubsystemID")
+                        .HasColumnType("int");
+
+                    b.HasKey("SetsSetID", "SubsystemsSubsystemID");
+
+                    b.HasIndex("SubsystemsSubsystemID");
+
+                    b.ToTable("SetSubsystem");
+                });
+
             modelBuilder.Entity("AdminBoard.Models.FuzzyGreenHouse.Rule", b =>
                 {
                     b.HasOne("AdminBoard.Models.FuzzyGreenHouse.Value", "InputValue1")
@@ -169,17 +179,6 @@ namespace AdminBoard.Migrations.FuzzyGreenhouseDb
                     b.Navigation("Subsystem");
                 });
 
-            modelBuilder.Entity("AdminBoard.Models.FuzzyGreenHouse.Set", b =>
-                {
-                    b.HasOne("AdminBoard.Models.FuzzyGreenHouse.Subsystem", "Subsystem")
-                        .WithMany()
-                        .HasForeignKey("SubsystemID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Subsystem");
-                });
-
             modelBuilder.Entity("AdminBoard.Models.FuzzyGreenHouse.Value", b =>
                 {
                     b.HasOne("AdminBoard.Models.FuzzyGreenHouse.Set", "Set")
@@ -189,6 +188,21 @@ namespace AdminBoard.Migrations.FuzzyGreenhouseDb
                         .IsRequired();
 
                     b.Navigation("Set");
+                });
+
+            modelBuilder.Entity("SetSubsystem", b =>
+                {
+                    b.HasOne("AdminBoard.Models.FuzzyGreenHouse.Set", null)
+                        .WithMany()
+                        .HasForeignKey("SetsSetID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AdminBoard.Models.FuzzyGreenHouse.Subsystem", null)
+                        .WithMany()
+                        .HasForeignKey("SubsystemsSubsystemID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("AdminBoard.Models.FuzzyGreenHouse.Set", b =>

@@ -60,15 +60,10 @@ namespace AdminBoard.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("SubsystemID")
-                        .HasColumnType("int");
-
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.HasKey("SetID");
-
-                    b.HasIndex("SubsystemID");
 
                     b.ToTable("Set");
                 });
@@ -132,6 +127,21 @@ namespace AdminBoard.Data.Migrations
                     b.ToTable("Version");
                 });
 
+            modelBuilder.Entity("SetSubsystem", b =>
+                {
+                    b.Property<int>("SetsSetID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubsystemsSubsystemID")
+                        .HasColumnType("int");
+
+                    b.HasKey("SetsSetID", "SubsystemsSubsystemID");
+
+                    b.HasIndex("SubsystemsSubsystemID");
+
+                    b.ToTable("SetSubsystem");
+                });
+
             modelBuilder.Entity("AdminBoard.Models.FuzzyGreenHouse.Rule", b =>
                 {
                     b.HasOne("AdminBoard.Models.FuzzyGreenHouse.Value", "InputValue1")
@@ -167,17 +177,6 @@ namespace AdminBoard.Data.Migrations
                     b.Navigation("Subsystem");
                 });
 
-            modelBuilder.Entity("AdminBoard.Models.FuzzyGreenHouse.Set", b =>
-                {
-                    b.HasOne("AdminBoard.Models.FuzzyGreenHouse.Subsystem", "Subsystem")
-                        .WithMany()
-                        .HasForeignKey("SubsystemID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Subsystem");
-                });
-
             modelBuilder.Entity("AdminBoard.Models.FuzzyGreenHouse.Value", b =>
                 {
                     b.HasOne("AdminBoard.Models.FuzzyGreenHouse.Set", "Set")
@@ -187,6 +186,21 @@ namespace AdminBoard.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Set");
+                });
+
+            modelBuilder.Entity("SetSubsystem", b =>
+                {
+                    b.HasOne("AdminBoard.Models.FuzzyGreenHouse.Set", null)
+                        .WithMany()
+                        .HasForeignKey("SetsSetID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AdminBoard.Models.FuzzyGreenHouse.Subsystem", null)
+                        .WithMany()
+                        .HasForeignKey("SubsystemsSubsystemID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("AdminBoard.Models.FuzzyGreenHouse.Set", b =>

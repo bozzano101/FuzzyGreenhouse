@@ -24,9 +24,7 @@ namespace AdminBoard.Models.FuzzyGreenHouse
         public string Name { get; set; }
         public SetType Type { get; set; }
         public ICollection<Value> Values { get; set; }
-
-        public Subsystem Subsystem { get; set; }
-        public int SubsystemID { get; set; }
+        public List<Subsystem> Subsystems { get; set; }
     }
 
     public class SetConfiguration : IEntityTypeConfiguration<Set>

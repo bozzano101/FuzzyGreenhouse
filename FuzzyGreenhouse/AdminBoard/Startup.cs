@@ -1,4 +1,5 @@
 using AdminBoard.Data;
+using AdminBoard.Data.Contexts;
 using AdminBoard.Infrastructure.IdentityUserClaims;
 using AdminBoard.Infrastructure.Services;
 using AdminBoard.Models.Identity;
@@ -128,6 +129,12 @@ namespace AdminBoard
             if (identity != null && identity.Database != null)
             {
                 identity.Database.Migrate();
+            }
+
+            var versions = serviceScope.ServiceProvider.GetService<VersionsDbContext>();
+            if (versions != null && versions.Database != null)
+            {
+                versions.Database.Migrate();
             }
         }
 

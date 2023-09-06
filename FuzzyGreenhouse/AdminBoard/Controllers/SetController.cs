@@ -57,7 +57,7 @@ namespace AdminBoard.Controllers
         {
             try
             {
-                _setService.Insert(model.ConvertToSet());
+                _setService.Insert(model.ConvertToSet(_subsystemService.GetRange(model.SelectedSubsystems)));
                 _notificationService.Success("Set inserted successfully.");
                 return RedirectToAction("Index");
             }

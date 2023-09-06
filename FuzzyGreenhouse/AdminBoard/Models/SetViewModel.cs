@@ -13,21 +13,20 @@ namespace AdminBoard.Models
             subsystems.ForEach(e => AllSubsystems.Add(new SelectListItem(e.Name, e.SubsystemID.ToString())));
         }
 
-        public Set ConvertToSet()
+        public Set ConvertToSet(List<Subsystem> subsystems)
         {
             return new Set
             {
                 Name = Name,
                 Type = Type,
-                SubsystemID = int.Parse(SelectedSubsystem)
+                Subsystems = subsystems
             };
         }
 
         public string Name { get; set; }
         public SetType Type { get; set; }
         public List<SelectListItem> AllSubsystems { get; set; }
-        public string SelectedSubsystem { get; set; }
-        public string SelectedSubsystemName { get; set; }
+        public List<string> SelectedSubsystems { get; set; }
 
 
     }

@@ -36,6 +36,19 @@ namespace AdminBoard.Infrastructure.Services
             }
         }
 
+        public List<Subsystem> GetRange(List<string> selectedSubsystems)
+        {
+            try
+            {
+                return _context.Subsystem.Where(f => selectedSubsystems.Any(e => e == f.SubsystemID.ToString())).ToList();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Failed to get all Subsystems in range. Message: {e.Message}");
+                throw new Exception(e.Message);
+            }
+        }
+
         public Subsystem Get(int id)
         {
             try
