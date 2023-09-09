@@ -199,17 +199,26 @@ namespace GreenhouseCore
 
                 foreach (var system in Data.FuzzySystems)
                 {
+
+                    message.Append("Inputs :  ").AppendLine();
                     foreach(var input in system.InputSets)
                     {
                         var pin = PinoutConfiguration.FindInputPin(input.Id);
                         var value = PinoutConfiguration.ReadPinValueInRange(pin);
                         system.ChangeInputSetValue((float)value, input.Id);
 
-                        message.Append($"| {input.Name.PadCenter()}: {value.ToString("000.00")} ");
+                        message.Append($"- {input.Name.PadCenter()}: {value.ToString("000.00")} ").AppendLine();
                     }
 
-                    message.Append($"| {system.OutputSet.Name.PadCenter()}: {system.CalculateOutput().ToString("000.00")} |");
+                    message.AppendLine().Append("Outputs :  ").AppendLine();
+
+                    foreach (var output in system.OutputSets)
+                    {
+                        var outputValue = system.CalculateOutputs().Where(e => e.OutputSetId == output.Id).First().Value;
+                        message.Append($"- {output.Name.PadCenter()}: {outputValue.ToString("000.00")} ").AppendLine();
+                    }
                     message.AppendLine();
+
                 }
 
                 Console.Clear();

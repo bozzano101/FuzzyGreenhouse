@@ -255,6 +255,21 @@
             Operator - Logical operator for calculating output value
             </summary>
         </member>
+        <member name="T:FuzzyLib.CalcultedOutput">
+            <summary>
+            DTO for returning calculated outputs
+            </summary>
+        </member>
+        <member name="P:FuzzyLib.CalcultedOutput.OutputSetId">
+            <summary>
+            Id of output set for which we have calculated output value
+            </summary>
+        </member>
+        <member name="P:FuzzyLib.CalcultedOutput.Value">
+            <summary>
+            Value that is calculated
+            </summary>
+        </member>
         <member name="T:FuzzyLib.FuzzySystem">
             <summary>
             This class represents major class whitin all operations on fuzzy system should be perfomed.
@@ -265,9 +280,9 @@
             Field that represents all input variables (sets) that will affect output result
             </summary>
         </member>
-        <member name="P:FuzzyLib.FuzzySystem.OutputSet">
+        <member name="P:FuzzyLib.FuzzySystem.OutputSets">
             <summary>
-            Field that represent output result based upon input variables
+            Field that represent all output sets
             </summary>
         </member>
         <member name="P:FuzzyLib.FuzzySystem.Rules">
@@ -298,7 +313,7 @@
             <param name="id"> If want to search for set by ID, provide this field </param>
             <param name="name"> If want to search for set by Name, provide this field</param>
         </member>
-        <member name="M:FuzzyLib.FuzzySystem.CalculateOutput">
+        <member name="M:FuzzyLib.FuzzySystem.CalculateOutputs">
             <summary>
             This method is used to generate output value for currently setted input values. Returns output value
             </summary>

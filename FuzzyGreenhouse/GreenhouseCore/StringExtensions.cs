@@ -4,7 +4,7 @@
     {
         public static string PadCenter(this string str)
         {
-            return str.PadCenter(12);
+            return str.PadCenter(18);
         }
 
         public static string PadCenter(this string str, int length)

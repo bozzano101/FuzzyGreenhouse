@@ -136,21 +136,37 @@ namespace GreenhouseCore
                 // Fetch sets
                 var commandSet = new MySqlCommand("SELECT * FROM `set`", connection);
                 var resultSet = await commandSet.ExecuteReaderAsync();
+                var sets = new List<Tuple<int, string, string>>();
 
                 while (await resultSet.ReadAsync())
                 {
                     int setId = Convert.ToInt32(resultSet[0]);
                     string setName = Convert.ToString(resultSet[1]);
                     string setType = Convert.ToBoolean(resultSet[2]) ? "Output" : "Input";
-                    int subSystemId = Convert.ToInt32(resultSet[3]);
 
-                    var subSystem = fuzzySystems.Where(f => f.Id == subSystemId).First();
-                    if (setType == "Input")
-                        subSystem.InputSets.Add(new FuzzyInputSet(setId, setName));
-                    else
-                        subSystem.OutputSet = new FuzzyOutputSet(setId, setName);
+                    sets.Add(Tuple.Create(setId, setName, setType));
                 }
                 await resultSet.CloseAsync();
+
+                // Assing sets to subsystems
+                foreach(var set in sets)
+                {
+                    var command = new MySqlCommand($"SELECT * FROM `setsubsystem` WHERE SetsSetID = {set.Item1}", connection);
+                    var result = await command.ExecuteReaderAsync();
+
+                    while (await result.ReadAsync())
+                    {
+                        int subsystemId = Convert.ToInt32(result[1]);
+                        var subSystem = fuzzySystems.Where(f => f.Id == subsystemId).First();
+                        if (set.Item3 == "Input")
+                            subSystem.InputSets.Add(new FuzzyInputSet(set.Item1, set.Item2));
+                        else
+                            subSystem.OutputSets.Add(new FuzzyOutputSet(set.Item1, set.Item2));
+                    }
+
+                    await result.CloseAsync();
+                }
+
 
                 // Fetch values
                 var commandValues = new MySqlCommand($"SELECT * FROM `value`", connection);
@@ -166,16 +182,17 @@ namespace GreenhouseCore
 
                     foreach(var fuzzySystem in fuzzySystems)
                     {
-                        var inputSet = fuzzySystem.InputSets.Where(f => f.Id == setId).ToList();
-                        if (inputSet.Count == 1)
+                        var inputSet = fuzzySystem.InputSets.Where(f => f.Id == setId).FirstOrDefault();
+                        if (inputSet is not null)
                         {
-                            inputSet[0].AddValue(new FuzzyInput(valueId, valueName, valueXCoords, valueYCoords));
+                            inputSet.AddValue(new FuzzyInput(valueId, valueName, valueXCoords, valueYCoords));
                             break;
                         }
 
-                        if(fuzzySystem.OutputSet.Id == setId)
+                        var outputSet = fuzzySystem.OutputSets.Where(f => f.Id == setId).FirstOrDefault();
+                        if (outputSet is not null)
                         {
-                            fuzzySystem.OutputSet.AddValue(new FuzzyOutput(valueId, valueName, valueXCoords, valueYCoords));
+                            outputSet.AddValue(new FuzzyOutput(valueId, valueName, valueXCoords, valueYCoords));
                             break;
                         }
                     };
@@ -188,6 +205,7 @@ namespace GreenhouseCore
 
                 while (await resultRules.ReadAsync())
                 {
+
                     var logicOperator = Convert.ToInt32(resultRules[1]) == 0 ? LogicOperator.AND : LogicOperator.OR;
                     var input1Id = Convert.ToInt32(resultRules[2]);
                     var input2Id = Convert.ToInt32(resultRules[3]);
@@ -199,14 +217,18 @@ namespace GreenhouseCore
                     FuzzyInput input2 = null;
                     FuzzyOutput output = null;
 
-                    output = subSystem.OutputSet.Values.Where(f => f.Id == outputId).First();
-
                     foreach (var input in subSystem.InputSets)
                     {
                         var input1Candidate = input.Values.Where(f => f.Id == input1Id).FirstOrDefault();
                         var input2Candidate = input.Values.Where(f => f.Id == input2Id).FirstOrDefault();
                         input1 ??= input1Candidate;
                         input2 ??= input2Candidate;
+                    }
+
+                    foreach (var outputSet in subSystem.OutputSets)
+                    {
+                        var outputCandidate = outputSet.Values.Where(f => f.Id == outputId).FirstOrDefault();
+                        output ??= outputCandidate;
                     }
 
                     subSystem.Rules.Add(new FuzzyRules(input1, input2, output, logicOperator));
@@ -351,7 +373,7 @@ namespace GreenhouseCore
                     var fuzzySystem = new FuzzySystem()
                     {
                         InputSets = inputsForThisSystem.ToList(),
-                        OutputSet = outputSet,
+                        OutputSets = new List<FuzzyOutputSet>() { outputSet },
                         Rules = rulesForOutputSet
                     };
 
@@ -421,7 +443,6 @@ namespace GreenhouseCore
                 throw new Exception("Failed to fetch data from server", ex);
             }
         }
+
     }
-
-
 }

@@ -3,6 +3,21 @@
 namespace FuzzyLib
 {
     /// <summary>
+    /// DTO for returning calculated outputs
+    /// </summary>
+    public record CalcultedOutput
+    {
+        /// <summary>
+        /// Id of output set for which we have calculated output value
+        /// </summary>
+        public int OutputSetId { get; set; }
+        /// <summary>
+        /// Value that is calculated
+        /// </summary>
+        public float Value { get; set; }
+    }
+
+    /// <summary>
     /// This class represents major class whitin all operations on fuzzy system should be perfomed.
     /// </summary>
     public class FuzzySystem
@@ -12,9 +27,9 @@ namespace FuzzyLib
         /// </summary>
         public List<FuzzyInputSet> InputSets { get; set; } = new List<FuzzyInputSet>();
         /// <summary>
-        /// Field that represent output result based upon input variables
+        /// Field that represent all output sets
         /// </summary>
-        public FuzzyOutputSet OutputSet { get; set; }
+        public List<FuzzyOutputSet> OutputSets { get; set; } = new List<FuzzyOutputSet>();
         /// <summary>
         /// Field that represent all rules for determining output value
         /// </summary>
@@ -54,19 +69,26 @@ namespace FuzzyLib
         /// This method is used to generate output value for currently setted input values. Returns output value
         /// </summary>
         /// <returns></returns>
-        public float CalculateOutput()
+        public List<CalcultedOutput> CalculateOutputs()
         {
-            UpdateOutputValue();
+            var result = new List<CalcultedOutput>();
 
-            float up = 0, down = 0;
-            foreach(var outputValue in OutputSet.Values)
+            foreach(var output in OutputSets)
             {
-                up += outputValue.Value * outputValue.WeightedAverage;
-                down += outputValue.Value;
+                UpdateOutputValue();
+
+                float up = 0, down = 0;
+                foreach (var outputValue in output.Values)
+                {
+                    up += outputValue.Value * outputValue.WeightedAverage;
+                    down += outputValue.Value;
+                }
+
+                ResetOutputValue();
+                result.Add(new CalcultedOutput { OutputSetId = output.Id, Value = (up / down) });
             }
 
-            ResetOutputValue();
-            return (up / down);
+            return result;
         }
 
         /// <summary>

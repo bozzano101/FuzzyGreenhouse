@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FuzzyLibTest
 {
@@ -31,6 +32,11 @@ namespace FuzzyLibTest
                 Pouzdanost
             };
 
+            List<FuzzyOutputSet> fuzzyOutputSets = new()
+            {
+                Vrednost
+            };
+
             List<FuzzyRules> rules = new()
             {
                 new FuzzyRules(Potrosnja.Values[0], Pouzdanost.Values[0], Vrednost.Values[2], LogicOperator.AND),
@@ -44,17 +50,17 @@ namespace FuzzyLibTest
             FuzzySystem system = new()
             {
                 InputSets = fuzzyInputSets,
-                OutputSet = Vrednost,
+                OutputSets = fuzzyOutputSets,
                 Rules = rules
             };
 
             system.ChangeInputSetValue(8, null, "Potrosnja");
             system.ChangeInputSetValue(7, null, "Pouzdanost");
-            Assert.IsTrue(Math.Abs(system.CalculateOutput() - 29.23076) < 0.001);
+            Assert.IsTrue(Math.Abs(system.CalculateOutputs().First().Value - 29.23076) < 0.001);
 
             system.ChangeInputSetValue(9, null, "Potrosnja");
             system.ChangeInputSetValue(8, null, "Pouzdanost");
-            Assert.IsTrue(Math.Abs(system.CalculateOutput() - 25.26315) < 0.001);
+            Assert.IsTrue(Math.Abs(system.CalculateOutputs().First().Value - 25.26315) < 0.001);
 
         }
 
@@ -75,25 +81,35 @@ namespace FuzzyLibTest
             Vrednost.AddValue(new FuzzyOutput(0, "srednja", new List<float> { 7, 15, 25, 40 }, new List<float> { 0, 1, 1, 0 }));
             Vrednost.AddValue(new FuzzyOutput(0, "velika", new List<float> { 25, 40 }, new List<float> { 0, 1 }));
 
-            List<FuzzyInputSet> fuzzyInputSets = new List<FuzzyInputSet>();
-            fuzzyInputSets.Add(Potrosnja); fuzzyInputSets.Add(Pouzdanost);
+            List<FuzzyInputSet> fuzzyInputSets = new List<FuzzyInputSet>
+            {
+                Potrosnja,
+                Pouzdanost
+            };
 
-            List<FuzzyRules> rules = new List<FuzzyRules>();
-            rules.Add(new FuzzyRules(Potrosnja.Values[0], Pouzdanost.Values[0], Vrednost.Values[2], LogicOperator.AND));
-            rules.Add(new FuzzyRules(Potrosnja.Values[0], Pouzdanost.Values[1], Vrednost.Values[1], LogicOperator.AND));
-            rules.Add(new FuzzyRules(Potrosnja.Values[1], Pouzdanost.Values[0], Vrednost.Values[1], LogicOperator.AND));
-            rules.Add(new FuzzyRules(Potrosnja.Values[1], Pouzdanost.Values[1], Vrednost.Values[1], LogicOperator.AND));
-            rules.Add(new FuzzyRules(Potrosnja.Values[2], Pouzdanost.Values[0], Vrednost.Values[1], LogicOperator.AND));
-            rules.Add(new FuzzyRules(Potrosnja.Values[2], Pouzdanost.Values[1], Vrednost.Values[0], LogicOperator.AND));
+            List<FuzzyOutputSet> fuzzyOutputSets = new()
+            {
+                Vrednost
+            };
+
+            List<FuzzyRules> rules = new List<FuzzyRules>
+            {
+                new FuzzyRules(Potrosnja.Values[0], Pouzdanost.Values[0], Vrednost.Values[2], LogicOperator.AND),
+                new FuzzyRules(Potrosnja.Values[0], Pouzdanost.Values[1], Vrednost.Values[1], LogicOperator.AND),
+                new FuzzyRules(Potrosnja.Values[1], Pouzdanost.Values[0], Vrednost.Values[1], LogicOperator.AND),
+                new FuzzyRules(Potrosnja.Values[1], Pouzdanost.Values[1], Vrednost.Values[1], LogicOperator.AND),
+                new FuzzyRules(Potrosnja.Values[2], Pouzdanost.Values[0], Vrednost.Values[1], LogicOperator.AND),
+                new FuzzyRules(Potrosnja.Values[2], Pouzdanost.Values[1], Vrednost.Values[0], LogicOperator.AND)
+            };
 
             FuzzySystem system = new()
             {
                 InputSets = fuzzyInputSets,
-                OutputSet = Vrednost,
+                OutputSets = fuzzyOutputSets,
                 Rules = rules
             };
 
-            Assert.IsTrue(Math.Abs(system.CalculateOutput() - 25.26315) < 0.001);
+            Assert.IsTrue(Math.Abs(system.CalculateOutputs().First().Value - 25.26315) < 0.001);
         }
 
         // This test was used when first FuzzyLib version was created, before Set-story refactoring
@@ -114,13 +130,15 @@ namespace FuzzyLibTest
             vrednost.Add(new FuzzyOutput(0, "srednja", new List<float> { 7, 15, 25, 40 }, new List<float> { 0, 1, 1, 0 }));
             vrednost.Add(new FuzzyOutput(0, "velika", new List<float> { 25, 40 }, new List<float> { 0, 1}));
 
-            List<FuzzyRules> rules = new List<FuzzyRules>();
-            rules.Add(new FuzzyRules(potrosnja[0], pouzdanost[0], vrednost[2], LogicOperator.AND));
-            rules.Add(new FuzzyRules(potrosnja[0], pouzdanost[1], vrednost[1], LogicOperator.AND));
-            rules.Add(new FuzzyRules(potrosnja[1], pouzdanost[0], vrednost[1], LogicOperator.AND));
-            rules.Add(new FuzzyRules(potrosnja[1], pouzdanost[1], vrednost[1], LogicOperator.AND));
-            rules.Add(new FuzzyRules(potrosnja[2], pouzdanost[0], vrednost[1], LogicOperator.AND));
-            rules.Add(new FuzzyRules(potrosnja[2], pouzdanost[1], vrednost[0], LogicOperator.AND));
+            List<FuzzyRules> rules = new List<FuzzyRules>
+            {
+                new FuzzyRules(potrosnja[0], pouzdanost[0], vrednost[2], LogicOperator.AND),
+                new FuzzyRules(potrosnja[0], pouzdanost[1], vrednost[1], LogicOperator.AND),
+                new FuzzyRules(potrosnja[1], pouzdanost[0], vrednost[1], LogicOperator.AND),
+                new FuzzyRules(potrosnja[1], pouzdanost[1], vrednost[1], LogicOperator.AND),
+                new FuzzyRules(potrosnja[2], pouzdanost[0], vrednost[1], LogicOperator.AND),
+                new FuzzyRules(potrosnja[2], pouzdanost[1], vrednost[0], LogicOperator.AND)
+            };
 
             float up = 0, down = 0;
             foreach (var v in vrednost)
