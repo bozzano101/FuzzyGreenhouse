@@ -4,6 +4,9 @@
     ViewData["Title"] = "Create";
 }
 
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <div class="row">
     <div class="col">
         <div class="card w-75 mx-auto">
@@ -17,9 +20,15 @@
                     </div>
 
                     @*Input2*@
-                    <div class="form-group">
+                    <div class="form-group add">
                         <label for="InputValue2Representation"> Select second input value: </label>
                         <select class="form-control" asp-for="InputValue2Representation" asp-items="Model.InputList2"></select>
+                    </div>
+                     
+                    @*Input2Disabled*@
+                    <div class="form-group">
+                        <label for="Input2Disabled"> Check box if rule is consisted of only one value:   </label>
+                        <input type="checkbox" id="Input2Disabled" asp-for="Input2Disabled">
                     </div>
 
                     @*Output*@
@@ -28,7 +37,7 @@
                         <select class="form-control" asp-for="OutputValueRepresentation" asp-items="Model.OutputList"></select>
                     </div>
                     @*Operator*@
-                    <div class="form-group">
+                    <div class="form-group add">
                         <label> Select operator: </label>
                         <select class="form-control" asp-for="Operator">
                             <option value="AND" selected> AND </option>
@@ -54,3 +63,21 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+
+    const UpdateCheckbox = () => {
+        if (document.getElementById('Input2Disabled').checked) {
+            window.alert("checked");
+            $('.add').hide();
+        }
+        else {
+            window.alert("removed");
+            $('.add').show();
+        }
+    };
+
+    $("#Input2Disabled").change(() => { UpdateCheckbox() });
+
+    
+</script>

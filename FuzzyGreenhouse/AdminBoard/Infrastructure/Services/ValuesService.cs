@@ -33,11 +33,24 @@ namespace AdminBoard.Infrastructure.Services
             }
         }
 
+        public Value GetDisabled()
+        {
+            try
+            {
+                return _context.Value.Where(e => e.Name == "Disabled").First();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Failed to get disabled value. Message: {e.Message}");
+                throw new Exception(e.Message);
+            }
+        }
+
         public List<Value> GetAll()
         {
             try
             {
-                return _context.Value.ToList();
+                return _context.Value.Where(f => f.Name != "Disabled").ToList();
             }
             catch (Exception e)
             {

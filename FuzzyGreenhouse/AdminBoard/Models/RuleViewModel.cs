@@ -13,6 +13,7 @@ namespace AdminBoard.Models
         public string InputValue2Representation { get; set; }
         public string OutputValueRepresentation { get; set; }
         public string SubsystemRepresentation { get; set; }
+        public bool Input2Disabled { get; set; }
 
         public List<SelectListItem> InputList1 { get; } = new List<SelectListItem>();
         public List<SelectListItem> InputList2 { get; } = new List<SelectListItem>();
@@ -33,8 +34,15 @@ namespace AdminBoard.Models
             var inputValue1Set = sets.Where(e => e.SetID == rule.InputValue1.SetID).First();
             InputValue1Representation = inputValue1Set.Name + " - " + rule.InputValue1.Name;
 
-            var inputValue2Set = sets.Where(e => e.SetID == rule.InputValue2.SetID).First();
-            InputValue2Representation = inputValue2Set.Name + " - " + rule.InputValue2.Name;
+            if (rule.InputValue2 is null)
+            {
+                InputValue2Representation = " / ";
+            }
+            else
+            {
+                var inputValue2Set = sets.Where(e => e.SetID == rule.InputValue2.SetID).FirstOrDefault();
+                InputValue2Representation = inputValue2Set.Name + " - " + rule.InputValue2.Name;
+            }
 
             var outputValueSet = sets.Where(e => e.SetID == rule.OutputValue.SetID).First();
             OutputValueRepresentation = outputValueSet.Name + " - " + rule.OutputValue.Name;

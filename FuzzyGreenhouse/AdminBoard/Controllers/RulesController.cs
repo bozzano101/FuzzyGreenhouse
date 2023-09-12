@@ -1,4 +1,5 @@
-﻿using AdminBoard.Infrastructure.Services;
+﻿using AdminBoard.Data;
+using AdminBoard.Infrastructure.Services;
 using AdminBoard.Models;
 using AdminBoard.Models.FuzzyGreenHouse;
 using AdminBoard.Models.Identity;
@@ -81,7 +82,10 @@ namespace AdminBoard.Controllers
             try
             {
                 var input1 = _valueService.Get(Convert.ToInt32(model.InputValue1Representation));
-                var input2 = _valueService.Get(Convert.ToInt32(model.InputValue2Representation));
+                var input2 = model.Input2Disabled ? 
+                    _valueService.GetDisabled() :
+                    _valueService.Get(Convert.ToInt32(model.InputValue2Representation));
+
                 var output = _valueService.Get(Convert.ToInt32(model.OutputValueRepresentation));
                 var subsystem = _subsystemService.Get(Convert.ToInt32(model.SubsystemRepresentation));
 

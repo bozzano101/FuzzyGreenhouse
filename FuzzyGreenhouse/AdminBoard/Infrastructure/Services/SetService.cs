@@ -25,7 +25,7 @@ namespace AdminBoard.Infrastructure.Services
         {
             try
             {
-                return _context.Set.Include(e => e.Values).Include(e => e.Subsystems).ToList();
+                return _context.Set.Include(e => e.Values).Include(e => e.Subsystems).Where(e => e.Name != "Disabled").ToList();
             }
             catch (Exception e)
             {
