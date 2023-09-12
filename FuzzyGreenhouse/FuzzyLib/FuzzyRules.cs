@@ -44,10 +44,20 @@ namespace FuzzyLib
         /// </summary>
         public void RecalculateOutputValue()
         {
-            if (Operator == LogicOperator.AND)
-                Output.Value = Math.Max(Output.Value, Math.Min(Input1.Value, Input2.Value));
+            if(Input2.Name == "Disabled")
+            {
+                if (Operator == LogicOperator.AND)
+                    Output.Value = Math.Max(Output.Value, Input1.Value);
+                else
+                    Output.Value = Math.Max(Output.Value, Input1.Value);
+            }
             else
-                Output.Value = Math.Max(Output.Value, Math.Max(Input1.Value, Input2.Value));
+            {
+                if (Operator == LogicOperator.AND)
+                    Output.Value = Math.Max(Output.Value, Math.Min(Input1.Value, Input2.Value));
+                else
+                    Output.Value = Math.Max(Output.Value, Math.Max(Input1.Value, Input2.Value));
+            }
         }
 
         /// <summary>
