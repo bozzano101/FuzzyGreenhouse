@@ -51,6 +51,9 @@ namespace GreenhouseCore
             inputSets = inputSets.Distinct().ToList();
             foreach (var inputSet in inputSets)
             {
+                if (inputSet.Name == "Disabled")
+                    continue;
+
                 Console.WriteLine($"    Setting up pin for sensor: {inputSet.Name} ");
 
                 // Found sensor boundaries
@@ -203,6 +206,9 @@ namespace GreenhouseCore
                     message.Append("Inputs :  ").AppendLine();
                     foreach(var input in system.InputSets)
                     {
+                        if (input.Name == "Disabled")
+                            continue;
+
                         var pin = PinoutConfiguration.FindInputPin(input.Id);
                         var value = PinoutConfiguration.ReadPinValueInRange(pin);
                         system.ChangeInputSetValue((float)value, input.Id);
